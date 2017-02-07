@@ -543,6 +543,7 @@ public class PreferencesDialog extends JDialog {
 	void setValues() {
 		enL10nChB.setSelected(!Configuration.get("DISABLE_L10N").toString()
 				.equalsIgnoreCase("yes"));
+		languageCB.setSelectedItem(Configuration.get("LANGUAGE") != null ? Configuration.get("LANGUAGE") : "be");
 		enSplashChB.setSelected(!Configuration.get("SHOW_SPLASH").toString()
 				.equalsIgnoreCase("no"));
 		enSystrayChB.setSelected(!Configuration.get("DISABLE_SYSTRAY")
@@ -551,6 +552,13 @@ public class PreferencesDialog extends JDialog {
 				.toString().equalsIgnoreCase("yes"));
 		firstdow.setSelected(Configuration.get("FIRST_DAY_OF_WEEK").toString()
 				.equalsIgnoreCase("mon"));
+
+		if (Configuration.get("DISABLE_L10N") == null || Configuration.get("DISABLE_L10N").toString().equalsIgnoreCase("no")) {
+			languageCB.setEnabled(true);
+		}
+		else {
+			languageCB.setEnabled(false);
+		}
 
 		enableCustomLF(false);
 		String lf = Configuration.get("LOOK_AND_FEEL").toString();

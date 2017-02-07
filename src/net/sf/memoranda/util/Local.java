@@ -23,7 +23,7 @@ public class Local {
     static {
     	if (!Configuration.get("DISABLE_L10N").equals("yes")) {
 	    	String fn = "messages_"
-	                    + currentLocale.getLanguage()
+	                    + Configuration.get("LANGUAGE")
 	                    + ".properties";
 	        if (Configuration.get("LOCALES_DIR") != "") {
 	        	System.out.print("Look "+fn+" at: "+Configuration.get("LOCALES_DIR")+" ");
@@ -42,7 +42,7 @@ public class Local {
 		        try {
 		            messages.load(
 		                Local.class.getResourceAsStream(
-		                    "localmessages/"+fn));            
+		                    "localmessages/"+fn));
 		        }
 		        catch (Exception e) {
 		            // Do nothing ...
@@ -53,10 +53,10 @@ public class Local {
     		currentLocale = new Locale("en", "US");
     		/*DEBUG*/
     		System.out.println("* DEBUG: Locales are disabled");
-    	}       
-    	if (messages.size() == 0) 
+    	}
+    	if (messages.size() == 0)
     		messages = null;
-    		
+
         /*** DEBUG PURPOSES ***/
         System.out.println("Default locale: " + currentLocale.getDisplayName());
         if (messages != null) {
@@ -70,7 +70,7 @@ public class Local {
                 "* DEBUG: Locales are disabled or not found: messages_"
                     + currentLocale.getLanguage()
                     + ".properties");
-        }        
+        }
         /**********************/
     }
 
@@ -99,6 +99,10 @@ public class Local {
 
     static String weekdaynames[] =
         { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+
+    public static String supportedLanguages[] =
+        { "be", "ca", "de", "es", "fi", "fr", "hu", "it", "ja", "nl", "ru",
+          "sr", "zh"};
 
     public static String getString(String key) {
         if ((messages == null) || (disabled)) {

@@ -2,6 +2,8 @@ package net.sf.memoranda.ui;
 
 import java.io.File;
 import java.util.Vector;
+import java.util.Locale;
+import java.util.HashMap;
 
 import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.CurrentStorage;
@@ -389,8 +391,8 @@ public class PreferencesDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.WEST;
 		GeneralPanel.add(enL10nChB, gbc);
 		// populate with languages
-		String[] languages = Local.supportedLanguages;
-		for (String s : languages) {
+		HashMap<String, String> languageTags = Local.languageTags;
+		for (String s : languageTags.keySet()) {
 			languageCB.addItem(s);
 		}
 		languageCB.addItemListener(new java.awt.event.ItemListener() {
@@ -543,7 +545,15 @@ public class PreferencesDialog extends JDialog {
 	void setValues() {
 		enL10nChB.setSelected(!Configuration.get("DISABLE_L10N").toString()
 				.equalsIgnoreCase("yes"));
-		languageCB.setSelectedItem(Configuration.get("LANGUAGE") != null ? Configuration.get("LANGUAGE") : "be");
+		// language
+		String item;
+		for (int i = 0; i < languageCB.getItemCount(); i++) {
+			item = (String) languageCB.getItemAt(i);
+			if (Local.languageTags.get(item).equalsIgnoreCase(Configuration.get("LANGUAGE").toString())) {
+				languageCB.setSelectedIndex(i);
+				break;
+			}
+		}
 		enSplashChB.setSelected(!Configuration.get("SHOW_SPLASH").toString()
 				.equalsIgnoreCase("no"));
 		enSystrayChB.setSelected(!Configuration.get("DISABLE_SYSTRAY")
@@ -552,13 +562,6 @@ public class PreferencesDialog extends JDialog {
 				.toString().equalsIgnoreCase("yes"));
 		firstdow.setSelected(Configuration.get("FIRST_DAY_OF_WEEK").toString()
 				.equalsIgnoreCase("mon"));
-
-		if (Configuration.get("DISABLE_L10N") == null || Configuration.get("DISABLE_L10N").toString().equalsIgnoreCase("no")) {
-			languageCB.setEnabled(true);
-		}
-		else {
-			languageCB.setEnabled(false);
-		}
 
 		enableCustomLF(false);
 		String lf = Configuration.get("LOOK_AND_FEEL").toString();
@@ -730,11 +733,11 @@ public class PreferencesDialog extends JDialog {
 
 		if (enL10nChB.isSelected()) {
 			Configuration.put("DISABLE_L10N", "no");
-			Configuration.put("LANGUAGE", this.languageCB.getSelectedItem());
 		}
 		else {
 			Configuration.put("DISABLE_L10N", "yes");
 		}
+		Configuration.put("LANGUAGE", Local.languageTags.get(languageCB.getSelectedItem().toString()));
 
 		Configuration.put("NORMAL_FONT", normalFontCB.getSelectedItem());
 		Configuration.put("HEADER_FONT", headerFontCB.getSelectedItem());
@@ -821,7 +824,7 @@ public class PreferencesDialog extends JDialog {
 	}
 
 	void enL10nChB_actionPerformed(ActionEvent e) {
-		languageCB.setEnabled(!languageCB.isEnabled()); // toggle language combo box
+
 	}
 
 	void languageCBItemSelected(ItemEvent e) {

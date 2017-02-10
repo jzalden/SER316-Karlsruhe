@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Locale;
 import java.io.*;
 
@@ -20,40 +21,69 @@ public class Local {
     static LoadableProperties messages = new LoadableProperties();
     static boolean disabled = false;
 
+    static String monthnames[] =
+        {
+            "Jan",
+            "Feb",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December" };
+
+    static String weekdaynames[] =
+        { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+
+    public static String supportedLanguages[] =
+        { "be", "ca", "de", "en", "es", "fi", "fr", "hu", "it", "ja", "nl", "ru",
+          "sr", "zh"};
+
+    public static HashMap<String, String> languageTags = new HashMap<>();
+
     static {
     	if (!Configuration.get("DISABLE_L10N").equals("yes")) {
-	    	String fn = "messages_"
-	                    + Configuration.get("LANGUAGE")
-	                    + ".properties";
-	        if (Configuration.get("LOCALES_DIR") != "") {
-	        	System.out.print("Look "+fn+" at: "+Configuration.get("LOCALES_DIR")+" ");
-	        	try {
-	        		messages.load(new FileInputStream(
-	        			Configuration.get("LOCALES_DIR")+File.separator+fn));
-	        		System.out.println(" - found");
-	        	}
-	        	catch (IOException ex) {
-	        		// Do nothing ...
-	        		System.out.println(" - not found");
-	        		ex.printStackTrace();
-	        	}
-	        }
-	        if (messages.size() == 0) {
-		        try {
-		            messages.load(
-		                Local.class.getResourceAsStream(
-		                    "localmessages/"+fn));
-		        }
-		        catch (Exception e) {
-		            // Do nothing ...
-		        }
-	        }
+	    	// don't change the locale
     	}
     	else {
+        // use default english
     		currentLocale = new Locale("en", "US");
     		/*DEBUG*/
     		System.out.println("* DEBUG: Locales are disabled");
     	}
+      initLanguageTags();
+      // load language file
+      String fn = "messages_"
+                    + Configuration.get("LANGUAGE")
+                    + ".properties";
+        if (Configuration.get("LOCALES_DIR") != "") {
+          System.out.print("Look "+fn+" at: "+Configuration.get("LOCALES_DIR")+" ");
+          try {
+            messages.load(new FileInputStream(
+              Configuration.get("LOCALES_DIR")+File.separator+fn));
+            System.out.println(" - found");
+          }
+          catch (IOException ex) {
+            // Do nothing ...
+            System.out.println(" - not found");
+            ex.printStackTrace();
+          }
+        }
+        if (messages.size() == 0) {
+          try {
+              messages.load(
+                  Local.class.getResourceAsStream(
+                      "localmessages/"+fn));
+          }
+          catch (Exception e) {
+              // Do nothing ...
+          }
+        }
+
     	if (messages.size() == 0)
     		messages = null;
 
@@ -82,27 +112,11 @@ public class Local {
         return currentLocale;
     }
 
-    static String monthnames[] =
-        {
-            "Jan",
-            "Feb",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December" };
-
-    static String weekdaynames[] =
-        { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
-
-    public static String supportedLanguages[] =
-        { "be", "ca", "de", "es", "fi", "fr", "hu", "it", "ja", "nl", "ru",
-          "sr", "zh"};
+    private static void initLanguageTags() {
+      for (String s : supportedLanguages) {
+        languageTags.put((new Locale(s)).getDisplayName(), s);
+      }
+    }
 
     public static String getString(String key) {
         if ((messages == null) || (disabled)) {

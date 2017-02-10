@@ -1,7 +1,38 @@
-bin
+###############
+## Automatic ##
+###############
+
 build
 README.txt
 .classpath
 .settings
 .project
 .DS_Store
+
+*.class
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# virtual machine crash logs
+hs_err_pid*
+
+##################
+## User Defined ##
+##################
+
+# Build Directories
+/classes/
+/bin/
+
+# Eclipse Project Files
+/.metadata/
+
+# VScode Directories
+/.vscode/
+
+# Ant Build Files
+/build.number

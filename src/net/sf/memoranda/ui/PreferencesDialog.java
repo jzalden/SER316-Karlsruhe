@@ -554,6 +554,9 @@ public class PreferencesDialog extends JDialog {
 				break;
 			}
 		}
+		if (!Configuration.get("DISABLE_L10N").toString().equalsIgnoreCase("yes")) {
+			languageCB.setEnabled(false);
+		}
 		enSplashChB.setSelected(!Configuration.get("SHOW_SPLASH").toString()
 				.equalsIgnoreCase("no"));
 		enSystrayChB.setSelected(!Configuration.get("DISABLE_SYSTRAY")
@@ -824,7 +827,7 @@ public class PreferencesDialog extends JDialog {
 	}
 
 	void enL10nChB_actionPerformed(ActionEvent e) {
-
+		languageCB.setEnabled(!languageCB.isEnabled()); // toggle
 	}
 
 	void languageCBItemSelected(ItemEvent e) {

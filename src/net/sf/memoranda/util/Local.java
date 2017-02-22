@@ -41,24 +41,25 @@ public class Local {
 
     public static String supportedLanguages[] =
         { "be", "ca", "de", "en", "es", "fi", "fr", "hu", "it", "ja", "nl", "ru",
-          "sr", "zh"};
+          "sr", "zh", "zh_TW"};
 
     public static HashMap<String, String> languageTags = new HashMap<>();
 
     static {
     	if (!Configuration.get("DISABLE_L10N").equals("yes")) {
-	    	// don't change the locale
+            // detect locale
+            currentLocale = Locale.getDefault();
     	}
     	else {
-        // use default english
-    		currentLocale = new Locale("en", "US");
+            // use selected language to generate locale
+            currentLocale = new Locale((String)Configuration.get("LANGUAGE"));
     		/*DEBUG*/
     		System.out.println("* DEBUG: Locales are disabled");
     	}
       initLanguageTags();
       // load language file
       String fn = "messages_"
-                    + Configuration.get("LANGUAGE")
+                    + currentLocale.getLanguage()
                     + ".properties";
         if (Configuration.get("LOCALES_DIR") != "") {
           System.out.print("Look "+fn+" at: "+Configuration.get("LOCALES_DIR")+" ");
@@ -114,7 +115,12 @@ public class Local {
 
     private static void initLanguageTags() {
       for (String s : supportedLanguages) {
-        languageTags.put((new Locale(s)).getDisplayName(), s);
+          if (s.length() <= 2) {
+              languageTags.put((new Locale(s)).getDisplayName(), s);
+          }
+          else {
+              languageTags.put((new Locale(s.substring(0,2),s.substring(3,5))).getDisplayName(), s);
+          }
       }
     }
 

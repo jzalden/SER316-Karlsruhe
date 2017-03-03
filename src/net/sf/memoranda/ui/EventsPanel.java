@@ -13,14 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -44,6 +37,7 @@ public class EventsPanel extends JPanel {
     JButton newEventB = new JButton();
     JButton editEventB = new JButton();
     JButton removeEventB = new JButton();
+    JComboBox periodCB = new JComboBox();
     JScrollPane scrollPane = new JScrollPane();
     EventsTable eventsTable = new EventsTable();
     JPopupMenu eventPPMenu = new JPopupMenu();
@@ -131,6 +125,16 @@ public class EventsPanel extends JPanel {
         removeEventB.setIcon(
             new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/event_remove.png")));
 
+        periodCB.addItem("Daily");
+        periodCB.addItem("Weekly");
+        periodCB.addItem("Monthly");
+        periodCB.setMaximumSize(new Dimension(76, 24));
+        periodCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                eventsTable.setPeriod(periodCB.getSelectedIndex()+1);
+            }
+        });
+
         this.setLayout(borderLayout1);
         scrollPane.getViewport().setBackground(Color.white);
         eventsTable.setMaximumSize(new Dimension(32767, 32767));
@@ -175,6 +179,8 @@ public class EventsPanel extends JPanel {
         eventsToolBar.add(removeEventB, null);
         eventsToolBar.addSeparator(new Dimension(8, 24));
         eventsToolBar.add(editEventB, null);
+        eventsToolBar.addSeparator(new Dimension(8, 24));
+        eventsToolBar.add(periodCB);
 
         this.add(eventsToolBar, BorderLayout.NORTH);
 
@@ -425,7 +431,7 @@ public class EventsPanel extends JPanel {
         EventsScheduler.init();
         parentPanel.calendar.jnCalendar.updateUI();
         parentPanel.updateIndicators();
-*/ saveEvents();  
+*/      saveEvents();
   }
 
     class PopupListener extends MouseAdapter {

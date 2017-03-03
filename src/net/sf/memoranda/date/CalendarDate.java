@@ -19,7 +19,7 @@ import net.sf.memoranda.util.Util;
  *
  */
 /*$Id: CalendarDate.java,v 1.3 2004/01/30 12:17:41 alexeya Exp $*/
-public class CalendarDate {
+public class CalendarDate implements Comparable<CalendarDate> {
 
     private int _year;
     private int _month;
@@ -83,6 +83,18 @@ public class CalendarDate {
         return new CalendarDate(cal);
     }
 
+    /**
+     * Retrieves the date that is a specified number of days
+     * from the original date
+     * @param distance num of days from original date
+     * @return the new calculated date
+     */
+    public CalendarDate dateFromNow(int distance) {
+        Calendar cal = toCalendar(_day, _month, _year);
+        cal.add(Calendar.DAY_OF_YEAR, distance);
+        return new CalendarDate(cal);
+    }
+
     public static Calendar toCalendar(int day, int month, int year) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
@@ -98,6 +110,10 @@ public class CalendarDate {
         cal.set(Calendar.MONTH, month);
         cal.set(Calendar.DAY_OF_MONTH, day);
         return cal.getTime();
+    }
+
+    public int getDayOfWeek() {
+        return getCalendar().get(Calendar.DAY_OF_WEEK);
     }
 
     public Calendar getCalendar() {
@@ -118,6 +134,16 @@ public class CalendarDate {
 
     public int getYear() {
         return _year;
+    }
+
+    public int compareTo(CalendarDate date) {
+        if (equals(date)) {
+            return 0;
+        }
+        Calendar cal1 = getCalendar();
+        Calendar cal2 = date.getCalendar();
+
+        return cal1.compareTo(cal2);
     }
 
     public boolean equals(Object object) {

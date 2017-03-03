@@ -137,6 +137,10 @@ public class Local {
         }
     }
 
+    public static int getFirstDayOfWeek() {
+        return Configuration.get("FIRST_DAY_OF_WEEK").equals("mon") ? 1 : 0;
+    }
+
     public static String[] getMonthNames() {
         String[] localmonthnames = new String[12];
         for (int i = 0; i < 12; i++) {

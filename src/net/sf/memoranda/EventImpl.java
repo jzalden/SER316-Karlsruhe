@@ -142,7 +142,17 @@ public class EventImpl implements Event, Comparable {
 	
 	public int compareTo(Object o) {
 		Event event = (Event) o;
-		return (getHour() * 60 + getMinute()) - (event.getHour() * 60 + event.getMinute());
+        return (getHour() * 60 + getMinute()) - (event.getHour() * 60 + event.getMinute());
 	}
+
+	public boolean equals(Event e) {
+	    /*Calendar cal1 = Calendar.getInstance();
+	    Calendar cal2 = Calendar.getInstance();
+	    Date firstDate = getTime();
+	    Date secondDate = e.getTime();
+	    cal1.setTime(firstDate);
+	    cal2.setTime(secondDate);*/
+	    return getId().equals(e.getId());
+    }
 
 }

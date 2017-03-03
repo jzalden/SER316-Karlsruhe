@@ -7,17 +7,12 @@
  */
 package net.sf.memoranda;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Vector;
-import java.util.Map;
-import java.util.Collections;
+import java.util.*;
 
 
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.CurrentStorage;
+import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Util;
 import nu.xom.Attribute;
 //import nu.xom.Comment;
@@ -96,18 +91,88 @@ public class EventsManager {
 	}
 
 	public static Collection getEventsForDate(CalendarDate date) {
+		Vector v = getEventsForDateHelper(date);
+		return v;
+	}
+
+	private static Vector getEventsForDateHelper(CalendarDate date) {
 		Vector v = new Vector();
 		Day d = getDay(date);
 		if (d != null) {
 			Elements els = d.getElement().getChildElements("event");
-			for (int i = 0; i < els.size(); i++)
+			for (int i = 0; i < els.size(); i++) {
 				v.add(new EventImpl(els.get(i)));
+			}
 		}
 		Collection r = getRepeatableEventsForDate(date);
 		if (r.size() > 0)
 			v.addAll(r);
-		//EventsVectorSorter.sort(v);
 		Collections.sort(v);
+
+		return v;
+	}
+
+	private static Vector getEventsForDateHelper(CalendarDate date, ArrayList<CalendarDate> dates) {
+		Vector v = new Vector();
+		Day d = getDay(date);
+		if (d != null) {
+			Elements els = d.getElement().getChildElements("event");
+			for (int i = 0; i < els.size(); i++) {
+				v.add(new EventImpl(els.get(i)));
+				dates.add(date);
+			}
+		}
+		Collection r = getRepeatableEventsForDate(date, dates);
+		if (r.size() > 0)
+			v.addAll(r);
+		Collections.sort(v);
+
+		return v;
+	}
+
+	/**
+	 * Finds all events for the week of the given date
+	 * @param date determines the week
+	 * @param dayOfWeekStart the day that the week starts, 1=Sunday
+	 * @param dates indexed list to occupy with dates corresponding to events
+	 * @return A collection of the events for the week
+	 */
+	public static Collection getEventsForWeek(CalendarDate date, int dayOfWeekStart, ArrayList<CalendarDate> dates) {
+		Vector v = new Vector();
+		/* In java calendar, Sunday is considered to be day 7.
+			To account for this, 7 is changed to 0 */
+		int dayOfWeek = date.getDayOfWeek();
+		int difference = dayOfWeekStart - dayOfWeek; // days between given date and first in week
+
+		CalendarDate currentDate = date.dateFromNow(difference);
+
+		for (int i = 0; i < 7; i++) {
+			v.addAll(getEventsForDateHelper(currentDate, dates));
+			currentDate = currentDate.dateFromNow(1);
+		}
+
+		return v;
+	}
+
+	/**
+	 * Finds all events for the month of the given date
+	 * @param date determines the month
+	 * @param dates indexed list to occupy with dates corresponding to events
+	 * @return A collection of the events for the month
+	 */
+	public static Collection getEventsForMonth(CalendarDate date, ArrayList<CalendarDate> dates) {
+		Vector v = new Vector();
+
+		int initYear = date.getYear();
+		int initMonth = date.getMonth();
+
+		CalendarDate currentDate = new CalendarDate(1, initMonth, initYear);
+
+		while (currentDate.getMonth() == initMonth) {
+			v.addAll(getEventsForDateHelper(currentDate, dates));
+			currentDate = currentDate.dateFromNow(1);
+		}
+
 		return v;
 	}
 
@@ -219,9 +284,68 @@ public class EventsManager {
 		return v;
 	}
 
+	public static Collection getRepeatableEventsForDate(CalendarDate date, ArrayList<CalendarDate> dates) {
+		Vector reps = (Vector) getRepeatableEvents();
+		Vector v = new Vector();
+		for (int i = 0; i < reps.size(); i++) {
+			Event ev = (Event) reps.get(i);
+
+			// --- ivanrise
+			// ignore this event if it's a 'only working days' event and today is weekend.
+			if(ev.getWorkingDays() && (date.getCalendar().get(Calendar.DAY_OF_WEEK) == 1 ||
+					date.getCalendar().get(Calendar.DAY_OF_WEEK) == 7)) continue;
+			// ---
+			/*
+			 * /if ( ((date.after(ev.getStartDate())) &&
+			 * (date.before(ev.getEndDate()))) ||
+			 * (date.equals(ev.getStartDate()))
+			 */
+			//System.out.println(date.inPeriod(ev.getStartDate(),
+			// ev.getEndDate()));
+			if (date.inPeriod(ev.getStartDate(), ev.getEndDate())) {
+				if (ev.getRepeat() == REPEAT_DAILY) {
+					int n = date.getCalendar().get(Calendar.DAY_OF_YEAR);
+					int ns =
+							ev.getStartDate().getCalendar().get(
+									Calendar.DAY_OF_YEAR);
+					//System.out.println((n - ns) % ev.getPeriod());
+					if ((n - ns) % ev.getPeriod() == 0) {
+						v.add(ev);
+						dates.add(date);
+					}
+				} else if (ev.getRepeat() == REPEAT_WEEKLY) {
+					if (date.getCalendar().get(Calendar.DAY_OF_WEEK)
+							== ev.getPeriod()) {
+						v.add(ev);
+						dates.add(date);
+					}
+				} else if (ev.getRepeat() == REPEAT_MONTHLY) {
+					if (date.getCalendar().get(Calendar.DAY_OF_MONTH)
+							== ev.getPeriod()) {
+						v.add(ev);
+						dates.add(date);
+					}
+				} else if (ev.getRepeat() == REPEAT_YEARLY) {
+					int period = ev.getPeriod();
+					//System.out.println(date.getCalendar().get(Calendar.DAY_OF_YEAR));
+					if ((date.getYear() % 4) == 0
+							&& date.getCalendar().get(Calendar.DAY_OF_YEAR) > 60)
+						period++;
+
+					if (date.getCalendar().get(Calendar.DAY_OF_YEAR) == period) {
+						v.add(ev);
+						dates.add(date);
+					}
+				}
+			}
+		}
+		return v;
+	}
+
 	public static Collection getActiveEvents() {
 		return getEventsForDate(CalendarDate.today());
 	}
+
 
 	public static Event getEvent(CalendarDate date, int hh, int mm) {
 		Day d = getDay(date);
@@ -289,6 +413,15 @@ public class EventsManager {
 			return null;
 		return m.getDay(date.getDay());
 	}
+
+	/**
+	 * ONLY FOR TESTING, NEEDED BECAUSE OF POOR DESIGN
+	 */
+	public static void hardReset() {
+		_root = new Element("eventslist");
+		_doc = new Document(_root);
+	}
+
 
 	static class Year {
 		Element yearElement = null;

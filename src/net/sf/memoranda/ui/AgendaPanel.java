@@ -47,7 +47,7 @@ public class AgendaPanel extends JPanel {
 	JToolBar toolBar = new JToolBar();
 	JButton historyForwardB = new JButton();
 	JButton export = new JButton();
-	JEditorPane viewer = new JEditorPane("text/html", "");
+	static JEditorPane viewer = new JEditorPane("text/html", "");
 	String[] priorities = {"Muy Alta","Alta","Media","Baja","Muy Baja"};
 	JScrollPane scrollPane = new JScrollPane();
 

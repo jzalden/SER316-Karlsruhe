@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Collection;
@@ -28,6 +30,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
@@ -65,7 +68,7 @@ import nu.xom.Elements;
 /*$Id: AppFrame.java,v 1.33 2005/07/05 08:17:24 alexeya Exp $*/
 
 public class AppFrame extends JFrame {
-
+	JPopupMenu popMenu = new JPopupMenu();
     JPanel contentPane;
     JMenuBar menuBar = new JMenuBar();
     JMenu jMenuFile = new JMenu();
@@ -554,6 +557,39 @@ public class AppFrame extends JFrame {
         jMenuGo.add(jMenuGoDayFwd);
         jMenuGo.add(jMenuGoToday);
 
+        JMenuItem newPrj = new JMenuItem();
+        JMenuItem impNote = new JMenuItem();
+        JMenuItem expNote = new JMenuItem();
+        JMenuItem packNote = new JMenuItem();
+        JMenuItem unpcNote = new JMenuItem();
+        JMenuItem imOneNote = new JMenuItem();
+        newPrj.setAction(projectsPanel.newProjectAction);
+        popMenu.add(newPrj);
+        packNote.setAction(prjPackAction);
+        popMenu.add(packNote);
+        unpcNote.setAction(prjUnpackAction);
+        popMenu.add(unpcNote);
+        imOneNote.setAction(importOneNoteAction);
+        popMenu.add(imOneNote);
+        impNote.setAction(importNotesAction);
+        popMenu.add(impNote);
+        expNote.setAction(exportNotesAction);
+        popMenu.add(expNote);
+        AgendaPanel.viewer.addMouseListener(new MouseAdapter() {
+        	public void mousePressed(MouseEvent e){
+        		if(e.isPopupTrigger()){
+        			popMenu.show(e.getComponent(), e.getX(), e.getY());		
+        		}
+        	}
+        	
+        	public void mouseReleased(MouseEvent e){
+        		if(e.isPopupTrigger()){
+        			popMenu.show(e.getComponent(), e.getX(), e.getY());		
+        		}
+        	}
+        });
+        
+        
         splitPane.setBorder(null);
         workPanel.setBorder(null);
 

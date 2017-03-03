@@ -35,4 +35,4 @@ hs_err_pid*
 /.vscode/
 
 # Ant Build Files
-/build.number
+build.number

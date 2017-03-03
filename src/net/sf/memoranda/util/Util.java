@@ -7,21 +7,31 @@
  * Copyright (c) 2003 Memoranda team: http://memoranda.sf.net
  */
 package net.sf.memoranda.util;
+
+import java.awt.Desktop;
+import java.awt.Desktop.Action;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.io.File;
 import java.io.IOException;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Iterator;
 
-import javax.swing.JFileChooser;
-
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.ui.App;
 import net.sf.memoranda.ui.AppFrame;
 import net.sf.memoranda.ui.ExceptionDialog;
+
 import java.util.Random;
 
 /**
@@ -94,35 +104,63 @@ public class Util {
     }
     
     public static void runBrowser(String url) {
-        if (!checkBrowser())
-            return;
-        String commandLine = MimeTypesList.getAppList().getBrowserExec()+" "+url;
-        System.out.println("Run: " + commandLine);
+    	Runtime runtime = Runtime.getRuntime();
+        String os = System.getProperty("os.name").toLowerCase();
         try {
-            /*DEBUG*/
-            Runtime.getRuntime().exec(commandLine);
+            if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
+                try {
+                    //will open the deafult browser on "Supported Desktops"(windows and ubuntu probably)
+                    Desktop desktop = Desktop.getDesktop();
+                    desktop.browse(new URI(url));
+                }
+                catch (URISyntaxException e) {
+                    JOptionPane.showMessageDialog(null, "Invalid URL: " + url);
+                }
+                catch (IOException e) {
+                    throw e;
+                }
+            }
+            else {
+                if (os.indexOf( "mac" ) >= 0) {
+                    //will open the deafult browser on most if not all macs
+                    runtime.exec( "open " + url);
+                }
+                else {
+                    //will open the deafult browser on X-based linux desktops
+                    runtime.exec("x-www-browser " + url);
+                }
+            }
         }
-        catch (Exception ex) {
-            new ExceptionDialog(ex, "Failed to run an external web-browser application with commandline<br><code>"
+        catch (IOException ex) {
+            if (!checkBrowser())
+                return;
+            String commandLine = MimeTypesList.getAppList().getBrowserExec()+" "+url;
+            //System.out.println("Run: " + commandLine);
+            try {
+                runtime.exec(commandLine);
+            }
+            catch(Exception e) {
+                new ExceptionDialog(e, "Failed to run an external web-browser application with command:<br><code>"
                     +commandLine+"</code>", "Check the application path and command line parameters " +
-                    		"(File-&gt;Preferences-&gt;Resource types).");
+                            "(File-&gt;Preferences-&gt;Resource types).");
+            }
         }
     }
     
     public static boolean checkBrowser() {
         AppList appList = MimeTypesList.getAppList();
         String bpath = appList.getBrowserExec();
-        if (bpath != null)
-            if (new File(bpath).isFile())
+        if (bpath != null) {
+            if (new File(bpath).isFile()){
                 return true;
+            }  
+        }
+        JOptionPane.showMessageDialog(null, "Unable to find automatically open Web-Browser.\nPlease find and select your web-browser executable");
         JFileChooser chooser = new JFileChooser();
         chooser.setFileHidingEnabled(false);
         chooser.setDialogTitle(Local.getString("Select the web-browser executable"));
         chooser.setAcceptAllFileFilterUsed(true);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        /*java.io.File lastSel = (java.io.File) Context.get("LAST_SELECTED_RESOURCE_FILE");
-        if (lastSel != null)
-            chooser.setCurrentDirectory(lastSel);*/
         if (chooser.showOpenDialog(App.getFrame()) != JFileChooser.APPROVE_OPTION)
             return false;
         appList.setBrowserExec(chooser.getSelectedFile().getPath());

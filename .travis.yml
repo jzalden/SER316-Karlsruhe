@@ -2,7 +2,11 @@ language: java
 
 branches:
   only:
-  - master
+    - master
+
+notifications:
+  email:
+    - false
 
 install: true
 script: ant package

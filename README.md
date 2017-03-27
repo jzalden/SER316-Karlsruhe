@@ -1,3 +1,5 @@
+[![Build status](https://travis-ci.org/ser316asu/SER316-Karlsruhe.svg?branch=master)](https://travis-ci.org/ser316asu/SER316-Karlsruhe)
+
 Project SER316
 
 # spring17project

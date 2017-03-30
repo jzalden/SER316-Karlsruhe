@@ -23,20 +23,25 @@ import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Configuration;
 
 public class ExitConfirmationDialog extends JDialog implements WindowListener {
-    
-    public boolean CANCELLED = false;
+
+    /**
+	 *
+	 */
+	private static final long serialVersionUID = -272447340093010216L;
+
+	public boolean CANCELLED = false;
 	public JLabel header = new JLabel();
 	JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 	JPanel bottomPanel = new JPanel(new BorderLayout());
-	
+
     JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
     JButton okB = new JButton();
     JButton cancelB = new JButton();
-	
+
 	public JCheckBox donotaskCB = new JCheckBox();
-	
+
 	JPanel mainPanel = new JPanel(new BorderLayout());
-	
+
     public ExitConfirmationDialog(Frame frame, String title) {
        super(frame, title, true);
        try {
@@ -51,7 +56,7 @@ public class ExitConfirmationDialog extends JDialog implements WindowListener {
 
 	void jbInit() throws Exception {
 		this.setResizable(false);
-        
+
 		// Build headerPanel
         headerPanel.setBackground(Color.WHITE);
         headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
@@ -61,19 +66,19 @@ public class ExitConfirmationDialog extends JDialog implements WindowListener {
         header.setIcon(new ImageIcon(net.sf.memoranda.ui.EventDialog.class.getResource(
             "resources/icons/exit.png")));
         headerPanel.add(header);
-		
+
 		// Build mainPanel
 		JLabel confirm = new JLabel();
-		confirm.setText("<HTML>"+Local.getString("This action will cause Memoranda to exit") + 
+		confirm.setText("<HTML>"+Local.getString("This action will cause Memoranda to exit") +
 										"<p>" + Local.getString("Do you want to continue?"));
-										
+
 		donotaskCB.setText(Local.getString("do not ask again"));
 		donotaskCB.setHorizontalAlignment(SwingConstants.CENTER);
-		
+
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		mainPanel.add(donotaskCB,BorderLayout.SOUTH);
 		mainPanel.add(confirm,BorderLayout.CENTER);
-		
+
 	    // Build ButtonsPanel
         okB.setMaximumSize(new Dimension(100, 26));
         okB.setMinimumSize(new Dimension(100, 26));
@@ -97,15 +102,15 @@ public class ExitConfirmationDialog extends JDialog implements WindowListener {
         buttonsPanel.add(okB);
         buttonsPanel.add(cancelB);
 		bottomPanel.add(buttonsPanel, BorderLayout.SOUTH);
-		
+
 		this.getRootPane().setDefaultButton(okB);
-		
+
 		// Build dialog
 		this.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		this.getContentPane().add(headerPanel, BorderLayout.NORTH);
 		this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 	}
-	
+
 	// if donotaskCB is checked update Configuration.
 	public void  checkDoNotAsk() {
 		if (this.donotaskCB.isSelected()) {
@@ -113,7 +118,7 @@ public class ExitConfirmationDialog extends JDialog implements WindowListener {
 			Configuration.saveConfig();
 		}
 	}
-	
+
 	// ok button action
     void okB_actionPerformed(ActionEvent e) {
 		checkDoNotAsk();
@@ -126,12 +131,12 @@ public class ExitConfirmationDialog extends JDialog implements WindowListener {
 		checkDoNotAsk();
         this.dispose();
     }
-	
+
     public void windowClosing( WindowEvent e ) {
         CANCELLED = true;
         this.dispose();
     }
-    
+
 	public void windowOpened( WindowEvent e ) {}
     public void windowClosed( WindowEvent e ) {}
 	public void windowIconified( WindowEvent e ) {}

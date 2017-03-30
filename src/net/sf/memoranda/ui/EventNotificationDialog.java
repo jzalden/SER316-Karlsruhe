@@ -25,7 +25,12 @@ import java.net.URL;
 
 /*$Id: EventNotificationDialog.java,v 1.8 2004/10/18 19:08:56 ivanrise Exp $*/
 public class EventNotificationDialog extends JFrame {
-  JPanel panel1 = new JPanel();
+  /**
+	 *
+	 */
+	private static final long serialVersionUID = -2083387078130501744L;
+
+JPanel panel1 = new JPanel();
   BorderLayout borderLayout1 = new BorderLayout();
   JButton jButton1 = new JButton();
   Border border1;
@@ -52,7 +57,7 @@ public class EventNotificationDialog extends JFrame {
     textLabel.setText(text);
     this.setSize(300,200);
     this.setLocationRelativeTo(null);
-    this.setVisible(true);    
+    this.setVisible(true);
     this.toFront();
     this.requestFocus();
     //jButton1.requestFocus();
@@ -70,7 +75,7 @@ public class EventNotificationDialog extends JFrame {
     border4 = BorderFactory.createEmptyBorder(10,10,0,10);
     panel1.setLayout(borderLayout1);
     panel1.setBackground(new Color(251, 197, 63));
-    
+
     jButton1.setText(Local.getString("Ok"));
     jButton1.setBounds(150, 415, 95, 30);
     jButton1.setPreferredSize(new Dimension(95, 30));
@@ -100,7 +105,7 @@ public class EventNotificationDialog extends JFrame {
   void jButton1_actionPerformed(ActionEvent e) {
        this.dispose();
   }
-  
+
   private void playSoundNotification() {
 		if (Configuration.get("NOTIFY_SOUND").equals("DISABLED"))
 			return;
@@ -119,9 +124,7 @@ public class EventNotificationDialog extends JFrame {
 					"resources/beep.wav");
 		else
 			try {
-				url =
-					new File(Configuration.get("NOTIFY_SOUND").toString())
-						.toURL();
+				url = new File(Configuration.get("NOTIFY_SOUND").toString()).toURI().toURL();
 			} catch (Exception ex) {
 				url =
 					EventNotificationDialog.class.getResource(

@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.URL;
 import java.text.DateFormat;
 
 import javax.swing.AbstractAction;
@@ -41,6 +40,11 @@ import net.sf.memoranda.util.Configuration;
 
 /*$Id: EditorPanel.java,v 1.21 2006/06/28 22:58:31 alexeya Exp $*/
 public class EditorPanel extends JPanel {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -315018968187774748L;
+
 	BorderLayout borderLayout1 = new BorderLayout();
 
 	JPanel jPanel1 = new JPanel();
@@ -97,8 +101,13 @@ public class EditorPanel extends JPanel {
 
 	public Action insertTimeAction = new AbstractAction(Local
 			.getString("Insert current time"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
+					net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/time.png"))) {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 4816174775194234356L;
+
 		public void actionPerformed(ActionEvent e) {
 			insTimeB_actionPerformed(e);
 		}
@@ -106,22 +115,26 @@ public class EditorPanel extends JPanel {
 
 	public Action insertDateAction = new AbstractAction(Local
 			.getString("Insert current date"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
+					net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/date.png"))) {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -2886985679631089717L;
+
 		public void actionPerformed(ActionEvent e) {
 			insDateB_actionPerformed(e);
 		}
 	};
 
-	/*
-	 * public Action printAction = new AbstractAction( "Print", new
-	 * ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/print.png"))) {
-	 * public void actionPerformed(ActionEvent e) { doPrint(); } };
-	 */
-
 	public Action newAction = new AbstractAction(Local.getString("New note"),
 			new ImageIcon(net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/filenew.png"))) {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 895793583760354273L;
+
 		public void actionPerformed(ActionEvent e) {
 			newB_actionPerformed(e);
 		}
@@ -129,8 +142,13 @@ public class EditorPanel extends JPanel {
 
 	public Action exportAction = new AbstractAction(Local
 			.getString("Export note to file"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
+					net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/export.png"))) {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -6674692512047826473L;
+
 		public void actionPerformed(ActionEvent e) {
 			exportB_actionPerformed(e);
 		}
@@ -138,8 +156,13 @@ public class EditorPanel extends JPanel {
 
 	public Action importAction = new AbstractAction(Local
 			.getString("Insert file"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
+					net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/import.png"))) {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -1272903979346467235L;
+
 		public void actionPerformed(ActionEvent e) {
 			importB_actionPerformed(e);
 		}
@@ -147,8 +170,13 @@ public class EditorPanel extends JPanel {
 
 	public Action previewAction = new AbstractAction(Local
 			.getString("Preview note in browser"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
+					net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/preview.png"))) {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 3601395091803788218L;
+
 		public void actionPerformed(ActionEvent e) {
 			previewB_actionPerformed(e);
 		}
@@ -294,16 +322,6 @@ public class EditorPanel extends JPanel {
 		previewB.setMaximumSize(new Dimension(24, 24));
 		previewB.setText("");
 
-		/*
-		 * printB.setAction(printAction); printB.setMaximumSize(new
-		 * Dimension(24, 24)); printB.setMinimumSize(new Dimension(24, 24));
-		 * printB.setPreferredSize(new Dimension(24, 24));
-		 * printB.setRequestFocusEnabled(false);
-		 * printB.setToolTipText(Local.getString("Print"));
-		 * printB.setBorderPainted(false); printB.setFocusable(false);
-		 * printB.setText("");
-		 */
-
 		jPanel1.setLayout(borderLayout2);
 		titleLabel.setFont(new java.awt.Font("Dialog", 1, 10));
 		titleLabel.setText(Local.getString("Title") + "  ");
@@ -331,7 +349,6 @@ public class EditorPanel extends JPanel {
 		editorToolBar.add(exportB, null);
 		editorToolBar.addSeparator(new Dimension(8, 24));
 		editorToolBar.add(previewB, null);
-		// editorToolBar.add(printB, null);
 		jPanel1.add(editorToolBar, BorderLayout.NORTH);
 		jPanel1.add(editor, BorderLayout.CENTER);
 		this.add(titleBar, BorderLayout.NORTH);
@@ -339,8 +356,6 @@ public class EditorPanel extends JPanel {
 		titleBar.add(titleField, null);
 		initCSS();
 		editor.editor.setAntiAlias(Configuration.get("ANTIALIAS_TEXT").toString().equalsIgnoreCase("yes"));
-		// editor.editor.enableInputMethods(false);
-		// editor.editor.getInputContext().selectInputMethod(Locale.getDefault());
 		titleField.addKeyListener(new KeyListener() {
 
 			public void keyPressed(KeyEvent ke) {
@@ -359,7 +374,7 @@ public class EditorPanel extends JPanel {
 	public void initCSS() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				net.sf.memoranda.ui.EditorPanel.class
-						.getResourceAsStream("resources/css/default.css")));
+				.getResourceAsStream("resources/css/default.css")));
 		String css = "";
 		try {
 			String s = br.readLine();
@@ -381,12 +396,11 @@ public class EditorPanel extends JPanel {
 		css = css.replaceAll("%MONO_FONT%", MONO_FONT.length() > 0 ? "\""+MONO_FONT+"\""
 				: "monospaced");
 		css = css.replaceAll("%BASE_FONT_SIZE%",
-				BASE_FONT_SIZE.length() > 0 ? BASE_FONT_SIZE : "16");		
+				BASE_FONT_SIZE.length() > 0 ? BASE_FONT_SIZE : "16");
 		editor.setStyleSheet(new StringReader(css));
 		String usercss = (String) Configuration.get("USER_CSS");
 		if (usercss.length() > 0)
 			try {
-				// DEBUG
 				System.out.println("***[DEBUG] User css used: " + usercss);
 				editor.setStyleSheet(new InputStreamReader(
 						new java.io.FileInputStream(usercss)));
@@ -427,7 +441,7 @@ public class EditorPanel extends JPanel {
 		UIManager.put("FileChooser.saveButtonToolTipText", Local
 				.getString("Save selected file"));
 		UIManager
-				.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+		.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
 		UIManager.put("FileChooser.cancelButtonToolTipText", Local
 				.getString("Cancel"));
 
@@ -437,10 +451,8 @@ public class EditorPanel extends JPanel {
 		chooser.setAcceptAllFileFilterUsed(false);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser
-				.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.XHTML));
+		.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.XHTML));
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
-		// chooser.addChoosableFileFilter(new
-		// AllFilesFilter(AllFilesFilter.RTF));
 		String lastSel = (String) Context.get("LAST_SELECTED_EXPORT_FILE");
 		if (lastSel != null)
 			chooser.setCurrentDirectory(new File(lastSel));
@@ -479,11 +491,6 @@ public class EditorPanel extends JPanel {
 			template = dlg.templF.getText();
 			Context.put("EXPORT_TEMPLATE", template);
 		}
-		/*
-		 * if (chooser.getFileFilter().getDescription().equals("Rich Text
-		 * Format")) new RTFFileExport(chooser.getSelectedFile(),
-		 * editor.document); else
-		 */
 		int ei = dlg.encCB.getSelectedIndex();
 		enc = null;
 		if (ei == 1)
@@ -496,9 +503,6 @@ public class EditorPanel extends JPanel {
 	String initialTitle = "";
 
 	public void setDocument(Note note) {
-		// Note note = CurrentProject.getNoteList().getActiveNote();
-		// try {
-		// this.editor.editor.setPage(CurrentStorage.get().getNoteURL(note));
 		editor.document = (HTMLDocument) CurrentStorage.get().openNote(note);
 		editor.initEditor();
 		if (note != null)
@@ -506,15 +510,6 @@ public class EditorPanel extends JPanel {
 		else
 			titleField.setText("");
 		initialTitle = titleField.getText();
-		/*
-		 * } catch (Exception ex) { new ExceptionDialog(ex); }
-		 */
-		/*
-		 * Document doc = CurrentStorage.get().openNote(note); try {
-		 * this.editor.editor.setText(doc.getText(0, doc.getLength())); } catch
-		 * (Exception ex){ ex.printStackTrace(); }
-		 */
-		// .setDocument(CurrentStorage.get().openNote(note));
 	}
 
 	public javax.swing.text.Document getDocument() {
@@ -546,7 +541,7 @@ public class EditorPanel extends JPanel {
 		UIManager.put("FileChooser.openButtonToolTipText", Local
 				.getString("Open selected file"));
 		UIManager
-				.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+		.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
 		UIManager.put("FileChooser.cancelButtonToolTipText", Local
 				.getString("Cancel"));
 

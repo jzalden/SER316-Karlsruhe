@@ -2,7 +2,6 @@ package net.sf.memoranda.ui;
 
 import java.io.File;
 import java.util.Vector;
-import java.util.Locale;
 import java.util.HashMap;
 
 import net.sf.memoranda.util.Configuration;
@@ -17,6 +16,11 @@ import java.awt.event.*;
 
 /*$Id: PreferencesDialog.java,v 1.16 2006/06/28 22:58:31 alexeya Exp $*/
 public class PreferencesDialog extends JDialog {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8037272448740251033L;
+
 	JPanel topPanel = new JPanel(new BorderLayout());
 
 	JTabbedPane tabbedPanel = new JTabbedPane();
@@ -67,7 +71,7 @@ public class PreferencesDialog extends JDialog {
 
 	JCheckBox enL10nChB = new JCheckBox();
 
-	JComboBox languageCB = new JComboBox();
+	JComboBox<String> languageCB = new JComboBox<String>();
 
 	JCheckBox firstdow = new JCheckBox();
 
@@ -131,10 +135,10 @@ public class PreferencesDialog extends JDialog {
 
 	JPanel editorConfigPanel = new JPanel(new BorderLayout());
 	JPanel econfPanel = new JPanel(new GridLayout(5, 2));
-	Vector fontnames = getFontNames();
-	JComboBox normalFontCB = new JComboBox(fontnames);
-	JComboBox headerFontCB = new JComboBox(fontnames);
-	JComboBox monoFontCB = new JComboBox(fontnames);
+	Vector<String> fontnames = getFontNames();
+	JComboBox<String> normalFontCB = new JComboBox<String>(fontnames);
+	JComboBox<String> headerFontCB = new JComboBox<String>(fontnames);
+	JComboBox<String> monoFontCB = new JComboBox<String>(fontnames);
 	JSpinner baseFontSize = new JSpinner();
 	JCheckBox antialiasChB = new JCheckBox();
 	JLabel normalFontLabel = new JLabel();
@@ -590,7 +594,6 @@ public class PreferencesDialog extends JDialog {
 			// this.askConfirmChB.setEnabled(false);
 		}
 
-		String onmin = Configuration.get("ON_MINIMIZE").toString();
 		this.minTaskbarRB.setSelected(true);
 
 		if (!System.getProperty("os.name").startsWith("Win"))
@@ -924,11 +927,11 @@ public class PreferencesDialog extends JDialog {
 		this.enableCustomSound(true);
 	}
 
-	Vector getFontNames() {
+	Vector<String> getFontNames() {
 		GraphicsEnvironment gEnv =
         	GraphicsEnvironment.getLocalGraphicsEnvironment();
         String envfonts[] = gEnv.getAvailableFontFamilyNames();
-        Vector fonts = new Vector();
+        Vector<String> fonts = new Vector<String>();
         fonts.add("serif");
         fonts.add("sans-serif");
         fonts.add("monospaced");

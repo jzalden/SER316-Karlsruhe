@@ -12,94 +12,96 @@ import java.util.Hashtable;
 import java.util.*;
 
 /*$Id: LoadableProperties.java,v 1.4 2004/01/30 12:17:42 alexeya Exp $*/
-public class LoadableProperties extends Hashtable {
+public class LoadableProperties extends Hashtable<Object, Object> {
 
-    public LoadableProperties() {
-        super();
-    }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1457051149869109805L;
 
-    public void load(InputStream inStream) throws IOException {
+	public LoadableProperties() {
+		super();
+	}
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
+	public void load(InputStream inStream) throws IOException {
 
-        String aKey;
-        String aValue;
-        int index;
-        String line = getNextLine(in);
-        while (line != null) {
-            line = line.trim();
-            if (isValid(line)) {
-                index = line.indexOf("=");
-                aKey = line.substring(0, index).trim();
-                aValue = line.substring(index + 1).trim();
-                put(aKey.toUpperCase(), aValue);
-            }
-            line = getNextLine(in);
-        }
-    }
+		BufferedReader in = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
 
-    public void save(OutputStream outStream, boolean sorted) throws IOException {
-    	if (!sorted) {
-    		save(outStream);
-    		return;
-    	}
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outStream, "UTF-8"));
-        String aKey;
-        Object aValue;
-        TreeMap tm = new TreeMap(this);
-        for (Iterator i = tm.keySet().iterator(); i.hasNext();) {
-            aKey = (String) i.next();
-            aValue = get(aKey);
-            out.write(aKey + " = " + aValue);
-            out.newLine();
-        }
-        out.flush();
-        out.close();
-    }
-    
-    public void save(OutputStream outStream) throws IOException {
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outStream, "UTF-8"));
-        String aKey;
-        Object aValue;
-        for (Enumeration e = keys(); e.hasMoreElements();) {
-            aKey = (String) e.nextElement();
-            aValue = get(aKey);
-            out.write(aKey + " = " + aValue);
-            out.newLine();
-        }
-        out.flush();
-        out.close();
-    }
+		String aKey;
+		String aValue;
+		int index;
+		String line = getNextLine(in);
+		while (line != null) {
+			line = line.trim();
+			if (isValid(line)) {
+				index = line.indexOf("=");
+				aKey = line.substring(0, index).trim();
+				aValue = line.substring(index + 1).trim();
+				put(aKey.toUpperCase(), aValue);
+			}
+			line = getNextLine(in);
+		}
+	}
 
-    private boolean isValid(String str) {
-        if (str == null)
-            return false;
-        if (str.length() > 0) {
-            if (str.startsWith("#") || str.startsWith("!")) {
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
+	public void save(OutputStream outStream, boolean sorted) throws IOException {
+		if (!sorted) {
+			save(outStream);
+			return;
+		}
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outStream, "UTF-8"));
+		String aKey;
+		Object aValue;
+		TreeMap<Object, Object> tm = new TreeMap<Object, Object>(this);
+		for (Iterator<Object> i = tm.keySet().iterator(); i.hasNext();) {
+			aKey = (String) i.next();
+			aValue = get(aKey);
+			out.write(aKey + " = " + aValue);
+			out.newLine();
+		}
+		out.flush();
+		out.close();
+	}
 
-        int index = str.indexOf("=");
-        if (index > 0 && str.length() > index) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+	public void save(OutputStream outStream) throws IOException {
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outStream, "UTF-8"));
+		String aKey;
+		Object aValue;
+		for (Enumeration<Object> e = keys(); e.hasMoreElements();) {
+			aKey = (String) e.nextElement();
+			aValue = get(aKey);
+			out.write(aKey + " = " + aValue);
+			out.newLine();
+		}
+		out.flush();
+		out.close();
+	}
 
-    private String getNextLine(BufferedReader br) {
-        try {
-            return br.readLine();
-        }
-        catch (Exception e) {
-            return null;
-        }
+	private boolean isValid(String str) {
+		if (str == null)
+			return false;
+		if (str.length() > 0) {
+			if (str.startsWith("#") || str.startsWith("!")) {
+				return false;
+			}
+		} else {
+			return false;
+		}
 
-    }
+		int index = str.indexOf("=");
+		if (index > 0 && str.length() > index) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private String getNextLine(BufferedReader br) {
+		try {
+			return br.readLine();
+		} catch (Exception e) {
+			return null;
+		}
+
+	}
 
 }

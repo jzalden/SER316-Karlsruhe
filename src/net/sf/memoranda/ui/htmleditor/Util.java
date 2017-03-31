@@ -15,10 +15,10 @@ import javax.swing.JTextField;
  */
 
 public class Util {
-    
-    public static Hashtable HTMLColors;
+
+    public static Hashtable<String, Color> HTMLColors;
     static {
-        HTMLColors = new Hashtable();
+        HTMLColors = new Hashtable<String, Color>();
         HTMLColors.put("red", Color.red);
         HTMLColors.put("green", Color.green);
         HTMLColors.put("blue", Color.blue);
@@ -33,11 +33,9 @@ public class Util {
         HTMLColors.put("orange", Color.orange);
         HTMLColors.put("pink", Color.pink);
     }
-        
-        
-        
+
     public static Color getColorForName(String name, Color defaultColor) {
-        if (HTMLColors.contains(name.toLowerCase()))
+        if (HTMLColors.containsKey(name.toLowerCase()))
             return (Color)HTMLColors.get(name.toLowerCase());
         return defaultColor;
     }
@@ -47,7 +45,7 @@ public class Util {
         if (color.length() > 0) {
             colorVal = color.trim();
             if (colorVal.startsWith("#"))
-                colorVal = colorVal.substring(1);            
+                colorVal = colorVal.substring(1);
             try {
                 colorVal = new Integer(Integer.parseInt(colorVal, 16)).toString();
                 return Color.decode(colorVal.toLowerCase());
@@ -59,9 +57,9 @@ public class Util {
         else return defaultColor;
         return getColorForName(color, defaultColor);
     }
-    
-    public static String encodeColor(Color color) {        
-        return "#"+Integer.toHexString(color.getRGB()-0xFF000000).toUpperCase();  
+
+    public static String encodeColor(Color color) {
+        return "#"+Integer.toHexString(color.getRGB()-0xFF000000).toUpperCase();
     }
 
     public static Color decodeColor(String color) {
@@ -77,7 +75,6 @@ public class Util {
     public static void setColorField(JTextField field) {
         Color c = Util.decodeColor(field.getText(), Color.black);
         field.setForeground(c);
-        //field.setForeground(new Color(~c.getRGB()));
     }
 
 }

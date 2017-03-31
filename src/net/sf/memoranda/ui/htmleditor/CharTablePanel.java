@@ -5,8 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.util.Vector;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -16,10 +14,14 @@ import javax.swing.border.Border;
 
 public class CharTablePanel extends JPanel {
 
-    JEditorPane editor;
+    /**
+	 *
+	 */
+	private static final long serialVersionUID = 8625971720519834886L;
+	JEditorPane editor;
     Border border1;
     FlowLayout flowLayout1 = new FlowLayout();
-    
+
     String[] chars =
         {
             "\u00A9",
@@ -51,7 +53,10 @@ public class CharTablePanel extends JPanel {
             "\u263A",
             "\u00A0" };
 
-    Vector buttons = new Vector();
+// I can't find any references to this line but Eclipse reports it as not "Not Being used"
+// Commenting out for further investigation
+
+    //Vector buttons = new Vector();
 
     public CharTablePanel(JEditorPane ed) {
         try {
@@ -64,19 +69,14 @@ public class CharTablePanel extends JPanel {
 
     }
     private void jbInit() throws Exception {
-        
+        this.setFocusable(false);
 
-        //this.setSize(200, 50);        
-        this.setFocusable(false);        
-        //this.setBackground();
-        
         this.setPreferredSize(new Dimension(200, 45));
         this.setToolTipText("");
         flowLayout1.setHgap(0);
         flowLayout1.setVgap(0);
         flowLayout1.setAlignment(FlowLayout.LEFT);
         this.setLayout(flowLayout1);
-        //this.getContentPane().add(cal,  BorderLayout.CENTER);
         createButtons();
 
     }
@@ -85,7 +85,6 @@ public class CharTablePanel extends JPanel {
         for (int i = 0; i < chars.length; i++) {
             JButton button = new JButton(new CharAction(chars[i]));
             button.setMaximumSize(new Dimension(50, 22));
-            //button.setMinimumSize(new Dimension(22, 22));
             button.setPreferredSize(new Dimension(30, 22));
             button.setRequestFocusEnabled(false);
             button.setFocusable(false);
@@ -103,9 +102,13 @@ public class CharTablePanel extends JPanel {
     }
 
     class CharAction extends AbstractAction {
-        CharAction(String name) {
+        /**
+		 *
+		 */
+		private static final long serialVersionUID = 7034651140188872930L;
+
+		CharAction(String name) {
             super(name);
-            //putValue(Action.SHORT_DESCRIPTION, name);
         }
 
         public void actionPerformed(ActionEvent e) {

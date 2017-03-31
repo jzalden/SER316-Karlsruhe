@@ -18,6 +18,11 @@ import javax.swing.JTextArea;
  */
 
 public class SrcDialog extends JDialog {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -2532170118451582049L;
+
 	JPanel panel1 = new JPanel();
 	BorderLayout borderLayout1 = new BorderLayout();
 	JScrollPane jScrollPane1 = new JScrollPane();
@@ -37,7 +42,7 @@ public class SrcDialog extends JDialog {
 	public SrcDialog() {
 		this(null, "");
 	}
-	
+
 	void jbInit() throws Exception {
 		panel1.setLayout(borderLayout1);
 		jTextArea1.setEditable(false);

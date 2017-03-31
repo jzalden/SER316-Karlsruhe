@@ -31,6 +31,11 @@ import net.sf.memoranda.ui.htmleditor.util.Local;
  */
 
 public class FindDialog extends JDialog {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -6224620893318828522L;
+
 	JPanel areaPanel = new JPanel(new GridBagLayout());
 	JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
 	JButton cancelB = new JButton();
@@ -64,14 +69,14 @@ public class FindDialog extends JDialog {
 	void jbInit() throws Exception {
 		this.setResizable(false);
 		// Build Header and its layout
-		
+
 		header.setFont(new java.awt.Font("Dialog", 0, 20));
 		header.setForeground(new Color(0, 0, 124));
 		header.setText(Local.getString("Find & replace"));
 		header.setIcon(
-			new ImageIcon(
-				net.sf.memoranda.ui.htmleditor.ImageDialog.class.getResource(
-					"resources/icons/findbig.png")));
+				new ImageIcon(
+						net.sf.memoranda.ui.htmleditor.ImageDialog.class.getResource(
+								"resources/icons/findbig.png")));
 		headerPanel.setBackground(Color.WHITE);
 		headerPanel.add(header);
 		this.getContentPane().add(headerPanel, BorderLayout.NORTH);
@@ -130,7 +135,7 @@ public class FindDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.WEST;
 		areaPanel.add(txtReplace, gbc);
 		areaPanel.setBorder(BorderFactory.createEtchedBorder(
-			Color.white, new Color(142, 142, 142)));
+				Color.white, new Color(142, 142, 142)));
 		this.getContentPane().add(areaPanel, BorderLayout.CENTER);
 
 		// Initialize buttons

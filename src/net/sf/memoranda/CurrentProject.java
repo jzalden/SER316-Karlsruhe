@@ -28,9 +28,9 @@ public class CurrentProject {
     private static TaskList _tasklist = null;
     private static NoteList _notelist = null;
     private static ResourcesList _resources = null;
-    private static Vector projectListeners = new Vector();
+    private static Vector<ProjectListener> projectListeners = new Vector<ProjectListener>();
 
-        
+
     static {
         String prjId = (String)Context.get("LAST_OPENED_PROJECT_ID");
         if (prjId == null) {
@@ -39,27 +39,27 @@ public class CurrentProject {
         }
         //ProjectManager.init();
         _project = ProjectManager.getProject(prjId);
-		
+
 		if (_project == null) {
 			// alexeya: Fixed bug with NullPointer when LAST_OPENED_PROJECT_ID
 			// references to missing project
 			_project = ProjectManager.getProject("__default");
-			if (_project == null) 
-				_project = (Project)ProjectManager.getActiveProjects().get(0);						
+			if (_project == null)
+				_project = (Project)ProjectManager.getActiveProjects().get(0);
             Context.put("LAST_OPENED_PROJECT_ID", _project.getID());
-			
-		}		
-		
+
+		}
+
         _tasklist = CurrentStorage.get().openTaskList(_project);
         _notelist = CurrentStorage.get().openNoteList(_project);
         _resources = CurrentStorage.get().openResourcesList(_project);
         AppFrame.addExitListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                save();                                               
+                save();
             }
         });
     }
-        
+
 
     public static Project get() {
         return _project;
@@ -72,7 +72,7 @@ public class CurrentProject {
     public static NoteList getNoteList() {
             return _notelist;
     }
-    
+
     public static ResourcesList getResourcesList() {
             return _resources;
     }
@@ -95,20 +95,19 @@ public class CurrentProject {
         projectListeners.add(pl);
     }
 
-    public static Collection getChangeListeners() {
+    public static Collection<ProjectListener> getChangeListeners() {
         return projectListeners;
     }
 
     private static void notifyListenersBefore(Project project, NoteList nl, TaskList tl, ResourcesList rl) {
         for (int i = 0; i < projectListeners.size(); i++) {
             ((ProjectListener)projectListeners.get(i)).projectChange(project, nl, tl, rl);
-            /*DEBUGSystem.out.println(projectListeners.get(i));*/
         }
     }
-    
+
     private static void notifyListenersAfter() {
         for (int i = 0; i < projectListeners.size(); i++) {
-            ((ProjectListener)projectListeners.get(i)).projectWasChanged();            
+            ((ProjectListener)projectListeners.get(i)).projectWasChanged();
         }
     }
 
@@ -116,11 +115,11 @@ public class CurrentProject {
         Storage storage = CurrentStorage.get();
 
         storage.storeNoteList(_notelist, _project);
-        storage.storeTaskList(_tasklist, _project); 
+        storage.storeTaskList(_tasklist, _project);
         storage.storeResourcesList(_resources, _project);
         storage.storeProjectManager();
     }
-    
+
     public static void free() {
         _project = null;
         _tasklist = null;

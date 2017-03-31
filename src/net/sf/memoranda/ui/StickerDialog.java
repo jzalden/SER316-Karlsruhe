@@ -34,18 +34,23 @@ import net.sf.memoranda.util.Local;
 
 /*$Id: StickerDialog.java,v 1.5 2004/10/07 21:31:33 ivanrise Exp $*/
 public class StickerDialog extends JDialog {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 4199170621593222420L;
+
 	public boolean CANCELLED = true;
 	JPanel panel1 = new JPanel();
 	BorderLayout borderLayout1 = new BorderLayout();
 	BorderLayout borderLayout2 = new BorderLayout();
-	
+
 	JButton cancelButton = new JButton();
 	JButton okButton = new JButton();
 	JButton boldButton= new JButton();
 	JButton italicButton= new JButton();
 	JButton underlineButton= new JButton();
 	JButton unorderedListButton= new JButton();
-	
+
 	JPanel bottomPanel = new JPanel();
 	JPanel topPanel = new JPanel();
 	JLabel header = new JLabel();
@@ -93,11 +98,11 @@ public class StickerDialog extends JDialog {
 			Local.getString("LOWEST")};
 	int[] font={10,15,20};
 	String[] fontLabels= {"10px","15px","20px"};
-	JComboBox stickerColor = new JComboBox(colorLabels);
-	JComboBox textColor = new JComboBox(colorLabels);
-	JComboBox fontSize = new JComboBox(fontLabels);
-	JComboBox priorityList = new JComboBox(priorities);
-	
+	JComboBox<String> stickerColor = new JComboBox<String>(colorLabels);
+	JComboBox<String> textColor = new JComboBox<String>(colorLabels);
+	JComboBox<String> fontSize = new JComboBox<String>(fontLabels);
+	JComboBox<String> priorityList = new JComboBox<String>(priorities);
+
 
 	public StickerDialog(Frame frame) {
 		super(frame, Local.getString("Sticker"), true);
@@ -177,7 +182,7 @@ public class StickerDialog extends JDialog {
 			}
 		});
 		this.getRootPane().setDefaultButton(okButton);
-		
+
 		boldButton.setText(Local.getString("Bold"));
 		boldButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -206,13 +211,12 @@ public class StickerDialog extends JDialog {
 		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		topPanel.setBorder(new EmptyBorder(new Insets(0, 5, 0, 5)));
 		topPanel.setBackground(Color.WHITE);
-		//topPanel.setBackground(new Color(215, 225, 250));
+
 		header.setFont(new java.awt.Font("Dialog", 0, 20));
 		header.setForeground(new Color(0, 0, 124));
 		header.setText(Local.getString("Sticker"));
 		header.setIcon(new ImageIcon(net.sf.memoranda.ui.StickerDialog.class.getResource(
             "resources/icons/sticker48.png")));
-		//header.setHorizontalAlignment(SwingConstants.LEFT);
 
 		jLabel1.setText(Local.getString("Sticker color")+": ");
 		jLabel2.setText(Local.getString("Font color")+": ");
@@ -221,7 +225,7 @@ public class StickerDialog extends JDialog {
 		jPanel1.setLayout(gridLayout1);
 		panel1.setBorder(border1);
 		jPanel1.setBorder(border2);
-		
+
 		getContentPane().add(panel1, BorderLayout.CENTER);
 		panel1.add(jScrollPane1, BorderLayout.CENTER);
 		jScrollPane1.getViewport().add(stickerText, null);
@@ -231,21 +235,21 @@ public class StickerDialog extends JDialog {
 		bottomPanel.add(cancelButton);
 		this.getContentPane().add(topPanel, BorderLayout.NORTH);
 		topPanel.add(header);
-		
+
 		jPanel1.add(jLabel1);
 		jPanel1.add(stickerColor);
 		jPanel1.add(jLabel2);
 		jPanel1.add(textColor);
 		jPanel1.add(jLabel3);
 		jPanel1.add(fontSize);
-		
+
 		jPanel1.add(boldButton);
 		jPanel1.add(italicButton);
 		jPanel1.add(underlineButton);
 		jPanel1.add(unorderedListButton);
 		jPanel1.add(jLabel4);
 		jPanel1.add(priorityList);
-		
+
 		if (Context.get("STICKER_COLOR") != null) {
 			Color c = new Color(new Integer(Context.get("STICKER_COLOR").toString()).intValue());
 			stickerText.setBackground(c);
@@ -301,10 +305,10 @@ public class StickerDialog extends JDialog {
 		if (Context.get("TEXT_SIZE") != null) {
 			int h= (fontSize.getSelectedIndex()*5)+10;
 			if (h!=10 && h!=15 && h!=20) h=15;
-			stickerText.setFont(new Font(f.getFontName(), f.PLAIN, h));
+			stickerText.setFont(new Font(f.getFontName(), Font.PLAIN, h));
 		}
 		else{
-			stickerText.setFont(new Font(f.getFontName(), f.PLAIN, 15));
+			stickerText.setFont(new Font(f.getFontName(), Font.PLAIN, 15));
 			fontSize.setSelectedIndex(1);
 		}
 		fontSize.addActionListener(new java.awt.event.ActionListener() {
@@ -314,7 +318,7 @@ public class StickerDialog extends JDialog {
 		});
 	}
 
-	int findColorIndex(Color c) {		
+	int findColorIndex(Color c) {
 		for (int i = 0; i < colors.length; i++)
 			if (c.equals(colors[i]))
 				return i;
@@ -331,7 +335,7 @@ public class StickerDialog extends JDialog {
 		return "#"
 				+ Integer
 					.toHexString(stickerText.getForeground().getRGB() - 0xFF000000)
-					.toUpperCase();	
+					.toUpperCase();
 		}
 	public String getStickerColor() {
 		return "#"
@@ -423,24 +427,29 @@ public class StickerDialog extends JDialog {
 			if (c != null)
 				stickerText.setForeground(c);
 		}
-		Context.put("TEXT_COLOR", new Integer(stickerText.getForeground().getRGB()));		
+		Context.put("TEXT_COLOR", new Integer(stickerText.getForeground().getRGB()));
 	}
 	protected void fontSize_actionPerformed(ActionEvent e) {
 		int i=fontSize.getSelectedIndex();
 		if (i < fontLabels.length){
 			Font f= stickerText.getFont();
-			stickerText.setFont(new Font(f.getFontName(), f.PLAIN, (i*5)+10));
+			stickerText.setFont(new Font(f.getFontName(), Font.PLAIN, (i*5)+10));
 		}
 		fontSize.setSelectedIndex(i);
-		Context.put("TEXT_SIZE", new Integer(stickerText.getFont().getSize()));		
+		Context.put("TEXT_SIZE", new Integer(stickerText.getFont().getSize()));
 		}
-	class ComboBoxRenderer extends JLabel implements ListCellRenderer {
+	class ComboBoxRenderer extends JLabel implements ListCellRenderer<Object> {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -543994662946913229L;
+
 		public ComboBoxRenderer() {
 			setOpaque(true);
 
 		}
 		public Component getListCellRendererComponent(
-			JList list,
+			JList<?> list,
 			Object value,
 			int index,
 			boolean isSelected,
@@ -462,27 +471,27 @@ public class StickerDialog extends JDialog {
 			return this;
 		}
 	}
-	class ComboBoxRenderer2 extends JLabel implements ListCellRenderer {
+	class ComboBoxRenderer2 extends JLabel implements ListCellRenderer<Object> {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -745122881353124044L;
+
 		public ComboBoxRenderer2() {
 			setOpaque(true);
 
 		}
 		public Component getListCellRendererComponent(
-			JList list,
-			Object value,
-			int index,
-			boolean isSelected,
-			boolean cellHasFocus) {
-			/*
-			 * if (isSelected) { setBackground(list.getSelectionBackground());
-			 * setForeground(list.getSelectionForeground());
-			 */
+				JList<?> list,
+				Object value,
+				int index,
+				boolean isSelected,
+				boolean cellHasFocus) {
 			if ((index > -1) && (index < colors.length))
 				setForeground(colors[index]);
 			else
 				setForeground(list.getForeground());
 			setBackground(list.getBackground());
-			//}
 			setText(value.toString());
 			return this;
 		}

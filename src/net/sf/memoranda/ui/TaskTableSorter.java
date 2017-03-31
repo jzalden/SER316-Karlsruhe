@@ -29,16 +29,15 @@ public class TaskTableSorter extends TaskTableModel{
 
 			// based on TaskTableModel.columnNames
 			switch(sorting_column){
-				case 1: return task1.getText().compareTo(task2.getText());
-				case 2: return task1.getStartDate().getDate().compareTo(task2.getStartDate().getDate());
-				case 3: return task1.getEndDate().getDate().compareTo(task2.getEndDate().getDate());
-				case 0: // task priority, same as 4
-				case 4: return task1.getPriority() - task2.getPriority();
-				case 5: return task1.getStatus( CurrentDate.get() ) - task2.getStatus( CurrentDate.get() );
-				case 6: return task1.getProgress() - task2.getProgress();
+			case 1: return task1.getText().compareTo(task2.getText());
+			case 2: return task1.getStartDate().getDate().compareTo(task2.getStartDate().getDate());
+			case 3: return task1.getEndDate().getDate().compareTo(task2.getEndDate().getDate());
+			case 0: // task priority, same as 4
+			case 4: return task1.getPriority() - task2.getPriority();
+			case 5: return task1.getStatus( CurrentDate.get() ) - task2.getStatus( CurrentDate.get() );
+			case 6: return task1.getProgress() - task2.getProgress();
+			default: return 0;
 			}
-
-			return 0;
 		}
 	};
 
@@ -69,45 +68,44 @@ public class TaskTableSorter extends TaskTableModel{
 		return array[index];
 	}
 
-    private class MouseHandler extends MouseAdapter {
-        public void mouseClicked(MouseEvent e) {
-            JTableHeader h = (JTableHeader) e.getSource();
-            TableColumnModel columnModel = h.getColumnModel();
-            int viewColumn = columnModel.getColumnIndexAtX(e.getX());
-            int column = columnModel.getColumn(viewColumn).getModelIndex();
-            if (column != -1) {
-		sorting_column = column;
+	private class MouseHandler extends MouseAdapter {
+		public void mouseClicked(MouseEvent e) {
+			JTableHeader h = (JTableHeader) e.getSource();
+			TableColumnModel columnModel = h.getColumnModel();
+			int viewColumn = columnModel.getColumnIndexAtX(e.getX());
+			int column = columnModel.getColumn(viewColumn).getModelIndex();
+			if (column != -1) {
+				sorting_column = column;
 
-		// 0 == priority icon column
-		// 4 == priority text column
-		if(column == 0) sorting_column = 4;
+				// 0 == priority icon column
+				// 4 == priority text column
+				if(column == 0) sorting_column = 4;
 
-		if(e.isControlDown()) sorting_column = -1;
-		else opposite = !opposite;
+				if(e.isControlDown()) sorting_column = -1;
+				else opposite = !opposite;
 
-		TaskTable treetable = ( (TaskTable) h.getTable());
+				TaskTable treetable = ( (TaskTable) h.getTable());
 
-		treetable.tableChanged();
-		h.resizeAndRepaint();
-            }
-        }
-    }
+				treetable.tableChanged();
+				h.resizeAndRepaint();
+			}
+		}
+	}
 
 	/**
-	* Render sorting header differently
-	*/
+	 * Render sorting header differently
+	 */
 	private class SortableHeaderRenderer implements TableCellRenderer {
 
 		public Component getTableCellRendererComponent(JTable table,
-							       Object value,
-							       boolean isSelected,
-							       boolean hasFocus,
-							       int row,
-							       int column) {
+				Object value,
+				boolean isSelected,
+				boolean hasFocus,
+				int row,
+				int column) {
 			JComponent c = new JLabel(value.toString());
 			if(column == sorting_column){
 				c.setFont(c.getFont().deriveFont(Font.BOLD));
-				//c.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK));
 			}
 			else c.setFont(c.getFont().deriveFont(Font.PLAIN));
 			return c;

@@ -828,7 +828,7 @@ public class AppFrame extends JFrame {
 	}
 
 	public void showPreferences() {
-		PreferencesDialogOLD dlg = new PreferencesDialogOLD(this);
+		PreferencesDialog dlg = new PreferencesDialog(this);
 		dlg.pack();
 		dlg.setLocationRelativeTo(this);
 		dlg.setVisible(true);

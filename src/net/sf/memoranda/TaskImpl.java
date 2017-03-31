@@ -45,12 +45,12 @@ public class TaskImpl implements Task, Comparable<Task> {
 	}
 
 	public void setStartDate(CalendarDate date) {
-		   setAttr("startDate", date.toString());
+		setAttr("startDate", date.toString());
 	}
 
 	public CalendarDate getEndDate() {
 		String ed = _element.getAttribute("endDate").getValue();
-		if (ed != "")
+		if (!ed.equals(""))
 			return new CalendarDate(_element.getAttribute("endDate").getValue());
 		Task parent = this.getParentTask();
 		if (parent != null)
@@ -65,7 +65,8 @@ public class TaskImpl implements Task, Comparable<Task> {
 	public void setEndDate(CalendarDate date) {
 		if (date == null)
 			setAttr("endDate", "");
-		setAttr("endDate", date.toString());
+		else
+			setAttr("endDate", date.toString());
 	}
 
 	public long getEffort() {
@@ -113,7 +114,7 @@ public class TaskImpl implements Task, Comparable<Task> {
 			return null;
 		}
 		else {
-	   		return thisElement.getValue();
+			return thisElement.getValue();
 		}
 	}
 
@@ -139,7 +140,7 @@ public class TaskImpl implements Task, Comparable<Task> {
 		if (isFrozen())
 			return Task.FROZEN;
 		if (isCompleted())
-				return Task.COMPLETED;
+			return Task.COMPLETED;
 
 		if (date.inPeriod(start, end)) {
 			if (date.equals(end))
@@ -148,7 +149,7 @@ public class TaskImpl implements Task, Comparable<Task> {
 				return Task.ACTIVE;
 		}
 		else if(date.before(start)) {
-				return Task.SCHEDULED;
+			return Task.SCHEDULED;
 		}
 
 		if(start.after(end)) {
@@ -280,7 +281,7 @@ public class TaskImpl implements Task, Comparable<Task> {
 	private void setAttr(String a, String value) {
 		Attribute attr = _element.getAttribute(a);
 		if (attr == null)
-		   _element.addAttribute(new Attribute(a, value));
+			_element.addAttribute(new Attribute(a, value));
 		else
 			attr.setValue(value);
 	}
@@ -298,7 +299,7 @@ public class TaskImpl implements Task, Comparable<Task> {
 		Calendar endDateCal = getEndDate().getCalendar();
 		Calendar dateCal = d.getCalendar();
 		int numOfDays = (endDateCal.get(Calendar.YEAR)*365 + endDateCal.get(Calendar.DAY_OF_YEAR)) -
-						(dateCal.get(Calendar.YEAR)*365 + dateCal.get(Calendar.DAY_OF_YEAR));
+				(dateCal.get(Calendar.YEAR)*365 + dateCal.get(Calendar.DAY_OF_YEAR));
 		if (numOfDays < 0) return -1; //Something wrong ?
 		return (100-getProgress()) / (numOfDays+1) * (getPriority()+1);
 	}
@@ -306,33 +307,41 @@ public class TaskImpl implements Task, Comparable<Task> {
 	/**
 	 * @see net.sf.memoranda.Task#getRate()
 	 */
-	 public long getRate() {
+	public long getRate() {
 		return -1*calcTaskRate(CurrentDate.get());
-	 }
+	}
 
-	 /*
-	  * Comparable interface
-	  */
-	 public int compareTo(Task o) {
-		 Task task = (Task) o;
-		 	if(getRate() > task.getRate())
-				return 1;
-			else if(getRate() < task.getRate())
-				return -1;
-			else
-				return 0;
-	 }
+	/*
+	 * Comparable interface
+	 */
+	public int compareTo(Task o) {
+		Task task = (Task) o;
+		if(getRate() > task.getRate())
+			return 1;
+		else if(getRate() < task.getRate())
+			return -1;
+		else
+			return 0;
+	}
 
-	 public boolean equals(Object o) {
-		 return ((o instanceof Task) && (((Task)o).getID().equals(this.getID())));
-	 }
+	public boolean equals(Object o) {
+		return ((o instanceof Task) &&
+				((((Task)o).getID()).equals(this.getID())));
+	}
+
+	public int hashCode() {
+		int hashCode = 1;
+		hashCode = 31 * hashCode + _element.hashCode();
+		hashCode = 31 * hashCode + _tl.hashCode();
+		return hashCode;
+	}
 
 	/*
 	 * @see net.sf.memoranda.Task#getSubTasks()
 	 */
 	public Collection<Task> getSubTasks() {
 		Elements subTasks = _element.getChildElements("task");
-			return convertToTaskObjects(subTasks);
+		return convertToTaskObjects(subTasks);
 	}
 
 	private Collection<Task> convertToTaskObjects(Elements tasks) {

@@ -323,7 +323,7 @@ public class ImageDialog extends JDialog implements WindowListener {
 
 	public void updatePreview() {
 		try {
-			if (new java.net.URL(fileField.getText()).getPath() != "")
+			if (!(new java.net.URL(fileField.getText()).getPath()).equals(""))
 				header.setIcon(getPreviewIcon(new java.io.File(
 						new java.net.URL(fileField.getText()).getPath())));
 		}

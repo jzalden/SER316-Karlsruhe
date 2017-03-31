@@ -35,7 +35,7 @@ public class Util {
     }
 
     public static Color getColorForName(String name, Color defaultColor) {
-        if (HTMLColors.contains(name.toLowerCase()))
+        if (HTMLColors.containsKey(name.toLowerCase()))
             return (Color)HTMLColors.get(name.toLowerCase());
         return defaultColor;
     }

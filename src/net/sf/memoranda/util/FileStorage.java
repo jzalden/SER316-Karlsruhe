@@ -175,8 +175,10 @@ public class FileStorage implements Storage {
 		String id = prj.getID();
 		File f = new File(JN_DOCPATH + id);
 		File[] files = f.listFiles();
-		for (int i = 0; i < files.length; i++)
-			files[i].delete();
+		if(files != null) {
+			for (int i = 0; i < files.length; i++)
+				files[i].delete();
+		}
 		f.delete();
 	}
 
@@ -295,11 +297,11 @@ public class FileStorage implements Storage {
 		if (documentExists(fn)) {
 
 			System.out.println("[DEBUG] Open resources list: " + fn);
-			return new ResourcesListImpl(openDocument(fn), prj);
+			return new ResourcesListImpl(openDocument(fn));
 		} else {
 
 			System.out.println("[DEBUG] New note list created");
-			return new ResourcesListImpl(prj);
+			return new ResourcesListImpl();
 		}
 	}
 

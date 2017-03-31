@@ -56,7 +56,7 @@ import javax.swing.text.html.StyleSheet;
  * Copyright 2002 Sun Microsystems, Inc.
  */
 
-public class AltHTMLWriter extends AbstractWriter {
+public class AltHTMLWriter extends AbstractWriter implements Cloneable{
 	/*
 	 * Stores all elements for which end tags have to
 	 * be emitted.
@@ -67,7 +67,6 @@ public class AltHTMLWriter extends AbstractWriter {
 	/** When inPre is true, this will indicate the end offset of the pre
 	 * element. */
 	private int preEndOffset;
-	private boolean inTextArea = false;
 	private boolean newlineOutputed = false;
 	private boolean completeDoc;
 
@@ -485,7 +484,6 @@ public class AltHTMLWriter extends AbstractWriter {
 			}
 			doc.getText(0, doc.getLength(), segment);
 			if (segment.count > 0) {
-				inTextArea = true;
 				incrIndent();
 				indent();
 				setCanWrapLines(true);
@@ -494,7 +492,6 @@ public class AltHTMLWriter extends AbstractWriter {
 				replaceEntities = false;
 				setCanWrapLines(false);
 				writeLineSeparator();
-				inTextArea = false;
 				decrIndent();
 			}
 		}
@@ -699,8 +696,7 @@ public class AltHTMLWriter extends AbstractWriter {
 	protected boolean matchNameAttribute(AttributeSet attr, HTML.Tag tag) {
 		Object o = attr.getAttribute(StyleConstants.NameAttribute);
 		if (o instanceof HTML.Tag) {
-			HTML.Tag name = (HTML.Tag) o;
-			if (name == tag) {
+			if (((HTML.Tag) o) == tag) {
 				return true;
 			}
 		}
@@ -1278,7 +1274,7 @@ public class AltHTMLWriter extends AbstractWriter {
 	  @version 1.9 12/03/01
 	 */
 
-	class OptionListModel extends DefaultListModel<Object> implements ListSelectionModel, Serializable {
+	class OptionListModel extends DefaultListModel<Object> implements ListSelectionModel, Serializable, Cloneable{
 
 		/**
 		 *
@@ -1296,7 +1292,6 @@ public class AltHTMLWriter extends AbstractWriter {
 		private boolean isAdjusting = false;
 		private BitSet value = new BitSet(32);
 		private BitSet initialValue = new BitSet(32);
-		protected EventListenerList listenerList = new EventListenerList();
 
 		protected boolean leadAnchorNotificationEnabled = true;
 

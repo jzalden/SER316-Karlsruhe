@@ -21,10 +21,15 @@ import net.sf.memoranda.util.Local;
 
 /*$Id: TaskCalcDialog.java,v 1.3 2005/06/10 18:36:24 velhonoja Exp $*/
 public class TaskCalcDialog extends JDialog {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 2133213416235098752L;
+
 	JPanel topPanel = new JPanel(new BorderLayout());
 	JPanel generalPanel = new JPanel(new GridBagLayout());
 	GridBagConstraints gbc;
-    public boolean CANCELLED = true;
+	public boolean CANCELLED = true;
 
 	ButtonGroup closeGroup = new ButtonGroup();
 	JCheckBox compactDatesChB = new JCheckBox();
@@ -49,10 +54,10 @@ public class TaskCalcDialog extends JDialog {
 		this(null);
 	}
 	void jbInit() throws Exception {
-	    this.setResizable(false);
+		this.setResizable(false);
 		label1.setHorizontalAlignment(SwingConstants.RIGHT);
 		label1.setText(Local.getString("Calculate and update data for this task using data from sub tasks."));
-		
+
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 1;
@@ -74,11 +79,7 @@ public class TaskCalcDialog extends JDialog {
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		compactDatesChB.setText(Local.getString("Compact task dates based on sub task dates"));
-//		compactDatesChB.addActionListener(new java.awt.event.ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				enSystrayChB_actionPerformed(e);
-//			}
-//		});
+
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 10;
@@ -99,11 +100,7 @@ public class TaskCalcDialog extends JDialog {
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		generalPanel.add(calcCompletionChB, gbc);
-//		calcCompletionChB.addActionListener(new java.awt.event.ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				enSplashChB_actionPerformed(e);
-//			}
-//		});
+
 		// Build TopPanel
 		topPanel.add(generalPanel, BorderLayout.CENTER);
 

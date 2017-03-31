@@ -26,6 +26,11 @@ import net.sf.memoranda.util.Local;
 
 /*$Id: WorkPanel.java,v 1.9 2004/04/05 10:05:44 alexeya Exp $*/
 public class WorkPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2367253752218586919L;
+
 	BorderLayout borderLayout1 = new BorderLayout();
 	JToolBar toolBar = new JToolBar();
 	JPanel panel = new JPanel();
@@ -51,14 +56,14 @@ public class WorkPanel extends JPanel {
 
 	void jbInit() throws Exception {
 		border1 =
-			BorderFactory.createCompoundBorder(
-				BorderFactory.createBevelBorder(
-					BevelBorder.LOWERED,
-					Color.white,
-					Color.white,
-					new Color(124, 124, 124),
-					new Color(178, 178, 178)),
-				BorderFactory.createEmptyBorder(0, 2, 0, 0));
+				BorderFactory.createCompoundBorder(
+						BorderFactory.createBevelBorder(
+								BevelBorder.LOWERED,
+								Color.white,
+								Color.white,
+								new Color(124, 124, 124),
+								new Color(178, 178, 178)),
+						BorderFactory.createEmptyBorder(0, 2, 0, 0));
 
 		this.setLayout(borderLayout1);
 		toolBar.setOrientation(JToolBar.VERTICAL);
@@ -87,9 +92,9 @@ public class WorkPanel extends JPanel {
 			}
 		});
 		agendaB.setIcon(
-			new ImageIcon(
-				net.sf.memoranda.ui.AppFrame.class.getResource(
-					"resources/icons/agenda.png")));
+				new ImageIcon(
+						net.sf.memoranda.ui.AppFrame.class.getResource(
+								"resources/icons/agenda.png")));
 		agendaB.setOpaque(false);
 		agendaB.setMargin(new Insets(0, 0, 0, 0));
 		agendaB.setSelected(true);
@@ -113,20 +118,19 @@ public class WorkPanel extends JPanel {
 			}
 		});
 		eventsB.setIcon(
-			new ImageIcon(
-				net.sf.memoranda.ui.AppFrame.class.getResource(
-					"resources/icons/events.png")));
+				new ImageIcon(
+						net.sf.memoranda.ui.AppFrame.class.getResource(
+								"resources/icons/events.png")));
 		eventsB.setOpaque(false);
 		eventsB.setMargin(new Insets(0, 0, 0, 0));
-		//eventsB.setSelected(true);
 
 		tasksB.setSelected(true);
 		tasksB.setFont(new java.awt.Font("Dialog", 1, 10));
 		tasksB.setMargin(new Insets(0, 0, 0, 0));
 		tasksB.setIcon(
-			new ImageIcon(
-				net.sf.memoranda.ui.AppFrame.class.getResource(
-					"resources/icons/tasks.png")));
+				new ImageIcon(
+						net.sf.memoranda.ui.AppFrame.class.getResource(
+								"resources/icons/tasks.png")));
 		tasksB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		tasksB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -165,9 +169,9 @@ public class WorkPanel extends JPanel {
 			}
 		});
 		notesB.setIcon(
-			new ImageIcon(
-				net.sf.memoranda.ui.AppFrame.class.getResource(
-					"resources/icons/notes.png")));
+				new ImageIcon(
+						net.sf.memoranda.ui.AppFrame.class.getResource(
+								"resources/icons/notes.png")));
 		notesB.setMargin(new Insets(0, 0, 0, 0));
 		notesB.setSelected(true);
 		this.setPreferredSize(new Dimension(1073, 300));
@@ -175,9 +179,9 @@ public class WorkPanel extends JPanel {
 		filesB.setSelected(true);
 		filesB.setMargin(new Insets(0, 0, 0, 0));
 		filesB.setIcon(
-			new ImageIcon(
-				net.sf.memoranda.ui.AppFrame.class.getResource(
-					"resources/icons/files.png")));
+				new ImageIcon(
+						net.sf.memoranda.ui.AppFrame.class.getResource(
+								"resources/icons/files.png")));
 		filesB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		filesB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {

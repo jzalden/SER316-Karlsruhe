@@ -12,14 +12,14 @@ import java.util.Hashtable;
 
 class Context {
 
-  static java.util.Hashtable hash = new Hashtable();
+	static Hashtable<Object, Object> hash = new Hashtable<Object, Object>();
 
-  public static Object get(Object key) {
-    return hash.get(key);
-  }
+	public static Object get(Object key) {
+		return hash.get(key);
+	}
 
-  public static void put(Object key, Object value) {
-    hash.put(key, value);
-  }
+	public static void put(Object key, Object value) {
+		hash.put(key, value);
+	}
 
 }

@@ -27,7 +27,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -59,9 +58,15 @@ import javax.swing.undo.UndoManager;
 import net.sf.memoranda.ui.htmleditor.util.Local;
 
 /**
- *  
+ *
  */
 public class HTMLEditor extends JPanel {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -8356659089345463381L;
+
+
 	public HTMLEditorPane editor = new HTMLEditorPane("");
 
 
@@ -79,7 +84,7 @@ public class HTMLEditor extends JPanel {
 
 	Border border1, border2;
 
-	Class cl = net.sf.memoranda.ui.htmleditor.HTMLEditor.class;
+	Class<HTMLEditor> cl = net.sf.memoranda.ui.htmleditor.HTMLEditor.class;
 
 	String imagesDir = null;
 	String imagesPath = null;
@@ -93,6 +98,11 @@ public class HTMLEditor extends JPanel {
 	}
 
 	abstract class HTMLEditorAction extends AbstractAction {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -8901937330612009685L;
+
 		HTMLEditorAction(String name, ImageIcon icon) {
 			super(name, icon);
 			super.putValue(Action.SHORT_DESCRIPTION, name);
@@ -107,6 +117,11 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Bold"),
 			new ImageIcon(cl.getResource("resources/icons/bold.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = 851265550348425881L;
+
 		public void actionPerformed(ActionEvent e) {
 			boldActionB_actionPerformed(e);
 		}
@@ -116,6 +131,11 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Italic"),
 			new ImageIcon(cl.getResource("resources/icons/italic.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = 2521675222721555271L;
+
 		public void actionPerformed(ActionEvent e) {
 			italicActionB_actionPerformed(e);
 		}
@@ -125,6 +145,11 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Underline"),
 			new ImageIcon(cl.getResource("resources/icons/underline.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = 8814021351258585063L;
+
 		public void actionPerformed(ActionEvent e) {
 			underActionB_actionPerformed(e);
 		}
@@ -135,6 +160,11 @@ public class HTMLEditor extends JPanel {
 			Local.getString("Unordered list"),
 			new ImageIcon(
 				cl.getResource("resources/icons/listunordered.png"))) {
+		/**
+					 *
+					 */
+					private static final long serialVersionUID = 796620549444932108L;
+
 		public void actionPerformed(ActionEvent e) {
 			ulActionB_actionPerformed(e);
 		}
@@ -144,6 +174,11 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Ordered list"),
 			new ImageIcon(cl.getResource("resources/icons/listordered.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = -6523950595631821050L;
+
 		public void actionPerformed(ActionEvent e) {
 			olActionB_actionPerformed(e);
 		}
@@ -153,6 +188,11 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Align left"),
 			new ImageIcon(cl.getResource("resources/icons/alignleft.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = 226777616529141974L;
+
 		public void actionPerformed(ActionEvent e) {
 			lAlignActionB_actionPerformed(e);
 		}
@@ -162,6 +202,11 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Align center"),
 			new ImageIcon(cl.getResource("resources/icons/aligncenter.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = 808377713077241274L;
+
 		public void actionPerformed(ActionEvent e) {
 			cAlignActionB_actionPerformed(e);
 		}
@@ -171,19 +216,25 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Align right"),
 			new ImageIcon(cl.getResource("resources/icons/alignright.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = -2375080260677950497L;
+
 		public void actionPerformed(ActionEvent e) {
 			rAlignActionB_actionPerformed(e);
 		}
 	};
 
-	/*
-	 * public Action jAlignAction = new AbstractAction() { public void
-	 * actionPerformed(ActionEvent e) { jAlignActionB_actionPerformed(e); }
-	 */
 	public Action imageAction =
 		new HTMLEditorAction(
 			Local.getString("Insert image"),
 			new ImageIcon(cl.getResource("resources/icons/image.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = 4953413587637655489L;
+
 		public void actionPerformed(ActionEvent e) {
 			imageActionB_actionPerformed(e);
 		}
@@ -193,6 +244,11 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Insert table"),
 			new ImageIcon(cl.getResource("resources/icons/table.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = 2580524158085055029L;
+
 		public void actionPerformed(ActionEvent e) {
 			tableActionB_actionPerformed(e);
 		}
@@ -202,6 +258,11 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Insert hyperlink"),
 			new ImageIcon(cl.getResource("resources/icons/link.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = -2590348478619094228L;
+
 		public void actionPerformed(ActionEvent e) {
 			linkActionB_actionPerformed(e);
 		}
@@ -211,6 +272,11 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Object properties"),
 			new ImageIcon(cl.getResource("resources/icons/properties.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = -5081098531755787623L;
+
 		public void actionPerformed(ActionEvent e) {
 			propsActionB_actionPerformed(e);
 		}
@@ -218,6 +284,11 @@ public class HTMLEditor extends JPanel {
 
 	public Action selectAllAction =
 		new HTMLEditorAction(Local.getString("Select all")) {
+		/**
+			 *
+			 */
+			private static final long serialVersionUID = 1823018104332646814L;
+
 		public void actionPerformed(ActionEvent e) {
 			editor.selectAll();
 		}
@@ -227,6 +298,11 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Insert horizontal rule"),
 			new ImageIcon(cl.getResource("resources/icons/hr.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = 5930123920192723522L;
+
 		public void actionPerformed(ActionEvent e) {
 			/*
 			 * String elName =
@@ -288,6 +364,11 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Insert character"),
 			new ImageIcon(cl.getResource("resources/icons/char.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = -2570212056367656221L;
+
 		public void actionPerformed(ActionEvent e) {
 			if (!charTableShow) {
 				addCharTablePanel();
@@ -306,6 +387,11 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Find & Replace"),
 			new ImageIcon(cl.getResource("resources/icons/find.png"))) {
+		/**
+				 *
+				 */
+				private static final long serialVersionUID = 996725490937191011L;
+
 		public void actionPerformed(ActionEvent e) {
 			doFind();
 		}
@@ -322,7 +408,7 @@ public class HTMLEditor extends JPanel {
 	 * new AbstractAction() { public void actionPerformed(ActionEvent e) { if
 	 * (editor.getSelectedText() == null) return; doCopy();
 	 * editor.replaceSelection(""); }
-	 *  
+	 *
 	 */
 
 	public Action styleCopyAction = new HTMLEditorKit.CopyAction();
@@ -339,12 +425,18 @@ public class HTMLEditor extends JPanel {
 		public Action pasteAction = //new HTMLEditorKit.PasteAction();
 
 	new AbstractAction() {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -8045517015076131630L;
+
 		public void actionPerformed(ActionEvent e) {
 				//editor.paste();
 	doPaste();
 		}
 	};
 
+	@SuppressWarnings("unused")
 	private void doCopy() {
 		/*
 		 * java.awt.datatransfer.Clipboard clip =
@@ -396,18 +488,6 @@ public class HTMLEditor extends JPanel {
 				editor.getSelectionEnd() - editor.getSelectionStart(),
 				txt,
 				editorKit.getInputAttributes());
-			//editor.replaceSelection(content.getTransferData(new
-			// DataFlavor(String.class, "String")).toString());
-			//editor.paste();
-			//insertHTML(content.getTransferData(new DataFlavor(String.class,
-			// "String")).toString(), editor.getCaretPosition());
-			/*
-			 * Element el =
-			 * document.getParagraphElement(editor.getCaretPosition());
-			 * insertTextInElement(el, content.getTransferData(new
-			 * DataFlavor(String.class, "String")).toString(),
-			 */
-
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -426,12 +506,22 @@ public class HTMLEditor extends JPanel {
 	 */
 
 	public Action zoomInAction = new AbstractAction() {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 7404476037258923690L;
+
 		public void actionPerformed(ActionEvent e) {
 			doZoom(true);
 		}
 	};
 
 	public Action zoomOutAction = new AbstractAction() {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 7484986668036595526L;
+
 		public void actionPerformed(ActionEvent e) {
 			doZoom(false);
 		}
@@ -465,7 +555,6 @@ public class HTMLEditor extends JPanel {
 	public final int T_H5 = 5;
 	public final int T_H6 = 6;
 	public final int T_PRE = 7;
-	//private final int T_ADDRESS = 8;
 	public final int T_BLOCKQ = 8; //9;
 
 	String[] elementTypes =
@@ -480,7 +569,7 @@ public class HTMLEditor extends JPanel {
 			Local.getString("Preformatted"),
 		//"Address",
 		Local.getString("Blockquote")};
-	public JComboBox blockCB = new JComboBox(elementTypes);
+	public JComboBox<String> blockCB = new JComboBox<String>(elementTypes);
 	boolean blockCBEventsLock = false;
 
 	public final int I_NORMAL = 0;
@@ -502,7 +591,7 @@ public class HTMLEditor extends JPanel {
 			Local.getString("Superscript"),
 			Local.getString("Subscript"),
 			Local.getString("Custom style") + "..." };
-	public JComboBox inlineCB = new JComboBox(inlineTypes);
+	public JComboBox<String> inlineCB = new JComboBox<String>(inlineTypes);
 	boolean inlineCBEventsLock = false;
 
 	JButton boldActionB = new JButton();
@@ -513,7 +602,6 @@ public class HTMLEditor extends JPanel {
 	JButton underActionB = new JButton();
 	BorderLayout borderLayout1 = new BorderLayout();
 	JPopupMenu defaultPopupMenu = new JPopupMenu();
-	//JPopupMenu tablePopupMenu = new JPopupMenu();
 
 	JMenuItem jMenuItemUndo = new JMenuItem(undoAction);
 	JMenuItem jMenuItemRedo = new JMenuItem(redoAction);
@@ -623,15 +711,6 @@ public class HTMLEditor extends JPanel {
 				new Color(142, 142, 142),
 				new Color(99, 99, 99));
 		this.setLayout(borderLayout1);
-
-		/*
-		 * jAlignActionB.setIcon( new
-		 * ImageIcon(net.sf.memoranda.ui.htmleditor.HTMLEditor.class.getResource("resources/icons/alignjust.png")));
-		 * jAlignActionB.setMaximumSize(new Dimension(22, 22));
-		 * jAlignActionB.setMinimumSize(new Dimension(22, 22));
-		 * jAlignActionB.setPreferredSize(new Dimension(22, 22));
-		 * jAlignActionB.setFocusable(false);
-		 */
 
 		editor.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
@@ -833,42 +912,13 @@ public class HTMLEditor extends JPanel {
 		toolsPanel.setTabPlacement(JTabbedPane.BOTTOM);
 		toolsPanel.setFont(new Font("Dialog", 1, 10));
 
-		//  editToolbar.add(jAlignActionB, null);
-
 		/* KEY ACTIONS */
-
-		/*
-		 * editor.getKeymap().addActionForKeyStroke(
-		 * KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, KeyEvent.SHIFT_MASK),
-		 */
 
 		editor.getKeymap().removeKeyStrokeBinding(
 			KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
 		editor.getKeymap().addActionForKeyStroke(
 			KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
 			new ParaBreakAction());
-
-		/*
-		 * editor.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_B,
-		 * KeyEvent.CTRL_MASK), boldAction);
-		 * editor.getKeymap().addActionForKeyStroke(
-		 * KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_MASK),
-		 * italicAction); editor.getKeymap().addActionForKeyStroke(
-		 * KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_MASK),
-		 */
-
-		/*
-		 * editor.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-		 * KeyEvent.CTRL_MASK), undoAction);
-		 * editor.getKeymap().addActionForKeyStroke(
-		 * KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_MASK +
-		 * KeyEvent.SHIFT_MASK), redoAction);
-		 * editor.getKeymap().addActionForKeyStroke(
-		 * KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, KeyEvent.CTRL_MASK +
-		 * KeyEvent.SHIFT_MASK), insertTableCellAction);
-		 * editor.getKeymap().addActionForKeyStroke(
-		 * KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, KeyEvent.CTRL_MASK),
-		 */
 
 		editor.getKeymap().removeKeyStrokeBinding(
 			KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
@@ -895,71 +945,8 @@ public class HTMLEditor extends JPanel {
 		editor.getKeymap().addActionForKeyStroke(
 			KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_MASK),
 			findAction);
-		/*
-		 * editor.getKeymap().addActionForKeyStroke(
-		 * KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, KeyEvent.CTRL_MASK),
-		 * zoomInAction); editor.getKeymap().addActionForKeyStroke(
-		 * KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, KeyEvent.CTRL_MASK),
-		 */
 
 		/* POPUP MENUs */
-
-		/*
-		 * jMenuItemUndo.setAction(undoAction); jMenuItemUndo.setText("Undo");
-		 * jMenuItemUndo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-		 * KeyEvent.CTRL_MASK)); jMenuItemUndo.setIcon( new
-		 * ImageIcon(net.sf.memoranda.ui.htmleditor.AppFrame.class.getResource("resources/icons/undo16.png")));
-		 * 
-		 * jMenuItemRedo.setAction(redoAction); jMenuItemRedo.setText("Redo");
-		 * jMenuItemRedo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-		 * KeyEvent.CTRL_MASK + KeyEvent.SHIFT_MASK)); jMenuItemRedo.setIcon(
-		 * new
-		 * ImageIcon(net.sf.memoranda.ui.htmleditor.AppFrame.class.getResource("resources/icons/redo16.png")));
-		 * 
-		 * jMenuItemCut.setAction(cutAction); jMenuItemCut.setText("Cut");
-		 * jMenuItemCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
-		 * KeyEvent.CTRL_MASK)); jMenuItemCut.setIcon( new
-		 * ImageIcon(net.sf.memoranda.ui.htmleditor.AppFrame.class.getResource("resources/icons/cut.png")));
-		 * 
-		 * jMenuItemCopy.setAction(copyAction); jMenuItemCopy.setText("Copy");
-		 * jMenuItemCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
-		 * KeyEvent.CTRL_MASK)); jMenuItemCopy.setIcon( new
-		 * ImageIcon(net.sf.memoranda.ui.htmleditor.AppFrame.class.getResource("resources/icons/copy.png")));
-		 * 
-		 * jMenuItemPaste.setAction(pasteAction);
-		 * jMenuItemPaste.setText("Paste");
-		 * jMenuItemPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
-		 * KeyEvent.CTRL_MASK)); jMenuItemPaste.setIcon( new
-		 * ImageIcon(net.sf.memoranda.ui.htmleditor.AppFrame.class.getResource("resources/icons/paste.png")));
-		 * 
-		 * jMenuItemProp.setAction(propsAction);
-		 * jMenuItemProp.setText("Properties"); jMenuItemProp.setIcon(
-		 */
-
-		/*
-		 * defaultPopupMenu.add(jMenuItemUndo);
-		 * defaultPopupMenu.add(jMenuItemRedo);
-		 * defaultPopupMenu.addSeparator(); defaultPopupMenu.add(jMenuItemCut);
-		 * defaultPopupMenu.add(jMenuItemCopy);
-		 * defaultPopupMenu.add(jMenuItemPaste);
-		 * defaultPopupMenu.addSeparator();
-		 */
-
-		/*
-		 * jMenuItemInsCell.setAction(new InsertTableCellAction());
-		 * jMenuItemInsCell.setText(Local.getString("Insert table cell"));
-		 * 
-		 * jMenuItemInsRow.setAction(new InsertTableRowAction());
-		 */
-
-		/*
-		 * tablePopupMenu.add(jMenuItemUndo);
-		 * tablePopupMenu.add(jMenuItemRedo); tablePopupMenu.addSeparator();
-		 * tablePopupMenu.add(jMenuItemCut); tablePopupMenu.add(jMenuItemCopy);
-		 * tablePopupMenu.add(jMenuItemPaste); tablePopupMenu.addSeparator();
-		 * tablePopupMenu.add(jMenuItemInsCell);
-		 * tablePopupMenu.add(jMenuItemInsRow); tablePopupMenu.addSeparator();
-		 */
 
 		editor.addMouseListener(new PopupListener());
 
@@ -1025,6 +1012,11 @@ public class HTMLEditor extends JPanel {
 	}
 
 	class UndoAction extends AbstractAction {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -288372061171687713L;
+
 		public UndoAction() {
 			super(Local.getString("Undo"));
 			setEnabled(false);
@@ -1061,6 +1053,11 @@ public class HTMLEditor extends JPanel {
 	}
 
 	class RedoAction extends AbstractAction {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -950405195883742558L;
+
 		public RedoAction() {
 			super(Local.getString("Redo"));
 			setEnabled(false);
@@ -1099,6 +1096,10 @@ public class HTMLEditor extends JPanel {
 	}
 
 	public class BlockAction extends AbstractAction {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -2911742664415364460L;
 		int _type;
 
 		public BlockAction(int type, String name) {
@@ -1112,6 +1113,10 @@ public class HTMLEditor extends JPanel {
 	}
 
 	public class InlineAction extends AbstractAction {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 5958852276817748847L;
 		int _type;
 
 		public InlineAction(int type, String name) {
@@ -1141,10 +1146,6 @@ public class HTMLEditor extends JPanel {
 		}
 		bold = !bold;
 		boldActionB.setBorderPainted(bold);
-		/*
-		 * SimpleAttributeSet attrs = new SimpleAttributeSet();
-		 * attrs.addAttribute(StyleConstants.Bold, new Boolean(bold));
-		 */
 		new StyledEditorKit.BoldAction().actionPerformed(e);
 	}
 
@@ -1156,10 +1157,6 @@ public class HTMLEditor extends JPanel {
 		}
 		italic = !italic;
 		italicActionB.setBorderPainted(italic);
-		/*
-		 * SimpleAttributeSet attrs = new SimpleAttributeSet();
-		 * attrs.addAttribute(StyleConstants.Italic, new Boolean(italic));
-		 */
 		new StyledEditorKit.ItalicAction().actionPerformed(e);
 	}
 
@@ -1171,26 +1168,14 @@ public class HTMLEditor extends JPanel {
 		}
 		under = !under;
 		underActionB.setBorderPainted(under);
-		/*
-		 * SimpleAttributeSet attrs = new SimpleAttributeSet();
-		 * attrs.addAttribute(StyleConstants.Underline, new Boolean(under));
-		 */
 
 		new StyledEditorKit.UnderlineAction().actionPerformed(e);
 	}
 
 	void editor_caretUpdate(CaretEvent e) {
 		currentCaret = e.getDot();
-		/*
-		 * currentParaElement =
-		 * document.getParagraphElement(editor.getCaretPosition());
-		 * currentTagName = currentParaElement.getName().toUpperCase();
-		 */
 
 		AttributeSet charattrs = null;
-		//System.out.print(editor.getCaretPosition()+" :
-		// "+document.getCharacterElement(editor.getCaretPosition()).getName()+"
-		// -> ");
 		if (editor.getCaretPosition() > 0)
 			try {
 				charattrs =
@@ -1232,11 +1217,7 @@ public class HTMLEditor extends JPanel {
 			under = false;
 		}
 		underActionB.setBorderPainted(under);
-		/*
-		 * String iName = document
-		 * .getCharacterElement(editor.getCaretPosition()) .getAttributes()
-		 * .getAttribute(StyleConstants.NameAttribute) .toString()
-		 */
+
 		inlineCBEventsLock = true;
 		inlineCB.setEnabled(!charattrs.isDefined(HTML.Tag.A));
 		if (charattrs.isDefined(HTML.Tag.EM))
@@ -1281,26 +1262,11 @@ public class HTMLEditor extends JPanel {
 			blockCB.setSelectedIndex(T_H6);
 		else if (pName.equals("PRE"))
 			blockCB.setSelectedIndex(T_PRE);
-		/*
-		 * else if (pName.equals("ADDRESS"))
-		 */
 		else if (pName.equals("BLOCKQUOTE"))
 			blockCB.setSelectedIndex(T_BLOCKQ);
 		blockCBEventsLock = false;
 		this.insertTableCellAction.update();
 		this.insertTableRowAction.update();
-		/*
-		 * String ppName =
-		 * document.getParagraphElement(editor.getCaretPosition()).getParentElement().getName().toUpperCase();
-		 * System.out.print(ppName+"->"+pName+":");
-		 * 
-		 * AbstractDocument.BranchElement pEl =
-		 * (AbstractDocument.BranchElement)document.getParagraphElement(editor.getCaretPosition());
-		 * Element el = pEl.positionToElement(editor.getCaretPosition());
-		 * System.out.println(el.getAttributes().getAttribute(StyleConstants.NameAttribute)+",
-		 * "+pEl.getElementCount()+"/"+el.getElementCount());
-		 */
-
 	}
 
 	public void ulActionB_actionPerformed(ActionEvent e) {
@@ -1317,22 +1283,7 @@ public class HTMLEditor extends JPanel {
 				parentTag,
 				HTML.Tag.UL);
 		ulAction.actionPerformed(e);
-		//removeIfEmpty(document.getParagraphElement(editor.getCaretPosition()-1));
 		list = true;
-		/*
-		 * Element pEl =
-		 * document.getParagraphElement(editor.getCaretPosition());
-		 * StringWriter sw = new StringWriter(); try { editorKit.write(sw,
-		 * document, pEl.getStartOffset(),
-		 * pEl.getEndOffset()-pEl.getStartOffset()); String copy =
-		 * sw.toString(); String elName = pEl.getName(); copy =
-		 * copy.substring(copy.indexOf(" <"+elName)); copy =
-		 * copy.substring(0,copy.indexOf(" </"+elName)+elName.length()+3);
-		 * document.setOuterHTML(pEl, " <ul><li> "+copy+" </li></ul> ");
-		 * System.out.println(copy); } catch (Exception ex){
-		 * ex.printStackTrace();
-		 */
-
 	}
 
 	public void olActionB_actionPerformed(ActionEvent e) {
@@ -1349,7 +1300,6 @@ public class HTMLEditor extends JPanel {
 				parentTag,
 				HTML.Tag.OL);
 		olAction.actionPerformed(e);
-		//removeIfEmpty(document.getParagraphElement(editor.getCaretPosition()-1));
 		list = true;
 	}
 
@@ -1364,6 +1314,11 @@ public class HTMLEditor extends JPanel {
 	}
 
 	class ParaBreakAction extends AbstractAction {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -1706212717498057741L;
+
 		ParaBreakAction() {
 			super("ParaBreakAction");
 		}
@@ -1378,8 +1333,6 @@ public class HTMLEditor extends JPanel {
 			if (parentname.toUpperCase().equals("P-IMPLIED"))
 				parentTag = HTML.Tag.IMPLIED;
 			if (parentname.toLowerCase().equals("li")) {
-				// HTML.Tag listTag =
-				// HTML.getTag(elem.getParentElement().getParentElement().getName());
 				if (elem.getEndOffset() - elem.getStartOffset() > 1) {
 					try {
 						document.insertAfterEnd(
@@ -1390,11 +1343,6 @@ public class HTMLEditor extends JPanel {
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
-					/*
-					 * HTMLEditorKit.InsertHTMLTextAction liAction = new
-					 * HTMLEditorKit.InsertHTMLTextAction("insertLI", " <li>
-					 * </li> ", parentTag, HTML.Tag.LI);
-					 */
 				} else {
 					try {
 						document.remove(editor.getCaretPosition(), 1);
@@ -1450,16 +1398,6 @@ public class HTMLEditor extends JPanel {
 				System.out.println("PRE");
 				pAction.actionPerformed(e);
 			} else if (elName.equals("P-IMPLIED")) {
-				/*
-				 * HTML.Tag sParentTag =
-				 * HTML.getTag(elem.getParentElement().getParentElement().getName());
-				 * if (editor.getCaretPosition() > 0)
-				 * removeIfEmpty(document.getParagraphElement(editor.getCaretPosition() -
-				 * 1)); HTMLEditorKit.InsertHTMLTextAction pAction = new
-				 * HTMLEditorKit.InsertHTMLTextAction("insertP", " <p></p> ",
-				 * sParentTag, HTML.Tag.P);
-				 * System.out.println(sParentTag.toString());
-				 */
 				try {
 					System.out.println("IMPLIED");
 					document.insertAfterEnd(elem.getParentElement(), "<p></p>");
@@ -1470,27 +1408,20 @@ public class HTMLEditor extends JPanel {
 				}
 
 			} else {
-				//removeIfEmpty(editor.getStyledDocument().getParagraphElement(editor.getCaretPosition()-1));
-				/*
-				 * HTMLEditorKit.InsertHTMLTextAction pAction = new
-				 * HTMLEditorKit.InsertHTMLTextAction("insertP"," <p></p> ",
-				 * HTML.Tag.BODY, HTML.Tag.P);
-				 */
-
-				//HTMLEditorKit.InsertBreakAction iba = new
-				// HTMLEditorKit.InsertBreakAction();
-				//iba.actionPerformed(e);
 				editor.replaceSelection("\n");
 				editorKit.getInputAttributes().removeAttribute(
 					HTML.Attribute.ID);
 				editorKit.getInputAttributes().removeAttribute(
 					HTML.Attribute.CLASS);
 			}
-			//System.out.println(e.getWhen());
 		}
 	}
 
 	class BreakAction extends AbstractAction {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -71599531289888744L;
 		BreakAction() {
 			super(
 				Local.getString("Insert break"),
@@ -1501,11 +1432,6 @@ public class HTMLEditor extends JPanel {
 				document
 					.getParagraphElement(editor.getCaretPosition())
 					.getName();
-			/*
-			 * if ((elName.toUpperCase().equals("PRE")) ||
-			 * (elName.toUpperCase().equals("P-IMPLIED"))) {
-			 * editor.replaceSelection("\r"); return;
-			 */
 			HTML.Tag tag = HTML.getTag(elName);
 			if (elName.toUpperCase().equals("P-IMPLIED"))
 				tag = HTML.Tag.IMPLIED;
@@ -1517,13 +1443,15 @@ public class HTMLEditor extends JPanel {
 					tag,
 					HTML.Tag.BR);
 			hta.actionPerformed(e);
-
-			//insertHTML("<br>",editor.getCaretPosition());
-
 		}
 	}
 
 	class InsertTableRowAction extends AbstractAction {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -3914461675784724307L;
+
 		InsertTableRowAction() {
 			super(Local.getString("Insert table row"));
 			this.putValue(
@@ -1541,16 +1469,8 @@ public class HTMLEditor extends JPanel {
 				if (tr.getElement(i).getName().toUpperCase().equals("TD"))
 					trTag += "<td><p></p></td>";
 			trTag += "</tr>";
-
-			/*
-			 * HTMLEditorKit.InsertHTMLTextAction hta = new
-			 * HTMLEditorKit.InsertHTMLTextAction("insertTR",trTag,
-			 * HTML.Tag.TABLE, HTML.Tag.TR);
-			 */
 			try {
 				document.insertAfterEnd(tr, trTag);
-				//editorKit.insertHTML(document, editor.getCaretPosition(),
-				// trTag, 3, 0, HTML.Tag.TR);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1573,6 +1493,11 @@ public class HTMLEditor extends JPanel {
 	}
 
 	class InsertTableCellAction extends AbstractAction {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 6750147525275804909L;
+
 		InsertTableCellAction() {
 			super(Local.getString("Insert table cell"));
 			this.putValue(
@@ -1655,17 +1580,6 @@ public class HTMLEditor extends JPanel {
 	}
 
 	public void imageActionB_actionPerformed(ActionEvent e) {
-		/*
-		 * JFileChooser chooser = new JFileChooser();
-		 * chooser.setFileHidingEnabled(false); chooser.setDialogTitle("Choose
-		 * image file"); chooser.setAcceptAllFileFilterUsed(false);
-		 * chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		 * chooser.addChoosableFileFilter(new
-		 * net.sf.memoranda.ui.htmleditor.filechooser.ImageFilter());
-		 * chooser.setAccessory(new
-		 * net.sf.memoranda.ui.htmleditor.filechooser.ImagePreview(chooser));
-		 *  
-		 */
 		ImageDialog dlg = new ImageDialog(null);
 		Dimension dlgSize = dlg.getPreferredSize();
 		Dimension frmSize = this.getSize();
@@ -1673,17 +1587,11 @@ public class HTMLEditor extends JPanel {
 		dlg.setLocation(
 			(frmSize.width - dlgSize.width) / 2 + loc.x,
 			(frmSize.height - dlgSize.height) / 2 + loc.y);
-		//dlg.setLocation(imageActionB.getLocationOnScreen());
+
 		dlg.setModal(true);
 		dlg.setVisible(true);
 
 		if (!dlg.CANCELLED) {
-			String parentname =
-				document
-					.getParagraphElement(editor.getCaretPosition())
-					.getParentElement()
-					.getName();
-			//HTML.Tag parentTag = HTML.getTag(parentname);
 			String urlString = dlg.fileField.getText();
 			String path = urlString;
 			if (imagesDir != null) {
@@ -1766,9 +1674,6 @@ public class HTMLEditor extends JPanel {
 						0,
 						0,
 						HTML.Tag.IMG);
-
-				//System.out.println(imgTag);
-
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -1850,14 +1755,6 @@ public class HTMLEditor extends JPanel {
 				.getName();
 		HTML.Tag parentTag = HTML.getTag(parentname);
 		System.out.println(parentTag + ":\n" + tableTag);
-		/*
-		 * HTMLEditorKit.InsertHTMLTextAction insertTableAction = new
-		 * HTMLEditorKit.InsertHTMLTextAction("insertTABLE",tableTag,
-		 * HTML.Tag.BODY, HTML.Tag.TABLE);
-		 *  
-		 */
-		//insertHTML(tableTag, editor.getCaretPosition());
-
 		try {
 			editorKit.insertHTML(
 				document,
@@ -1866,7 +1763,6 @@ public class HTMLEditor extends JPanel {
 				1,
 				0,
 				HTML.Tag.TABLE);
-			//removeIfEmpty(document.getParagraphElement(editor.getCaretPosition()-1));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -1874,7 +1770,6 @@ public class HTMLEditor extends JPanel {
 
 	public void linkActionB_actionPerformed(ActionEvent e) {
 		LinkDialog dlg = new LinkDialog(null);
-		//dlg.setLocation(linkActionB.getLocationOnScreen());
 		Dimension dlgSize = dlg.getPreferredSize();
 		Dimension frmSize = this.getSize();
 		Point loc = this.getLocationOnScreen();
@@ -1922,7 +1817,6 @@ public class HTMLEditor extends JPanel {
 		LinkDialog dlg = new LinkDialog(null);
 		dlg.setLocation(linkActionB.getLocationOnScreen());
 		dlg.setModal(true);
-		//dlg.descPanel.setVisible(false);
 		dlg.txtURL.setText(href);
 		dlg.txtName.setText(name);
 		dlg.txtTitle.setText(title);
@@ -1940,24 +1834,7 @@ public class HTMLEditor extends JPanel {
 		dlg.setVisible(true);
 		if (dlg.CANCELLED)
 			return;
-		//String p = "";
-		/*
-		 * SimpleAttributeSet attrs = new
-		 * SimpleAttributeSet(el.getAttributes()); if
-		 * (dlg.urlField.getText().length() >0) {
-		 * attrs.addAttribute(HTML.Attribute.HREF, dlg.urlField.getText()); p +=
-		 * "href="+dlg.urlField.getText()+" "; } if
-		 * (dlg.nameField.getText().length() >0) {
-		 * attrs.addAttribute(HTML.Attribute.NAME, dlg.nameField.getText()); p +=
-		 * "name="+dlg.nameField.getText()+" "; } if
-		 * (dlg.titleField.getText().length() >0) {
-		 * attrs.addAttribute(HTML.Attribute.TITLE, dlg.titleField.getText());
-		 * p += "title="+dlg.titleField.getText()+" "; } if
-		 * (dlg.newWinChB.isSelected()) {
-		 * attrs.addAttribute(HTML.Attribute.TARGET, "_blank"); p +=
-		 * "target=_blank "; } attrs.addAttribute(StyleConstants.NameAttribute,
-		 * "a"); attrs.addAttribute(HTML.Tag.A, p);
-		 */
+
 		String aTag = "<a";
 		if (dlg.txtURL.getText().length() > 0)
 			aTag += " href=\"" + dlg.txtURL.getText() + "\"";
@@ -2060,7 +1937,6 @@ public class HTMLEditor extends JPanel {
 
 	void setElementProperties(Element el, String id, String cls, String sty) {
 		ElementDialog dlg = new ElementDialog(null);
-		//dlg.setLocation(linkActionB.getLocationOnScreen());
 		Dimension dlgSize = dlg.getPreferredSize();
 		Dimension frmSize = this.getSize();
 		Point loc = this.getLocationOnScreen();
@@ -2072,8 +1948,6 @@ public class HTMLEditor extends JPanel {
 		dlg.idField.setText(id);
 		dlg.classField.setText(cls);
 		dlg.styleField.setText(sty);
-		// Uncommented, returns a simple p into the header... fix needed ?
-		//dlg.header.setText(el.getName());
 		dlg.setVisible(true);
 		if (dlg.CANCELLED)
 			return;
@@ -2316,11 +2190,7 @@ public class HTMLEditor extends JPanel {
 			copy = sw.toString();
 			copy = copy.split("<td(.*?)>")[1];
 			copy = copy.split("</td>")[0];
-			//System.out.println(tdTag+copy+"</td>");
 			document.setOuterHTML(td, tdTag + copy + "</td>");
-
-			//System.out.println("*******");
-
 			sw = new StringWriter();
 			editorKit.write(
 				sw,
@@ -2330,10 +2200,7 @@ public class HTMLEditor extends JPanel {
 			copy = sw.toString();
 			copy = copy.split("<tr(.*?)>")[1];
 			copy = copy.split("</tr>")[0];
-			//System.out.println(trTag+copy+"</tr>");
 			document.setOuterHTML(tr, trTag + copy + "</tr>");
-
-			//System.out.println("*******");
 
 			sw = new StringWriter();
 			editorKit.write(
@@ -2344,7 +2211,6 @@ public class HTMLEditor extends JPanel {
 			copy = sw.toString();
 			copy = copy.split("<table(.*?)>")[1];
 			copy = copy.split("</table>")[0];
-			//System.out.println(tTag+copy+"</table>");
 			document.setOuterHTML(table, tTag + copy + "</table>");
 
 		} catch (Exception ex) {
@@ -2356,24 +2222,6 @@ public class HTMLEditor extends JPanel {
 		if (blockCBEventsLock)
 			return;
 		int sel = blockCB.getSelectedIndex();
-		/*
-		 * HTML.Tag parentTag =
-		 * HTML.getTag(document.getParagraphElement(editor.getCaretPosition()).getParentElement().getName());
-		 * HTML.Tag tag = null; String tagText = ""; switch (sel) { case T_P:
-		 * tag = HTML.Tag.P; tagText=" <p></p> ";break; //case T_PRE: tag =
-		 * HTML.Tag.PRE; tagText=" <pre></pre> ";break; case T_H1: tag =
-		 * HTML.Tag.H1; tagText=" <h1></h1> ";break; case T_H2: tag =
-		 * HTML.Tag.H2; tagText=" <h2></h2> ";break; case T_H3: tag =
-		 * HTML.Tag.H3; tagText=" <h3></h3> ";break; case T_H4: tag =
-		 * HTML.Tag.H4; tagText=" <h4></h4> ";break; case T_H5: tag =
-		 * HTML.Tag.H5; tagText=" <h5></h5> ";break; case T_H6: tag =
-		 * HTML.Tag.H6; tagText=" <h6></h6> ";break; }
-		 * 
-		 * HTMLEditorKit.InsertHTMLTextAction iAction = new
-		 * HTMLEditorKit.InsertHTMLTextAction("insertTag",tagText, parentTag,
-		 * tag); iAction.actionPerformed(e);
-		 * System.out.println(tag.toString()+" -> "+parentTag.toString());
-		 */
 
 		HTML.Tag tag = null;
 
@@ -2402,9 +2250,6 @@ public class HTMLEditor extends JPanel {
 			case T_PRE :
 				tag = HTML.Tag.PRE;
 				break;
-				/*
-				 * case T_ADDRESS : tag = HTML.Tag.ADDRESS;
-				 */
 			case T_BLOCKQ :
 				tag = HTML.Tag.BLOCKQUOTE;
 				break;
@@ -2435,7 +2280,6 @@ public class HTMLEditor extends JPanel {
 			}
 		}
 		SimpleAttributeSet attrs = new SimpleAttributeSet(el.getAttributes());
-		//attrs.removeAttribute(StyleConstants.NameAttribute);
 		attrs.addAttribute(StyleConstants.NameAttribute, tag);
 		if (editor.getSelectionEnd() - editor.getSelectionStart() > 0)
 			document.setParagraphAttributes(
@@ -2454,11 +2298,6 @@ public class HTMLEditor extends JPanel {
 
 	public void propsActionB_actionPerformed(ActionEvent e) {
 
-		/*
-		 * Element p = document.getParagraphElement(editor.getCaretPosition());
-		 * do { System.out.print(p.getName()+" / "); p = p.getParentElement();}
-		 */
-
 		AbstractDocument.BranchElement pEl =
 			(AbstractDocument.BranchElement) document.getParagraphElement(
 				editor.getCaretPosition());
@@ -2470,12 +2309,7 @@ public class HTMLEditor extends JPanel {
 			":"
 				+ el.getAttributes().getAttribute(StyleConstants.NameAttribute));
 		AttributeSet attrs = el.getAttributes();
-		/*
-		 * Enumeration en = attrs.getAttributeNames(); Object k =
-		 * en.nextElement(); while (en.hasMoreElements()) {
-		 * System.out.println(k+" = '"+attrs.getAttribute(k)+"'"); k =
-		 * en.nextElement();
-		 */
+
 		String elName =
 			attrs
 				.getAttribute(StyleConstants.NameAttribute)
@@ -2520,7 +2354,7 @@ public class HTMLEditor extends JPanel {
 		}
 
 		Object k = null;
-		for (Enumeration en = attrs.getAttributeNames();
+		for (Enumeration<?> en = attrs.getAttributeNames();
 			en.hasMoreElements();
 			) {
 			k = en.nextElement();
@@ -2556,25 +2390,7 @@ public class HTMLEditor extends JPanel {
 		if (pa.getAttribute(HTML.Attribute.STYLE) != null)
 			sty = pa.getAttribute(HTML.Attribute.STYLE).toString();
 		setElementProperties(pEl, id, cls, sty);
-
 	}
-
-	/*
-	 * void dotestCharElement(ActionEvent e) { String text = "&nbsp;"; if
-	 * (editor.getSelectedText() != null) text = editor.getSelectedText();
-	 * String tag = " <code> " + text + " </code> "; if
-	 * (editor.getCaretPosition() == document.getLength()) tag += "&nbsp;";
-	 * editor.replaceSelection(""); try { editorKit.insertHTML(document,
-	 * editor.getCaretPosition(), tag, 0, 0, HTML.Tag.CODE); } catch (Exception
-	 * ex) { ex.printStackTrace(); } }
-	 * 
-	 * void dotestClearStyle(ActionEvent e) { Element el =
-	 * document.getCharacterElement(editor.getCaretPosition());
-	 * SimpleAttributeSet attrs = new SimpleAttributeSet();
-	 * attrs.addAttribute(StyleConstants.NameAttribute, HTML.Tag.CONTENT);
-	 * document.setCharacterAttributes(el.getStartOffset(), el.getEndOffset() -
-	 * el.getStartOffset(), attrs, true); }
-	 */
 
 	String setFontProperties(Element el, String text) {
 		FontDialog dlg = new FontDialog(null);
@@ -2587,17 +2403,6 @@ public class HTMLEditor extends JPanel {
 			(frmSize.height - dlgSize.height) / 2 + loc.y);
 		dlg.setModal(true);
 		AttributeSet ea = el.getAttributes();
-		/*
-		 * if (ea.isDefined(HTML.Tag.FONT)) { String[] param =
-		 * ea.getAttribute(HTML.Tag.FONT).toString().split(" "); for (int i = 0;
-		 * i < param.length; i++) if (param[i].startsWith("face="))
-		 * dlg.fontFamilyCB.setSelectedItem(param[i].split("=")[1]); else if
-		 * (param[i].startsWith("size="))
-		 * dlg.fontSizeCB.setSelectedItem(param[i].split("=")[1]); else if
-		 * (param[i].startsWith("color=")) {
-		 * dlg.colorField.setText(param[i].split("=")[1]);
-		 * Util.setColorField(dlg.colorField); }
-		 */
 		if (ea.isDefined(StyleConstants.FontFamily))
 			dlg.fontFamilyCB.setSelectedItem(
 				ea.getAttribute(StyleConstants.FontFamily).toString());
@@ -2713,14 +2518,6 @@ public class HTMLEditor extends JPanel {
 		/**
 		 * @todo: ZOOM
 		 */
-
-		/*
-		 * if (in && (currentFontSize < 7)) currentFontSize++; else if (!in &&
-		 * (currentFontSize > 1)) currentFontSize--; else return;
-		 * editorKit.getStyleSheet().setBaseFontSize(currentFontSize);
-		 *  
-		 */
-
 	}
 
 	public void setDocument(Document doc) {
@@ -2745,26 +2542,20 @@ public class HTMLEditor extends JPanel {
 		StyleSheet css = new StyleSheet();
 		try {
 			css.loadRules(r, null);
-			/*
-			 * new InputStreamReader(
-			 * net.sf.memoranda.ui.htmleditor.HTMLEditor.class.getResourceAsStream("resources/css/default.css")),
-			 */
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		editorKit.setStyleSheet(css);
 	}
-	
-	public void reload() {	
-		
+
+	public void reload() {
+
 	}
 
 	void doFind() {
 		FindDialog dlg = new FindDialog();
-		//dlg.setLocation(linkActionB.getLocationOnScreen());
 		Dimension dlgSize = dlg.getSize();
-		//dlg.setSize(400, 300);
 		Dimension frmSize = this.getSize();
 		Point loc = this.getLocationOnScreen();
 		dlg.setLocation(
@@ -2791,6 +2582,5 @@ public class HTMLEditor extends JPanel {
 				dlg.chkRegExp.isSelected(),
 				repl);
 		finder.start();
-
 	}
 }

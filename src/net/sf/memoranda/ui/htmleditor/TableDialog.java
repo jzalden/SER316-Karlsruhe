@@ -35,6 +35,11 @@ import net.sf.memoranda.ui.htmleditor.util.Local;
  */
 
 public class TableDialog extends JDialog {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 7751504327581461187L;
+
 	JPanel areaPanel = new JPanel(new GridBagLayout());
 	GridBagConstraints gbc;
 	JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
@@ -55,9 +60,9 @@ public class TableDialog extends JDialog {
 	public boolean CANCELLED = false;
 	JLabel lblColumns = new JLabel();
 	JLabel lblRows = new JLabel();
-	JComboBox vAlignCB = new JComboBox(valigns);
+	JComboBox<String> vAlignCB = new JComboBox<String>(valigns);
 	JLabel lblOutline = new JLabel();
-	JComboBox alignCB = new JComboBox(aligns);
+	JComboBox<String> alignCB = new JComboBox<String>(aligns);
 	JLabel lblVertOutline = new JLabel();
 	JTextField bgcolorField = new JTextField();
 	JLabel lblFillColor = new JLabel();
@@ -94,7 +99,7 @@ public class TableDialog extends JDialog {
 				"resources/icons/tablebig.png")));
 		headerPanel.add(header);
 		this.getContentPane().add(headerPanel, BorderLayout.NORTH);
-		
+
 		areaPanel.setBorder(BorderFactory.createEtchedBorder(Color.white,
 			new Color(142, 142, 142)));
 		lblColumns.setText(Local.getString("Columns"));
@@ -211,12 +216,12 @@ public class TableDialog extends JDialog {
 		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.insets = new Insets(5, 5, 10, 5);
-		areaPanel.add(alignCB, gbc);																																																																				
+		areaPanel.add(alignCB, gbc);
 		lblVertOutline.setText(Local.getString("Vert. align"));
 		gbc.gridx = 3; gbc.gridy = 4;
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.insets = new Insets(5, 5, 10, 5);
-		areaPanel.add(lblVertOutline, gbc);		
+		areaPanel.add(lblVertOutline, gbc);
 		vAlignCB.setPreferredSize(new Dimension(70, 25));
 		vAlignCB.setFont(new java.awt.Font("Dialog", 1, 10));
 		vAlignCB.setBackground(new Color(230, 230, 230));
@@ -303,5 +308,4 @@ public class TableDialog extends JDialog {
 			"#" + Integer.toHexString(c.getRGB()).substring(2).toUpperCase());
 		Util.setBgcolorField(bgcolorField);
 	}
-
 }

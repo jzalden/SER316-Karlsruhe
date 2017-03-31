@@ -276,7 +276,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 						.toString()
 						.equals(CurrentProject.get().getID());
 				ppDeleteProject.setEnabled(enabled);
-				ppOpenProject.setEnabled(enabled)
+				ppOpenProject.setEnabled(enabled);
 				ppProperties.setEnabled(true);
 			}
 		});

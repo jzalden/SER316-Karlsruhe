@@ -31,7 +31,7 @@ import net.sf.memoranda.ui.htmleditor.util.Local;
 
 public class ElementDialog extends JDialog {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -5457933709263982974L;
 
@@ -97,7 +97,7 @@ public class ElementDialog extends JDialog {
 		gbc.gridx = 0; gbc.gridy = 1;
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.insets = new Insets(5, 10, 5, 5);
-		areaPanel.add(lblClass, gbc);		
+		areaPanel.add(lblClass, gbc);
 		classField.setPreferredSize(new Dimension(300, 25));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1; gbc.gridy = 1;
@@ -116,7 +116,7 @@ public class ElementDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.insets = new Insets(5, 5, 10, 10);
 		areaPanel.add(styleField, gbc);
-		this.getContentPane().add(areaPanel, BorderLayout.CENTER);				
+		this.getContentPane().add(areaPanel, BorderLayout.CENTER);
 
 		cancelB.setMaximumSize(new Dimension(100, 26));
 		cancelB.setMinimumSize(new Dimension(100, 26));

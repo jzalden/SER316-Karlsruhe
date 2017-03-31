@@ -36,7 +36,12 @@ import net.sf.memoranda.ui.htmleditor.util.Local;
  */
 
 public class TdDialog extends JDialog {
-  JPanel panel1 = new JPanel();
+  /**
+	 *
+	 */
+	private static final long serialVersionUID = 8545010006580327548L;
+
+JPanel panel1 = new JPanel();
   BorderLayout borderLayout1 = new BorderLayout();
   JPanel buttonsPanel = new JPanel();
   JButton cancelB = new JButton();
@@ -68,7 +73,7 @@ public class TdDialog extends JDialog {
   JTextField tdWidthField = new JTextField();
   Component component2;
   JPanel jPanel6 = new JPanel();
-  JComboBox tdAlignCB = new JComboBox(aligns);
+  JComboBox<String> tdAlignCB = new JComboBox<String>(aligns);
   JLabel jLabel6 = new JLabel();
   GridLayout gridLayout2 = new GridLayout();
   JPanel jPanel5 = new JPanel();
@@ -77,7 +82,7 @@ public class TdDialog extends JDialog {
   JPanel trPanel = new JPanel();
   GridLayout gridLayout4 = new GridLayout();
   JLabel jLabel20 = new JLabel();
-  JComboBox tdValignCB = new JComboBox(tdvaligns);
+  JComboBox<String> tdValignCB = new JComboBox<String>(tdvaligns);
   FlowLayout flowLayout12 = new FlowLayout();
   JTextField tdBgcolorField = new JTextField();
   JPanel jPanel14 = new JPanel();
@@ -85,8 +90,8 @@ public class TdDialog extends JDialog {
   JButton tdBgcolorB = new JButton();
   Component component11;
   JCheckBox tdNowrapChB = new JCheckBox();
-  JComboBox trAlignCB = new JComboBox(aligns);
-  JComboBox trValignCB = new JComboBox(tdvaligns);
+  JComboBox<String> trAlignCB = new JComboBox<String>(aligns);
+  JComboBox<String> trValignCB = new JComboBox<String>(tdvaligns);
   Component component12;
   JLabel jLabel22 = new JLabel();
   Component component7;
@@ -112,7 +117,7 @@ public class TdDialog extends JDialog {
   JSpinner border = new JSpinner(new SpinnerNumberModel(1,0,999,1));
   JPanel jPanel10 = new JPanel();
   JPanel jPanel12 = new JPanel();
-  JComboBox vAlignCB = new JComboBox(valigns);
+  JComboBox<String> vAlignCB = new JComboBox<String>(valigns);
   JTextField bgcolorField = new JTextField();
   JTextField heightField = new JTextField();
   JLabel jLabel13 = new JLabel();
@@ -124,7 +129,7 @@ public class TdDialog extends JDialog {
   JTextField widthField = new JTextField();
   FlowLayout flowLayout11 = new FlowLayout();
   JPanel jPanel13 = new JPanel();
-  JComboBox alignCB = new JComboBox(aligns);
+  JComboBox<String> alignCB = new JComboBox<String>(aligns);
   JLabel jLabel14 = new JLabel();
   Component component6;
   JPanel jPanel9 = new JPanel();
@@ -448,7 +453,6 @@ public class TdDialog extends JDialog {
     CANCELLED = true;
     this.dispose();
   }
-
 
   void tdBgcolorB_actionPerformed(ActionEvent e) {
      Color c = JColorChooser.showDialog(this, Local.getString("Table cell background color"), Util.decodeColor(tdBgcolorField.getText()));

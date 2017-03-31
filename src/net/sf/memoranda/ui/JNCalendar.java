@@ -1,7 +1,7 @@
 /**
  * JNCalendar.java Created on 13.02.2003, 21:26:38 Alex Package:
  * net.sf.memoranda.ui
- * 
+ *
  * @author Alex V. Alishevskikh, alex@openmechanics.net Copyright (c) 2003
  *         Memoranda Team. http://memoranda.sf.net
  */
@@ -25,14 +25,19 @@ import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Configuration;
 
 /**
- *  
+ *
  */
 /*$Id: JNCalendar.java,v 1.8 2004/11/05 07:38:10 pbielen Exp $*/
 public class JNCalendar extends JTable {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -6140445004991314933L;
+
 	private CalendarDate _date = null;
 	private boolean ignoreChange = false;
-	private Vector selectionListeners = new Vector();
+	private Vector<ActionListener> selectionListeners = new Vector<ActionListener>();
 	CalendarDate startPeriod = null;
 	CalendarDate endPeriod = null;
 	public JNCalendarCellRenderer renderer = new JNCalendarCellRenderer();
@@ -57,8 +62,8 @@ public class JNCalendar extends JTable {
 		final ListSelectionModel colSM = getColumnModel().getSelectionModel();
 		ListSelectionListener lsl = new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-					//Ignore extra messages.
-	if (e.getValueIsAdjusting())
+				//Ignore extra messages.
+				if (e.getValueIsAdjusting())
 					return;
 				if (ignoreChange)
 					return;
@@ -67,17 +72,16 @@ public class JNCalendar extends JTable {
 				Object val = getModel().getValueAt(row, col);
 				if (val != null) {
 					if (val
-						.toString()
-						.equals(new Integer(_date.getDay()).toString()))
+							.toString()
+							.equals(new Integer(_date.getDay()).toString()))
 						return;
 					_date =
-						new CalendarDate(
-							new Integer(val.toString()).intValue(),
-							_date.getMonth(),
-							_date.getYear());
+							new CalendarDate(
+									new Integer(val.toString()).intValue(),
+									_date.getMonth(),
+									_date.getYear());
 					notifyListeners();
 				} else {
-					//getSelectionModel().clearSelection();
 					doSelection();
 				}
 			}
@@ -125,7 +129,7 @@ public class JNCalendar extends JTable {
 	private void notifyListeners() {
 		for(int i=0;i<selectionListeners.size();i++) {
 			((ActionListener) selectionListeners.get(i)).actionPerformed(
-				new ActionEvent(this, 0, "Calendar event"));
+					new ActionEvent(this, 0, "Calendar event"));
 		}
 	}
 
@@ -138,10 +142,10 @@ public class JNCalendar extends JTable {
 		 */
 		if (d != null)
 			renderer.setDate(
-				new CalendarDate(
-					new Integer(d.toString()).intValue(),
-					_date.getMonth(),
-					_date.getYear()));
+					new CalendarDate(
+							new Integer(d.toString()).intValue(),
+							_date.getMonth(),
+							_date.getYear()));
 		else
 			renderer.setDate(null);
 		return renderer;
@@ -187,7 +191,12 @@ public class JNCalendar extends JTable {
 	}
 
 	/*$Id: JNCalendar.java,v 1.8 2004/11/05 07:38:10 pbielen Exp $*/
-public class JNCalendarModel extends AbstractTableModel {
+	public class JNCalendarModel extends AbstractTableModel {
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 4248516777559658141L;
 
 		private String[] dayNames = Local.getWeekdayNames();
 
@@ -200,7 +209,6 @@ public class JNCalendarModel extends AbstractTableModel {
 		}
 
 		public Object getValueAt(int row, int col) {
-			//int pos = (row * 7 + col) - firstDay + 1;
 			int pos = (row * 7 + (col + 1)) - firstDay;
 			if ((pos > 0) && (pos <= daysInMonth))
 				return new Integer(pos);
@@ -216,7 +224,5 @@ public class JNCalendarModel extends AbstractTableModel {
 		public String getColumnName(int col) {
 			return dayNames[col];
 		}
-
 	}
-
 }

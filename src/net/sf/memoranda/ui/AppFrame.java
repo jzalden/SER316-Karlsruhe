@@ -61,13 +61,18 @@ import nu.xom.Elements;
 
 
 /**
- * 
+ *
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 
 /*$Id: AppFrame.java,v 1.33 2005/07/05 08:17:24 alexeya Exp $*/
 
 public class AppFrame extends JFrame {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -4387620486203568311L;
+
 	JPopupMenu popMenu = new JPopupMenu();
     JPanel contentPane;
     JMenuBar menuBar = new JMenuBar();
@@ -92,55 +97,91 @@ public class AppFrame extends JFrame {
     public WorkPanel workPanel = new WorkPanel();
     HTMLEditor editor = workPanel.dailyItemsPanel.editorPanel.editor;
 
-    static Vector exitListeners = new Vector();
+    static Vector<ActionListener> exitListeners = new Vector<ActionListener>();
 
     public Action prjPackAction = new AbstractAction("Pack current project") {
-        public void actionPerformed(ActionEvent e) {
+        /**
+		 *
+		 */
+		private static final long serialVersionUID = 4709980048115823223L;
+
+		public void actionPerformed(ActionEvent e) {
             doPrjPack();
         }
     };
 
     public Action prjUnpackAction = new AbstractAction("Unpack project") {
-        public void actionPerformed(ActionEvent e) {
+        /**
+		 *
+		 */
+		private static final long serialVersionUID = -1435480431382630925L;
+
+		public void actionPerformed(ActionEvent e) {
             doPrjUnPack();
         }
     };
 
     public Action minimizeAction = new AbstractAction("Close the window") {
-        public void actionPerformed(ActionEvent e) {
+        /**
+		 *
+		 */
+		private static final long serialVersionUID = -4371432959048616063L;
+
+		public void actionPerformed(ActionEvent e) {
             doMinimize();
         }
     };
 
     public Action preferencesAction = new AbstractAction("Preferences") {
-        public void actionPerformed(ActionEvent e) {
+        /**
+		 *
+		 */
+		private static final long serialVersionUID = -3343993473489492849L;
+
+		public void actionPerformed(ActionEvent e) {
             showPreferences();
         }
     };
-    
-    public Action exportNotesAction =
-                new AbstractAction(Local.getString("Export notes") + "...") {
 
-                public void actionPerformed(ActionEvent e) {
-                        ppExport_actionPerformed(e);
-                }
-        };
-        
-        public Action importNotesAction =
-                        new AbstractAction(Local.getString("Import multiple notes")) {
+	public Action exportNotesAction =
+            new AbstractAction(Local.getString("Export notes") + "...") {
 
-                        public void actionPerformed(ActionEvent e) {
-                                ppImport_actionPerformed(e);
-                        }
-                };
-        public Action importOneNoteAction =
-                new AbstractAction(Local.getString("Import one note")) {
+        	/**
+			 *
+			 */
+			private static final long serialVersionUID = 1232833940542390839L;
 
-                public void actionPerformed(ActionEvent e) {
-                        p1Import_actionPerformed(e);
-                }
-        };
-    
+			public void actionPerformed(ActionEvent e) {
+                    ppExport_actionPerformed(e);
+            }
+    };
+
+    public Action importNotesAction =
+            new AbstractAction(Local.getString("Import multiple notes")) {
+
+            /**
+			 *
+			 */
+			private static final long serialVersionUID = -4526792667573614898L;
+
+			public void actionPerformed(ActionEvent e) {
+                    ppImport_actionPerformed(e);
+            }
+    };
+
+    public Action importOneNoteAction =
+            new AbstractAction(Local.getString("Import one note")) {
+
+            /**
+			 *
+			 */
+			private static final long serialVersionUID = -919462646404430409L;
+
+			public void actionPerformed(ActionEvent e) {
+                    p1Import_actionPerformed(e);
+            }
+    };
+
     JMenuItem jMenuFileNewPrj = new JMenuItem();
         JMenuItem jMenuFileNewNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.newAction);
     JMenuItem jMenuFilePackPrj = new JMenuItem(prjPackAction);
@@ -239,9 +280,9 @@ public class AppFrame extends JFrame {
     JMenuItem jMenuEditPref = new JMenuItem(preferencesAction);
 
     JMenu jMenuInsertSpecial = new JMenu();
-    
+
     JMenu jMenuHelp = new JMenu();
-    
+
     JMenuItem jMenuHelpGuide = new JMenuItem();
     JMenuItem jMenuHelpWeb = new JMenuItem();
     JMenuItem jMenuHelpBug = new JMenuItem();
@@ -278,7 +319,7 @@ public class AppFrame extends JFrame {
             }
         });
         jMenuHelp.setText(Local.getString("Help"));
-        
+
         jMenuHelpGuide.setText(Local.getString("Online user's guide"));
         jMenuHelpGuide.setIcon(new ImageIcon(AppFrame.class.getResource(
                 "resources/icons/help.png")));
@@ -287,7 +328,7 @@ public class AppFrame extends JFrame {
                 jMenuHelpGuide_actionPerformed(e);
             }
         });
-        
+
         jMenuHelpWeb.setText(Local.getString("Memoranda web site"));
         jMenuHelpWeb.setIcon(new ImageIcon(AppFrame.class.getResource(
                 "resources/icons/web.png")));
@@ -296,14 +337,14 @@ public class AppFrame extends JFrame {
                 jMenuHelpWeb_actionPerformed(e);
             }
         });
-        
+
         jMenuHelpBug.setText(Local.getString("Report a bug"));
         jMenuHelpBug.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jMenuHelpBug_actionPerformed(e);
             }
-        });        
-        
+        });
+
         jMenuHelpAbout.setText(Local.getString("About Memoranda"));
         jMenuHelpAbout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -464,13 +505,13 @@ public class AppFrame extends JFrame {
         jMenuFile.add(jMenuFileMin);
         jMenuFile.addSeparator();
         jMenuFile.add(jMenuFileExit);
-        
+
         jMenuHelp.add(jMenuHelpGuide);
         jMenuHelp.add(jMenuHelpWeb);
         jMenuHelp.add(jMenuHelpBug);
         jMenuHelp.addSeparator();
         jMenuHelp.add(jMenuHelpAbout);
-        
+
         menuBar.add(jMenuFile);
         menuBar.add(jMenuEdit);
         menuBar.add(jMenuInsert);
@@ -578,18 +619,18 @@ public class AppFrame extends JFrame {
         AgendaPanel.viewer.addMouseListener(new MouseAdapter() {
         	public void mousePressed(MouseEvent e){
         		if(e.isPopupTrigger()){
-        			popMenu.show(e.getComponent(), e.getX(), e.getY());		
+        			popMenu.show(e.getComponent(), e.getX(), e.getY());
         		}
         	}
-        	
+
         	public void mouseReleased(MouseEvent e){
         		if(e.isPopupTrigger()){
-        			popMenu.show(e.getComponent(), e.getX(), e.getY());		
+        			popMenu.show(e.getComponent(), e.getX(), e.getY());
         		}
         	}
         });
-        
-        
+
+
         splitPane.setBorder(null);
         workPanel.setBorder(null);
 
@@ -667,25 +708,25 @@ public class AppFrame extends JFrame {
         });
 
     }
-   
+
     protected void jMenuHelpBug_actionPerformed(ActionEvent e) {
         Util.runBrowser(App.BUGS_TRACKER_URL);
     }
-   
+
     protected void jMenuHelpWeb_actionPerformed(ActionEvent e) {
         Util.runBrowser(App.WEBSITE_URL);
     }
-   
+
     protected void jMenuHelpGuide_actionPerformed(ActionEvent e) {
         Util.runBrowser(App.GUIDE_URL);
     }
-    
+
     //File | Exit action performed
     public void doExit() {
         if (Configuration.get("ASK_ON_EXIT").equals("yes")) {
                         Dimension frmSize = this.getSize();
                         Point loc = this.getLocation();
-                        
+
                         ExitConfirmationDialog dlg = new ExitConfirmationDialog(this,Local.getString("Exit"));
                         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
                         dlg.setVisible(true);
@@ -707,7 +748,7 @@ public class AppFrame extends JFrame {
 
     //Help | About action performed
     public void jMenuHelpAbout_actionPerformed(ActionEvent e) {
-         AppFrame_AboutBox dlg = new AppFrame_AboutBox(this);        
+         AppFrame_AboutBox dlg = new AppFrame_AboutBox(this);
          Dimension dlgSize = dlg.getSize();
          Dimension frmSize = getSize();
          Point loc = getLocation();
@@ -736,7 +777,7 @@ public class AppFrame extends JFrame {
         exitListeners.add(al);
     }
 
-    public static Collection getExitListeners() {
+    public static Collection<ActionListener> getExitListeners() {
         return exitListeners;
     }
 
@@ -804,7 +845,7 @@ public class AppFrame extends JFrame {
             chooser.setCurrentDirectory(lastSel);
         if (chooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION)
             return;
-        Context.put("LAST_SELECTED_PACK_FILE", chooser.getSelectedFile());        
+        Context.put("LAST_SELECTED_PACK_FILE", chooser.getSelectedFile());
         java.io.File f = chooser.getSelectedFile();
         ProjectPackager.pack(CurrentProject.get(), f);
     }
@@ -860,7 +901,7 @@ public class AppFrame extends JFrame {
             chooser.setCurrentDirectory(lastSel);
         if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
             return;
-        Context.put("LAST_SELECTED_PACK_FILE", chooser.getSelectedFile());        
+        Context.put("LAST_SELECTED_PACK_FILE", chooser.getSelectedFile());
         java.io.File f = chooser.getSelectedFile();
         ProjectPackager.unpack(f);
         projectsPanel.prjTablePanel.updateUI();
@@ -872,7 +913,7 @@ public class AppFrame extends JFrame {
         dlg.setLocationRelativeTo(this);
         dlg.setVisible(true);
     }
-    
+
             protected void ppExport_actionPerformed(ActionEvent e) {
                 // Fix until Sun's JVM supports more locales...
                 UIManager.put(
@@ -944,28 +985,27 @@ public class AppFrame extends JFrame {
                 dlg.setVisible(true);
                 if (dlg.CANCELLED)
                         return;
-                
+
                         Context.put(
                                 "LAST_SELECTED_EXPORT_FILE",
                                 chooser.getSelectedFile().getPath());
                         Context.put("EXPORT_SPLIT_NOTES", new Boolean(dlg.splitChB.isSelected()).toString());
                         Context.put("EXPORT_TITLES_AS_HEADERS", new Boolean(dlg.titlesAsHeadersChB.isSelected()).toString());
-                
+
                 int ei = dlg.encCB.getSelectedIndex();
                 enc = null;
                 if (ei == 1)
                         enc = "UTF-8";
                 boolean nument = (ei == 2);
-                File f = chooser.getSelectedFile();
                 boolean xhtml =
                         chooser.getFileFilter().getDescription().indexOf("XHTML") > -1;
                  CurrentProject.save();
-                 ProjectExporter.export(CurrentProject.get(), chooser.getSelectedFile(), enc, xhtml, 
-                                 dlg.splitChB.isSelected(), true, nument, dlg.titlesAsHeadersChB.isSelected(), false); 
+                 ProjectExporter.export(CurrentProject.get(), chooser.getSelectedFile(), enc, xhtml,
+                                 dlg.splitChB.isSelected(), true, nument, dlg.titlesAsHeadersChB.isSelected(), false);
                 }
-            
+
             protected void ppImport_actionPerformed(ActionEvent e) {
-            
+
             UIManager.put("FileChooser.lookInLabelText", Local
                     .getString("Look in:"));
             UIManager.put("FileChooser.upFolderToolTipText", Local.getString(
@@ -1009,7 +1049,7 @@ public class AppFrame extends JFrame {
                 chooser.setCurrentDirectory(lastSel);
             if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
                 return;
-            Context.put("LAST_SELECTED_NOTE_FILE", chooser.getSelectedFile());        
+            Context.put("LAST_SELECTED_NOTE_FILE", chooser.getSelectedFile());
             java.io.File f = chooser.getSelectedFile();
             HashMap<String,String> notesName = new HashMap<String,String>();
                 HashMap<String,String> notesContent = new HashMap<String,String>();
@@ -1021,7 +1061,7 @@ public class AppFrame extends JFrame {
                     Element names = body.getFirstChildElement("div").getFirstChildElement("ul");
                     Elements namelist = names.getChildElements("li");
                     Element item;
-                    
+
                     for(int i = 0;i<namelist.size();i++){
                             item = namelist.get(i);
                             id = item.getFirstChildElement("a").getAttributeValue("href").replace("\"","").replace("#","");
@@ -1029,7 +1069,7 @@ public class AppFrame extends JFrame {
                             notesName.put(id,name);
                     }
                     System.out.println("id: "+id+" name: "+name);
-                    
+
                     Elements contlist = body.getChildElements("a");
                     for(int i = 0;i<(contlist.size()-1);i++){
                             item = contlist.get(i);
@@ -1052,13 +1092,13 @@ public class AppFrame extends JFrame {
                     CurrentStorage.get().storeNote(note, doc);
                     }
                     workPanel.dailyItemsPanel.notesControlPane.refresh();
-                    
+
             }catch(Exception exc){
                     exc.printStackTrace();
             }
         }
             protected void p1Import_actionPerformed(ActionEvent e) {
-                
+
             UIManager.put("FileChooser.lookInLabelText", Local
                     .getString("Look in:"));
             UIManager.put("FileChooser.upFolderToolTipText", Local.getString(
@@ -1103,7 +1143,7 @@ public class AppFrame extends JFrame {
                 chooser.setCurrentDirectory(lastSel);
             if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
                 return;
-            Context.put("LAST_SELECTED_NOTE_FILE", chooser.getSelectedFile());        
+            Context.put("LAST_SELECTED_NOTE_FILE", chooser.getSelectedFile());
             java.io.File f = chooser.getSelectedFile();
             HashMap<String,String> notesName = new HashMap<String,String>();
             HashMap<String,String> notesContent = new HashMap<String,String>();
@@ -1114,15 +1154,14 @@ public class AppFrame extends JFrame {
                     content = document.getRootElement().getFirstChildElement("body").getValue();
                     content = content.substring(content.indexOf("\n", content.indexOf("-")));
                     content = content.replace("<p>","").replace("</p>","\n");
-                    name = f.getName().substring(0,f.getName().lastIndexOf("."));	
-                    Element item;
+                    name = f.getName().substring(0,f.getName().lastIndexOf("."));
                     id=Util.generateId();
                     System.out.println(id+" "+name+" "+content);
                     notesName.put(id, name);
                     notesContent.put(id, content);
                     JEditorPane p = new JEditorPane();
                     p.setContentType("text/html");
-                    
+
                     for (Map.Entry<String,String> entry : notesName.entrySet()){
                             id = entry.getKey();
                             System.out.println(id+" "+name+" "+content);
@@ -1134,7 +1173,7 @@ public class AppFrame extends JFrame {
                     CurrentStorage.get().storeNote(note, doc);
                     }
                     workPanel.dailyItemsPanel.notesControlPane.refresh();
-                    
+
             }catch(Exception exc){
                     exc.printStackTrace();
             }

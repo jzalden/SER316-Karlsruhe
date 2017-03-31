@@ -1,6 +1,9 @@
 package net.sf.memoranda.ui;
 
+
+
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -42,12 +45,13 @@ import nu.xom.Element;
 
 /*$Id: AgendaPanel.java,v 1.11 2005/02/15 16:58:02 rawsushi Exp $*/
 public class AgendaPanel extends JPanel {
+	PreferencesDialog pd = new PreferencesDialog();
 	BorderLayout borderLayout1 = new BorderLayout();
 	JButton historyBackB = new JButton();
 	JToolBar toolBar = new JToolBar();
 	JButton historyForwardB = new JButton();
 	JButton export = new JButton();
-	static JEditorPane viewer = new JEditorPane("text/html", "");
+	JEditorPane viewer = new JEditorPane("text/html", "");
 	String[] priorities = {"Muy Alta","Alta","Media","Baja","Muy Baja"};
 	JScrollPane scrollPane = new JScrollPane();
 
@@ -124,7 +128,7 @@ public class AgendaPanel extends JPanel {
 							CurrentStorage.get().storeEventsManager();
 						}
 						refresh(CurrentDate.get());
-						System.out.println("agregué un sticker");
+						System.out.println("add a sticker");
 					} else if (d.startsWith("memoranda:expandsubtasks")) {
 						String id = d.split("#")[1];
 						gotoTask = id;
@@ -192,18 +196,18 @@ public class AgendaPanel extends JPanel {
 					}else if (d.startsWith("memoranda:exportstickerst")) {
 						 /*  Falta agregar el exportar sticker mientras tanto..*/
 						 final JFrame parent = new JFrame();
-						 String name = JOptionPane.showInputDialog(parent,Local.getString("Ingrese nombre de archivo a exportar"),null);
+						 String name = JOptionPane.showInputDialog(parent,Local.getString("Enter file name to export"),null);
 						 new ExportSticker(name).export("txt");
 						 //JOptionPane.showMessageDialog(null,name);
 					}else if (d.startsWith("memoranda:exportstickersh")) {
 						 /*  Falta agregar el exportar sticker mientras tanto..*/
 						 final JFrame parent = new JFrame();
-						 String name = JOptionPane.showInputDialog(parent,Local.getString("Ingrese nombre de archivo a exportar"),null);
+						 String name = JOptionPane.showInputDialog(parent,Local.getString("Enter file name to export"),null);
 						 new ExportSticker(name).export("html");
 						 //JOptionPane.showMessageDialog(null,name);
 					}else if (d.startsWith("memoranda:importstickers")) {
 						final JFrame parent = new JFrame();
-						String name = JOptionPane.showInputDialog(parent,Local.getString("Ingrese nombre de archivo a importar"),null);
+						String name = JOptionPane.showInputDialog(parent,Local.getString("Enter file name to import"),null);
 						new ImportSticker(name).import_file();
 					}
 				}
@@ -230,8 +234,10 @@ public class AgendaPanel extends JPanel {
 		historyForwardB.setText("");
 
 		this.setLayout(borderLayout1);
-		scrollPane.getViewport().setBackground(Color.white);
-
+		//sets theme color
+		//int x = pd.lightMode;
+		//setColor(x);
+		
 		scrollPane.getViewport().add(viewer, null);
 		this.add(scrollPane, BorderLayout.CENTER);
 		toolBar.add(historyBackB, null);
@@ -310,48 +316,19 @@ public class AgendaPanel extends JPanel {
 		isActive = isa;
 	}
 
-	//	void toggleShowActiveOnly_actionPerformed(ActionEvent e) {
-	//		Context.put(
-	//			"SHOW_ACTIVE_TASKS_ONLY",
-	//			new Boolean(ppShowActiveOnlyChB.isSelected()));
-	//		/*if (taskTable.isShowActiveOnly()) {
-	//			// is true, toggle to false
-	//			taskTable.setShowActiveOnly(false);
-	//			//showActiveOnly.setToolTipText(Local.getString("Show Active Only"));			
-	//		}
-	//		else {
-	//			// is false, toggle to true
-	//			taskTable.setShowActiveOnly(true);
-	//			showActiveOnly.setToolTipText(Local.getString("Show All"));			
-	//		}*/	    
-	//		refresh(CurrentDate.get());
-	////		parentPanel.updateIndicators();
-	//		//taskTable.updateUI();
-	//	}
 
-	//    class PopupListener extends MouseAdapter {
-	//
-	//        public void mouseClicked(MouseEvent e) {
-	//        	System.out.println("mouse clicked!");
-	////			if ((e.getClickCount() == 2) && (taskTable.getSelectedRow() > -1))
-	////				editTaskB_actionPerformed(null);
-	//		}
-	//
-	//		public void mousePressed(MouseEvent e) {
-	//        	System.out.println("mouse pressed!");
-	//			maybeShowPopup(e);
-	//		}
-	//
-	//		public void mouseReleased(MouseEvent e) {
-	//        	System.out.println("mouse released!");
-	//			maybeShowPopup(e);
-	//		}
-	//
-	//		private void maybeShowPopup(MouseEvent e) {
-	//			if (e.isPopupTrigger()) {
-	//				agendaPPMenu.show(e.getComponent(), e.getX(), e.getY());
-	//			}
-	//		}
-	//
-	//    }
-}
+	public void setColor(int x){
+		if (x ==0){
+			scrollPane.getViewport().setBackground(Color.white);
+		}
+		else{
+			scrollPane.getViewport().setBackground(Color.white);
+		}
+
+	
+	}
+
+	
+	
+}//end class
+

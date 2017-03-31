@@ -575,7 +575,7 @@ public class AppFrame extends JFrame {
         popMenu.add(impNote);
         expNote.setAction(exportNotesAction);
         popMenu.add(expNote);
-        AgendaPanel.viewer.addMouseListener(new MouseAdapter() {
+        /*AgendaPanel.viewer.addMouseListener(new MouseAdapter() {
         	public void mousePressed(MouseEvent e){
         		if(e.isPopupTrigger()){
         			popMenu.show(e.getComponent(), e.getX(), e.getY());		
@@ -588,6 +588,7 @@ public class AppFrame extends JFrame {
         		}
         	}
         });
+        */
         
         
         splitPane.setBorder(null);

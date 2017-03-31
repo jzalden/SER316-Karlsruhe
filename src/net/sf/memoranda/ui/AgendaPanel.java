@@ -1,6 +1,7 @@
 package net.sf.memoranda.ui;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -46,19 +47,20 @@ public class AgendaPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = -8078039446534862102L;
 
+	PreferencesDialog pd = new PreferencesDialog();
 	BorderLayout borderLayout1 = new BorderLayout();
 	JButton historyBackB = new JButton();
 	JToolBar toolBar = new JToolBar();
 	JButton historyForwardB = new JButton();
 	JButton export = new JButton();
 	static JEditorPane viewer = new JEditorPane("text/html", "");
-	String[] priorities = {"Muy Alta","Alta","Media","Baja","Muy Baja"};
+	String[] priorities = { "Muy Alta", "Alta", "Media", "Baja", "Muy Baja" };
 	JScrollPane scrollPane = new JScrollPane();
 
 	DailyItemsPanel parentPanel = null;
 
-	//	JPopupMenu agendaPPMenu = new JPopupMenu();
-	//	JCheckBoxMenuItem ppShowActiveOnlyChB = new JCheckBoxMenuItem();
+	// JPopupMenu agendaPPMenu = new JPopupMenu();
+	// JCheckBoxMenuItem ppShowActiveOnlyChB = new JCheckBoxMenuItem();
 
 	Collection<String> expandedTasks;
 	String gotoTask = null;
@@ -74,6 +76,7 @@ public class AgendaPanel extends JPanel {
 			ex.printStackTrace();
 		}
 	}
+
 	void jbInit() throws Exception {
 		expandedTasks = new ArrayList<String>();
 
@@ -95,40 +98,39 @@ public class AgendaPanel extends JPanel {
 						String id = d.split("#")[1];
 						CurrentProject.set(ProjectManager.getProject(id));
 					} else if (d.startsWith("memoranda:removesticker")) {
-                        String id = d.split("#")[1];
-                        StickerConfirmation stc = new StickerConfirmation(App.getFrame());
-                        Dimension frmSize = App.getFrame().getSize();
-                        stc.setSize(new Dimension(300,180));
-                        Point loc = App.getFrame().getLocation();
-                        stc.setLocation(
-                                (frmSize.width - stc.getSize().width) / 2 + loc.x,
-                                (frmSize.height - stc.getSize().height) / 2
-                                        + loc.y);
-                        stc.setVisible(true);
-                        if (!stc.CANCELLED) {
-                        EventsManager.removeSticker(id);
-                        CurrentStorage.get().storeEventsManager();}
-                        refresh(CurrentDate.get());
+						String id = d.split("#")[1];
+						StickerConfirmation stc = new StickerConfirmation(App.getFrame());
+						Dimension frmSize = App.getFrame().getSize();
+						stc.setSize(new Dimension(300, 180));
+						Point loc = App.getFrame().getLocation();
+						stc.setLocation((frmSize.width - stc.getSize().width) / 2 + loc.x,
+								(frmSize.height - stc.getSize().height) / 2 + loc.y);
+						stc.setVisible(true);
+						if (!stc.CANCELLED) {
+							EventsManager.removeSticker(id);
+							CurrentStorage.get().storeEventsManager();
+						}
+						refresh(CurrentDate.get());
 					} else if (d.startsWith("memoranda:addsticker")) {
 						StickerDialog dlg = new StickerDialog(App.getFrame());
 						Dimension frmSize = App.getFrame().getSize();
-						dlg.setSize(new Dimension(300,380));
+						dlg.setSize(new Dimension(300, 380));
 						Point loc = App.getFrame().getLocation();
-						dlg.setLocation(
-								(frmSize.width - dlg.getSize().width) / 2 + loc.x,
-								(frmSize.height - dlg.getSize().height) / 2
-								+ loc.y);
+						dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x,
+								(frmSize.height - dlg.getSize().height) / 2 + loc.y);
 						dlg.setVisible(true);
 						if (!dlg.CANCELLED) {
 							String txt = dlg.getStickerText();
 							int sP = dlg.getPriority();
 							txt = txt.replaceAll("\\n", "<br>");
-                            txt = "<div style=\"background-color:"+dlg.getStickerColor()+";font-size:"+dlg.getStickerTextSize()+";color:"+dlg.getStickerTextColor()+"; \">"+txt+"</div>";
+							txt = "<div style=\"background-color:" + dlg.getStickerColor() + ";font-size:"
+									+ dlg.getStickerTextSize() + ";color:" + dlg.getStickerTextColor() + "; \">" + txt
+									+ "</div>";
 							EventsManager.createSticker(txt, sP);
 							CurrentStorage.get().storeEventsManager();
 						}
 						refresh(CurrentDate.get());
-						System.out.println("agregué un sticker");
+						System.out.println("add a sticker");
 					} else if (d.startsWith("memoranda:expandsubtasks")) {
 						String id = d.split("#")[1];
 						gotoTask = id;
@@ -141,69 +143,74 @@ public class AgendaPanel extends JPanel {
 						refresh(CurrentDate.get());
 					} else if (d.startsWith("memoranda:expandsticker")) {
 						String id = d.split("#")[1];
-						Element pre_sticker=(Element)((Map<String, Element>)EventsManager.getStickers()).get(id);
+						Element pre_sticker = (Element) ((Map<String, Element>) EventsManager.getStickers()).get(id);
 						String sticker = pre_sticker.getValue();
-						int first=sticker.indexOf(">");
-						int last=sticker.lastIndexOf("<");
-						int backcolor=sticker.indexOf("#");
-						int fontcolor=sticker.indexOf("#", backcolor+1);
-						int sP=Integer.parseInt(pre_sticker.getAttributeValue("priority"));
-						String backGroundColor=sticker.substring(backcolor, sticker.indexOf(';',backcolor));
-						String foreGroundColor=sticker.substring(fontcolor, sticker.indexOf(';',fontcolor));
-						sticker="<html>"+sticker.substring(first+1, last)+"</html>";
-						StickerExpand dlg = new StickerExpand(App.getFrame(),sticker,backGroundColor,foreGroundColor,Local.getString("priority")+": "+Local.getString(priorities[sP]));
+						int first = sticker.indexOf(">");
+						int last = sticker.lastIndexOf("<");
+						int backcolor = sticker.indexOf("#");
+						int fontcolor = sticker.indexOf("#", backcolor + 1);
+						int sP = Integer.parseInt(pre_sticker.getAttributeValue("priority"));
+						String backGroundColor = sticker.substring(backcolor, sticker.indexOf(';', backcolor));
+						String foreGroundColor = sticker.substring(fontcolor, sticker.indexOf(';', fontcolor));
+						sticker = "<html>" + sticker.substring(first + 1, last) + "</html>";
+						StickerExpand dlg = new StickerExpand(App.getFrame(), sticker, backGroundColor, foreGroundColor,
+								Local.getString("priority") + ": " + Local.getString(priorities[sP]));
 						Dimension frmSize = App.getFrame().getSize();
-						dlg.setSize(new Dimension(300,200));
-						Point loc = App.getFrame().getLocation();
-						dlg.setLocation(
-								(frmSize.width - dlg.getSize().width) / 2 + loc.x,
-								(frmSize.height - dlg.getSize().height) / 2
-								+ loc.y);
-						dlg.stickerText.setText(sticker);
-						dlg.setVisible(true);
-					}else if (d.startsWith("memoranda:editsticker")) {
-						String id = d.split("#")[1];
-						Element pre_sticker=(Element)((Map<String, Element>)EventsManager.getStickers()).get(id);
-						String sticker = pre_sticker.getValue();
-						sticker=sticker.replaceAll("<br>","\n");
-						int first=sticker.indexOf(">");
-						int last=sticker.lastIndexOf("<");
-						int backcolor=sticker.indexOf("#");
-						int fontcolor=sticker.indexOf("#", backcolor+1);
-						int sizeposition=sticker.indexOf("font-size")+10;
-						int size=Integer.parseInt(sticker.substring(sizeposition,sizeposition+2));
-						System.out.println(size+" "+sizeposition);
-						int sP=Integer.parseInt(pre_sticker.getAttributeValue("priority"));
-						String backGroundColor=sticker.substring(backcolor, sticker.indexOf(';',backcolor));
-						String foreGroundColor=sticker.substring(fontcolor, sticker.indexOf(';',fontcolor));
-						StickerDialog dlg = new StickerDialog(App.getFrame(), sticker.substring(first+1, last), backGroundColor, foreGroundColor, sP, size);
-						Dimension frmSize = App.getFrame().getSize();
-						dlg.setSize(new Dimension(300,380));
+						dlg.setSize(new Dimension(300, 200));
 						Point loc = App.getFrame().getLocation();
 						dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x,
-							 		(frmSize.height - dlg.getSize().height) / 2 + loc.y);
+								(frmSize.height - dlg.getSize().height) / 2 + loc.y);
+						dlg.stickerText.setText(sticker);
+						dlg.setVisible(true);
+					} else if (d.startsWith("memoranda:editsticker")) {
+						String id = d.split("#")[1];
+						Element pre_sticker = (Element) ((Map<String, Element>) EventsManager.getStickers()).get(id);
+						String sticker = pre_sticker.getValue();
+						sticker = sticker.replaceAll("<br>", "\n");
+						int first = sticker.indexOf(">");
+						int last = sticker.lastIndexOf("<");
+						int backcolor = sticker.indexOf("#");
+						int fontcolor = sticker.indexOf("#", backcolor + 1);
+						int sizeposition = sticker.indexOf("font-size") + 10;
+						int size = Integer.parseInt(sticker.substring(sizeposition, sizeposition + 2));
+						System.out.println(size + " " + sizeposition);
+						int sP = Integer.parseInt(pre_sticker.getAttributeValue("priority"));
+						String backGroundColor = sticker.substring(backcolor, sticker.indexOf(';', backcolor));
+						String foreGroundColor = sticker.substring(fontcolor, sticker.indexOf(';', fontcolor));
+						StickerDialog dlg = new StickerDialog(App.getFrame(), sticker.substring(first + 1, last),
+								backGroundColor, foreGroundColor, sP, size);
+						Dimension frmSize = App.getFrame().getSize();
+						dlg.setSize(new Dimension(300, 380));
+						Point loc = App.getFrame().getLocation();
+						dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x,
+								(frmSize.height - dlg.getSize().height) / 2 + loc.y);
 						dlg.setVisible(true);
 						if (!dlg.CANCELLED) {
 							String txt = dlg.getStickerText();
 							sP = dlg.getPriority();
 							txt = txt.replaceAll("\\n", "<br>");
-							txt = "<div style=\"background-color:"+dlg.getStickerColor()+";font-size:"+dlg.getStickerTextSize()+";color:"+dlg.getStickerTextColor()+";\">"+txt+"</div>";
+							txt = "<div style=\"background-color:" + dlg.getStickerColor() + ";font-size:"
+									+ dlg.getStickerTextSize() + ";color:" + dlg.getStickerTextColor() + ";\">" + txt
+									+ "</div>";
 							EventsManager.removeSticker(id);
 							EventsManager.createSticker(txt, sP);
 							CurrentStorage.get().storeEventsManager();
-						 }
-						 refresh(CurrentDate.get());
-					}else if (d.startsWith("memoranda:exportstickerst")) {
-						 final JFrame parent = new JFrame();
-						 String name = JOptionPane.showInputDialog(parent,Local.getString("Ingrese nombre de archivo a exportar"),null);
-						 new ExportSticker(name).export("txt");
-					}else if (d.startsWith("memoranda:exportstickersh")) {
-						 final JFrame parent = new JFrame();
-						 String name = JOptionPane.showInputDialog(parent,Local.getString("Ingrese nombre de archivo a exportar"),null);
-						 new ExportSticker(name).export("html");
-					}else if (d.startsWith("memoranda:importstickers")) {
+						}
+						refresh(CurrentDate.get());
+					} else if (d.startsWith("memoranda:exportstickerst")) {
 						final JFrame parent = new JFrame();
-						String name = JOptionPane.showInputDialog(parent,Local.getString("Ingrese nombre de archivo a importar"),null);
+						String name = JOptionPane.showInputDialog(parent, Local.getString("Enter file name to export"),
+								null);
+						new ExportSticker(name).export("txt");
+					} else if (d.startsWith("memoranda:exportstickersh")) {
+						final JFrame parent = new JFrame();
+						String name = JOptionPane.showInputDialog(parent, Local.getString("Enter file name to export"),
+								null);
+						new ExportSticker(name).export("html");
+					} else if (d.startsWith("memoranda:importstickers")) {
+						final JFrame parent = new JFrame();
+						String name = JOptionPane.showInputDialog(parent, Local.getString("Enter file name to import"),
+								null);
 						new ImportSticker(name).import_file();
 					}
 				}
@@ -230,7 +237,9 @@ public class AgendaPanel extends JPanel {
 		historyForwardB.setText("");
 
 		this.setLayout(borderLayout1);
-		scrollPane.getViewport().setBackground(Color.white);
+		// sets theme color
+		// int x = pd.lightMode;
+		// setColor(x);
 
 		scrollPane.getViewport().add(viewer, null);
 		this.add(scrollPane, BorderLayout.CENTER);
@@ -248,17 +257,14 @@ public class AgendaPanel extends JPanel {
 		});
 		CurrentProject.addProjectListener(new ProjectListener() {
 
-			public void projectChange(
-					Project prj,
-					NoteList nl,
-					TaskList tl,
-					ResourcesList rl) {
+			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl) {
 			}
 
 			public void projectWasChanged() {
 				if (isActive)
 					refresh(CurrentDate.get());
-			}});
+			}
+		});
 		EventsScheduler.addListener(new EventNotificationListener() {
 			public void eventIsOccured(net.sf.memoranda.Event ev) {
 				if (isActive)
@@ -274,10 +280,10 @@ public class AgendaPanel extends JPanel {
 	}
 
 	public void refresh(CalendarDate date) {
-		viewer.setText(AgendaGenerator.getAgenda(date,expandedTasks));
+		viewer.setText(AgendaGenerator.getAgenda(date, expandedTasks));
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				if(gotoTask != null) {
+				if (gotoTask != null) {
 					viewer.scrollToReference(gotoTask);
 					scrollPane.setViewportView(viewer);
 					Util.debug("Set view port to " + gotoTask);

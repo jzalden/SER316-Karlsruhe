@@ -15,6 +15,8 @@ import java.awt.event.*;
 import java.io.File;
 
 import net.miginfocom.swing.MigLayout;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class PreferencesDialog extends JDialog {
 	private static final long serialVersionUID = -8014591076036422134L;
@@ -55,6 +57,8 @@ public class PreferencesDialog extends JDialog {
 	private Vector<String> fontNames = getFontNames();
 	private JButton but_browser;
 	private JComboBox<String> cmb_minimizeAction;
+	private JButton but_apply;
+	private JButton but_soundFile;
 	
 	public PreferencesDialog(Frame frame) {
 		super(frame, Local.getString("Preferences"), true);
@@ -116,6 +120,13 @@ public class PreferencesDialog extends JDialog {
 		cmb_minimizeAction.addItem(Local.getString("Minimize to taskbar"));
 		cmb_minimizeAction.addItem(Local.getString("Hide"));
 		cmb_minimizeAction.setSelectedIndex(0);
+		cmb_minimizeAction.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				applyChangeActionPerformed();
+			}
+		});
 		
 		
 		GridBagConstraints gbc_cmb_minimizeAction = new GridBagConstraints();
@@ -136,13 +147,9 @@ public class PreferencesDialog extends JDialog {
 		cmb_theme = new JComboBox<String>();
 		cmb_theme.addItem("System Theme");
 		cmb_theme.addItem("Java Theme");
-		cmb_theme.addItem("Custom Theme");
-		cmb_theme.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				if(cmb_theme.getSelectedIndex() == 2){
-					customTheme_actionPerformed(e);
-				}
+		cmb_theme.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				applyChangeActionPerformed();
 			}
 		});
 		
@@ -165,6 +172,11 @@ public class PreferencesDialog extends JDialog {
 		cmb_closeAction.addItem("Close and exit");
 		cmb_closeAction.addItem("Hide");
 		cmb_closeAction.setSelectedIndex(0);
+		cmb_closeAction.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				applyChangeActionPerformed();
+			}
+		});
 		
 		GridBagConstraints gbc_cmb_closeAction = new GridBagConstraints();
 		gbc_cmb_closeAction.insets = new Insets(0, 0, 5, 5);
@@ -203,6 +215,11 @@ public class PreferencesDialog extends JDialog {
 		General.add(lbl_trayIcon, gbc_lbl_trayIcon);
 		
 		cb_trayIcon = new JCheckBox("");
+		cb_trayIcon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				applyChangeActionPerformed();
+			}
+		});
 		GridBagConstraints gbc_cb_trayIcon = new GridBagConstraints();
 		gbc_cb_trayIcon.anchor = GridBagConstraints.WEST;
 		gbc_cb_trayIcon.insets = new Insets(0, 0, 5, 5);
@@ -219,6 +236,11 @@ public class PreferencesDialog extends JDialog {
 		General.add(lbl_language, gbc_lbl_language);
 		
 		cmb_language = new JComboBox<String>();
+		cmb_language.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				applyChangeActionPerformed();
+			}
+		});
 		GridBagConstraints gbc_cmb_language = new GridBagConstraints();
 		gbc_cmb_language.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cmb_language.insets = new Insets(0, 0, 5, 0);
@@ -235,6 +257,11 @@ public class PreferencesDialog extends JDialog {
 		General.add(lbl_startMin, gbc_lbl_startMin);
 		
 		cb_startMin = new JCheckBox("");
+		cb_startMin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				applyChangeActionPerformed();
+			}
+		});
 		GridBagConstraints gbc_cb_startMin = new GridBagConstraints();
 		gbc_cb_startMin.anchor = GridBagConstraints.WEST;
 		gbc_cb_startMin.insets = new Insets(0, 0, 5, 5);
@@ -251,6 +278,11 @@ public class PreferencesDialog extends JDialog {
 		General.add(lbl_splash, gbc_lbl_splash);
 		
 		cb_splash = new JCheckBox("");
+		cb_splash.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				applyChangeActionPerformed();
+			}
+		});
 		GridBagConstraints gbc_cb_splash = new GridBagConstraints();
 		gbc_cb_splash.anchor = GridBagConstraints.WEST;
 		gbc_cb_splash.insets = new Insets(0, 0, 5, 5);
@@ -269,6 +301,11 @@ public class PreferencesDialog extends JDialog {
 		cmb_firstDay = new JComboBox<String>();
 		cmb_firstDay.addItem("First day of week - Monday");
 		cmb_firstDay.addItem("First day of week - Sunday");
+		cmb_firstDay.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				applyChangeActionPerformed();
+			}
+		});
 		
 		GridBagConstraints gbc_cmb_firstDay = new GridBagConstraints();
 		gbc_cmb_firstDay.fill = GridBagConstraints.HORIZONTAL;
@@ -286,6 +323,11 @@ public class PreferencesDialog extends JDialog {
 		General.add(lbl_AskOnExit, gbc_lbl_AskOnExit);
 		
 		cb_AskOnExit = new JCheckBox("");
+		cb_AskOnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				applyChangeActionPerformed();
+			}
+		});
 		GridBagConstraints gbc_cb_AskOnExit = new GridBagConstraints();
 		gbc_cb_AskOnExit.anchor = GridBagConstraints.WEST;
 		gbc_cb_AskOnExit.insets = new Insets(0, 0, 0, 5);
@@ -407,14 +449,14 @@ public class PreferencesDialog extends JDialog {
 		tf_soundFile.setEnabled(true);
 		panel_6.add(tf_soundFile, "cell 1 0,growx,aligny center");
 		
-		JButton but_soundFile = new JButton();
+		but_soundFile = new JButton();
 		but_soundFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				but_soundFile_actionPerformed(e);
 			}
 		});
 		but_soundFile.setText(Local.getString("Browse"));
-		but_soundFile.setEnabled(true);
+		but_soundFile.setEnabled(false);
 		panel_6.add(but_soundFile, "cell 2 0,alignx left,aligny top");
 		
 		JPanel Editor = new JPanel();
@@ -435,6 +477,11 @@ public class PreferencesDialog extends JDialog {
 		Editor.add(lbl_normalFont, gbc_lbl_normalFont);
 		
 		cmb_normalFont = new JComboBox<String>(fontNames);
+		cmb_normalFont.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				applyChangeActionPerformed();
+			}
+		});
 		GridBagConstraints gbc_cmb_normalFont = new GridBagConstraints();
 		gbc_cmb_normalFont.anchor = GridBagConstraints.WEST;
 		gbc_cmb_normalFont.insets = new Insets(0, 0, 5, 0);
@@ -451,6 +498,11 @@ public class PreferencesDialog extends JDialog {
 		Editor.add(lbl_headerFont, gbc_lbl_headerFont);
 		
 		cmb_headerFont = new JComboBox<String>(fontNames);
+		cmb_headerFont.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				applyChangeActionPerformed();
+			}
+		});
 		GridBagConstraints gbc_cmb_headerFont = new GridBagConstraints();
 		gbc_cmb_headerFont.anchor = GridBagConstraints.WEST;
 		gbc_cmb_headerFont.insets = new Insets(0, 0, 5, 0);
@@ -467,6 +519,11 @@ public class PreferencesDialog extends JDialog {
 		Editor.add(lbl_monoFont, gbc_lbl_monoFont);
 		
 		cmb_monoFont = new JComboBox<String>(fontNames);
+		cmb_monoFont.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				applyChangeActionPerformed();
+			}
+		});
 		GridBagConstraints gbc_cmb_monoFont = new GridBagConstraints();
 		gbc_cmb_monoFont.anchor = GridBagConstraints.WEST;
 		gbc_cmb_monoFont.insets = new Insets(0, 0, 5, 0);
@@ -483,6 +540,11 @@ public class PreferencesDialog extends JDialog {
 		Editor.add(lbl_fontSize, gbc_lbl_fontSize);
 		
 		cmb_fontSize = new JSpinner();
+		cmb_fontSize.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				applyChangeActionPerformed();
+			}
+		});
 		GridBagConstraints gbc_cmb_fontSize = new GridBagConstraints();
 		gbc_cmb_fontSize.insets = new Insets(0, 0, 5, 0);
 		gbc_cmb_fontSize.anchor = GridBagConstraints.WEST;
@@ -499,6 +561,11 @@ public class PreferencesDialog extends JDialog {
 		Editor.add(lbl_antialiasing, gbc_lbl_antialiasing);
 		
 		cb_antialiasing = new JCheckBox("");
+		cb_antialiasing.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				applyChangeActionPerformed();
+			}
+		});
 		GridBagConstraints gbc_cb_antialiasing = new GridBagConstraints();
 		gbc_cb_antialiasing.anchor = GridBagConstraints.WEST;
 		gbc_cb_antialiasing.gridx = 1;
@@ -526,7 +593,7 @@ public class PreferencesDialog extends JDialog {
 		closeGroup.add(but_cancel);
 		panel.add(but_cancel);
 		
-		JButton but_apply = new JButton("Apply");
+		but_apply = new JButton("Apply");
 		but_apply.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				but_apply_actionPerformed(e);
@@ -575,14 +642,14 @@ public class PreferencesDialog extends JDialog {
 			cmb_language.setEnabled(true);
 		}
 
-		enableCustomLF(false);
+//		enableCustomLF(false);
 		String lf = Configuration.get("LOOK_AND_FEEL").toString();
 		if (lf.equalsIgnoreCase("system"))
 			cmb_theme.setSelectedIndex(0);	//System theme
-		else if (lf.equalsIgnoreCase("default"))
+		else if (lf.equalsIgnoreCase("default")){
 			cmb_theme.setSelectedIndex(1);	//Java theme
-		else if (lf.length() > 0) {
-			//TODO
+//		else if (lf.length() > 0) {
+//			
 //			cmb_theme.setSelectedIndex(2);
 //			enableCustomLF(true);
 //			lfClassName.setText(lf);
@@ -749,10 +816,10 @@ public class PreferencesDialog extends JDialog {
 		else if (this.cmb_theme.getSelectedIndex() == 1){
 			newlf = "default";
 		}
-		else if (this.cmb_theme.getSelectedIndex() == 2){
-			//TODO
-//			newlf = this.lfClassName.getText();
-		}
+//		else if (this.cmb_theme.getSelectedIndex() == 2){
+//			
+////			newlf = this.lfClassName.getText();
+//		}
 		
 		if (!lf.equalsIgnoreCase(newlf)) {
 			Configuration.put("LOOK_AND_FEEL", newlf);
@@ -822,11 +889,12 @@ public class PreferencesDialog extends JDialog {
 
 	}
 
-	void customTheme_actionPerformed(ActionEvent e){
-		this.enableCustomLF(true);
-	}
+//	void customTheme_actionPerformed(ActionEvent e){
+//		this.enableCustomLF(true);
+//	}
 	
 	void cb_locale_actionPerformed(ActionEvent e){
+		applyChangeActionPerformed();
 		cmb_language.setEnabled(!cmb_language.isEnabled());
 	}
 	
@@ -910,20 +978,23 @@ public class PreferencesDialog extends JDialog {
 	}
 	
 	void rb_custom_actionPerformed(ActionEvent e){
+		applyChangeActionPerformed();
 		this.enableCustomSound(true);
 	}
 	
 	void cb_notifications_actionPerformed(ActionEvent e){
+		applyChangeActionPerformed();
 		enableSound(cb_notifications.isSelected());
 	}
 	
-	void enableCustomLF(boolean is) {
-		//TODO
+//	void enableCustomLF(boolean is) {
+	
 //		this.classNameLabel.setEnabled(is);
 //		this.lfClassName.setEnabled(is);
-	}
+//	}
 
 	void enableCustomSound(boolean is) {
+		but_soundFile.setEnabled(is);
 		this.tf_soundFile.setEnabled(is);
 		this.tf_browser.setEnabled(is);
 		this.lbl_soundFile.setEnabled(is);
@@ -934,26 +1005,29 @@ public class PreferencesDialog extends JDialog {
 		this.rb_beep.setEnabled(is);
 		this.rb_custom.setEnabled(is);
 		enableCustomSound(is);
-
-		this.but_browser.setEnabled(is && rb_custom.isSelected());
 		this.tf_soundFile.setEnabled(is && rb_custom.isSelected());
 		this.lbl_soundFile.setEnabled(is && rb_custom.isSelected());
 
 	}
 
 	void rb_default_actionPerformed(ActionEvent e){
+		applyChangeActionPerformed();
 		this.enableCustomSound(false);
 	}
 	
-	void lfSystemRB_actionPerformed(ActionEvent e) {
-		this.enableCustomLF(false);
+	void applyChangeActionPerformed(){
+		but_apply.setEnabled(true);
 	}
+//	void lfSystemRB_actionPerformed(ActionEvent e) {
+//		this.enableCustomLF(false);
+//	}
 
-	void lfJavaRB_actionPerformed(ActionEvent e) {
-		this.enableCustomLF(false);
-	}
+//	void lfJavaRB_actionPerformed(ActionEvent e) {
+//		this.enableCustomLF(false);
+//	}
 
 	void rb_beep_actionPerformed(ActionEvent e) {
+		applyChangeActionPerformed();
 		this.enableCustomSound(false);
 		
 	}
@@ -964,6 +1038,7 @@ public class PreferencesDialog extends JDialog {
 	
 	void but_apply_actionPerformed(ActionEvent e){
 		apply();
+		but_apply.setEnabled(false);
 	}
 	
 	Vector<String> getFontNames() {

@@ -1,27 +1,26 @@
 /**
- * TaskTableModel.java         
+ * TaskTableModel.java
  * -----------------------------------------------------------------------------
  * Project           Memoranda
  * Package           net.sf.memoranda.ui
  * Original author   Alex V. Alishevskikh
  *                   [alexeya@gmail.com]
  * Created           18.05.2005 15:16:11
- * Revision info     $RCSfile: TaskTableModel.java,v $ $Revision: 1.7 $ $State: Exp $  
+ * Revision info     $RCSfile: TaskTableModel.java,v $ $Revision: 1.7 $ $State: Exp $
  *
  * Last modified on  $Date: 2005/12/01 08:12:26 $
  *               by  $Author: alexeya $
- * 
- * @VERSION@ 
+ *
+ * @VERSION@
  *
  * @COPYRIGHT@
- * 
- * @LICENSE@ 
+ *
+ * @LICENSE@
  */
 
 package net.sf.memoranda.ui;
 
 import javax.swing.event.*;
-import javax.swing.tree.TreePath;
 
 import net.sf.memoranda.*;
 import net.sf.memoranda.date.CurrentDate;
@@ -30,12 +29,10 @@ import net.sf.memoranda.ui.treetable.TreeTableModel;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Context;
 
-import java.util.Hashtable;
-
 /**
  * JAVADOC:
  * <h1>TaskTableModel</h1>
- * 
+ *
  * @version $Id: TaskTableModel.java,v 1.7 2005/12/01 08:12:26 alexeya Exp $
  * @author $Author: alexeya $
  */
@@ -49,10 +46,10 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
     protected EventListenerList listenerList = new EventListenerList();
 
     private boolean activeOnly = check_activeOnly();
-        
+
     /**
      * JAVADOC: Constructor of <code>TaskTableModel</code>
-     * 
+     *
      * @param root
      */
     public TaskTableModel(){
@@ -92,12 +89,12 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
             if (t.getEndDate() == null)
                 return null;
             else
-                return t.getEndDate().getDate();        
+                return t.getEndDate().getDate();
         case 4:
             return getPriorityString(t.getPriority());
         case 5:
             return getStatusString(t.getStatus(CurrentDate.get()));
-        case 6:            
+        case 6:
             //return new Integer(t.getProgress());
 			return t;
         case TaskTable.TASK_ID:
@@ -174,7 +171,7 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
     /**
      * @see net.sf.memoranda.ui.treetable.TreeTableModel#getColumnClass(int)
      */
-    public Class getColumnClass(int column) {
+    public Class<?> getColumnClass(int column) {
         try {
             switch (column) {
             case 1:
@@ -195,16 +192,16 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
         }
         return null;
     }
-    
-    public void fireTreeStructureChanged(){	    
+
+    public void fireTreeStructureChanged(){
 	    fireTreeStructureChanged( this,
 	    			new Object[]{getRoot()},
 				new int[0],
 				new Object[0]
 				);
     }
-    
-    
+
+
     /**
      * Update cached data
      */
@@ -221,10 +218,10 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
     public boolean activeOnly(){
 		return activeOnly;
     }
-    
+
     public boolean isCellEditable(Object node, int column) {
-		if(column == 6) return true; 
-        return super.isCellEditable(node, column); 
+		if(column == 6) return true;
+        return super.isCellEditable(node, column);
     }
 
 }

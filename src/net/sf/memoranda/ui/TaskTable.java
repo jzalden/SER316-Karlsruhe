@@ -1,49 +1,38 @@
 /**
- * TaskTable.java         
+ * TaskTable.java
  * -----------------------------------------------------------------------------
  * Project           Memoranda
  * Package           net.sf.memoranda.ui
  * Original author   Alex V. Alishevskikh
  *                   [alexeya@gmail.com]
  * Created           18.05.2005 15:12:19
- * Revision info     $RCSfile: TaskTable.java,v $ $Revision: 1.26 $ $State: Exp $  
+ * Revision info     $RCSfile: TaskTable.java,v $ $Revision: 1.26 $ $State: Exp $
  *
  * Last modified on  $Date: 2007/01/05 10:33:26 $
  *               by  $Author: alexeya $
- * 
- * @VERSION@ 
+ *
+ * @VERSION@
  *
  * @COPYRIGHT@
- * 
- * @LICENSE@ 
+ *
+ * @LICENSE@
  */
 
 package net.sf.memoranda.ui;
 
 import net.sf.memoranda.util.*;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
 import java.util.EventObject;
-import java.util.Collection;
-import java.util.Vector;
 import java.util.Iterator;
-import java.util.Hashtable;
-import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.LookAndFeel;
-import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.event.*;
 import javax.swing.table.*;
@@ -74,27 +63,32 @@ import net.sf.memoranda.ui.treetable.*;
  * </p>
  *
  * <p>Article about <a href="http://java.sun.com/products/jfc/tsc/articles/treetable1/">treetables</a>.</p>
- * 
+ *
  * @see	net.sf.memoranda.ui.TaskTreeTableCellRenderer
  * @version $Id: TaskTable.java,v 1.26 2007/01/05 10:33:26 alexeya Exp $
  * @author $Author: alexeya $
  */
 public class TaskTable extends JTable {
 
-    public static final int TASK_ID = 100;
+    /**
+	 *
+	 */
+	private static final long serialVersionUID = -2145904228418723688L;
+
+	public static final int TASK_ID = 100;
 
     public static final int TASK = 101;
 
     protected TreeTableCellRenderer tree;
 
     protected TaskTableModel model;
-    
+
     protected TreeTableModelAdapter modelAdapter;
-    
+
     protected TaskTreeTableCellRenderer renderer;
-	
-	protected ExpansionHandler expansion; 
-    
+
+	protected ExpansionHandler expansion;
+
     public TaskTable() {
         super();
         initTable();
@@ -119,30 +113,30 @@ public class TaskTable extends JTable {
 				tableChanged();
             }
         });
-	
+
     }
 
     private void initTable() {
-	
+
 		//model = new TaskTableModel();
 		model = new TaskTableSorter( this );
-	
+
 		// Create the tree. It will be used as a renderer and editor.
 		tree = new TreeTableCellRenderer(model);
-		
+
 		// store tree expansion status and
 		// restore after sorting/project change etc.
 		expansion = new ExpansionHandler();
 		tree.addTreeExpansionListener(expansion);
-	
+
 		// Install a tableModel representing the visible rows in the tree.
 		modelAdapter = new TreeTableModelAdapter(model, tree);
 		super.setModel(modelAdapter);
-			
+
 		// Install the tree editor renderer and editor.
 		renderer = new TaskTreeTableCellRenderer(this);
-		
-		
+
+
 		tree.setCellRenderer(renderer);
 		setDefaultRenderer(TreeTableModel.class, tree);
 		setDefaultRenderer(Integer.class, renderer);
@@ -151,13 +145,13 @@ public class TaskTable extends JTable {
 		setDefaultRenderer(java.util.Date.class, renderer);
 
 		setDefaultEditor(TreeTableModel.class, new TreeTableCellEditor());
-		
+
 		// column name is repeated in 2 places, do something about it!
 		getColumn( "% " + Local.getString("done") ).setCellEditor(new TaskProgressEditor());
-		
+
 		// TODO: editor for task progress
-		
-		
+
+
 		//  grid.
 		setShowGrid(false);
 
@@ -170,7 +164,7 @@ public class TaskTable extends JTable {
 			setRowHeight(18);
 		//}
 		initColumnWidths();
-		
+
 		// do not allow moving columns
 		getTableHeader().setReorderingAllowed(false);
     }
@@ -180,7 +174,7 @@ public class TaskTable extends JTable {
             TableColumn column = getColumnModel().getColumn(i);
             if (i == 0) {
                 column.setPreferredWidth(8);
-            } 
+            }
             else if (i == 1) {
                 column.setPreferredWidth(32767);
             }
@@ -194,14 +188,14 @@ public class TaskTable extends JTable {
             }
         }
     }
-    
+
     public void tableChanged() {
 		model.fireUpdateCache();
 		model.fireTreeStructureChanged();
 		expansion.expand(tree);
 		updateUI();
     }
-    
+
     /**
      * Overridden to message super and forward the method to the tree. Since the
      * tree is not actually in the component hieachy it will never receive this
@@ -209,7 +203,7 @@ public class TaskTable extends JTable {
      */
     public void updateUI() {
 		super.updateUI();
-			if (tree != null) { 
+			if (tree != null) {
 			tree.updateUI();
 			}
 
@@ -252,17 +246,20 @@ public class TaskTable extends JTable {
     /**
      * A TreeCellRenderer that displays a JTree.
      */
-	 public class TreeTableCellRenderer extends JTree implements // {{{
-            TableCellRenderer {
-        /** Last table/tree row asked to renderer. */
+	 public class TreeTableCellRenderer extends JTree implements TableCellRenderer {
+        /**
+		 *
+		 */
+		private static final long serialVersionUID = 4592544838646167836L;
+
+		/** Last table/tree row asked to renderer. */
         protected int visibleRow;
 
         public TreeTableCellRenderer(TreeModel model) {
             super(model);
-            //ToolTipManager.sharedInstance().registerComponent(this);//XXX
             this.setRootVisible(false);
             this.setShowsRootHandles(true);
-			this.setCellRenderer(renderer);                       
+			this.setCellRenderer(renderer);
         }
 
         /**
@@ -271,13 +268,13 @@ public class TaskTable extends JTable {
          */
         public void updateUI() {
             super.updateUI();
-	    
+
             // Make the tree's cell renderer use the table's cell selection
             // colors.
             TreeCellRenderer tcr = getCellRenderer();
             if (tcr instanceof DefaultTreeCellRenderer) {
                 DefaultTreeCellRenderer dtcr = ((DefaultTreeCellRenderer) tcr);
- 
+
 				dtcr.setBorderSelectionColor(null);
                 dtcr.setTextSelectionColor(UIManager
                         .getColor("Table.selectionForeground"));
@@ -386,7 +383,12 @@ public class TaskTable extends JTable {
      */
 	 public class ListToTreeSelectionModelWrapper extends // {{{
             DefaultTreeSelectionModel {
-        /** Set to true when we are updating the ListSelectionModel. */
+        /**
+		 *
+		 */
+		private static final long serialVersionUID = 6260763817415009551L;
+
+		/** Set to true when we are updating the ListSelectionModel. */
         protected boolean updatingListSelectionModel;
 
         public ListToTreeSelectionModelWrapper() {
@@ -474,21 +476,21 @@ public class TaskTable extends JTable {
             }
         }
 	} // }}}
-	
-	
+
+
 	/**
 	 * Stores expanded treepaths so that they
 	 * can be restored after treeStructureChanged-method call
 	 * which collapses everything
 	 */
 	 class ExpansionHandler implements TreeExpansionListener { // {{{
-	
-		private java.util.Set expanded = new java.util.HashSet();
-		
+
+		private java.util.Set<TreePath> expanded = new java.util.HashSet<TreePath>();
+
 		public void treeExpanded(TreeExpansionEvent e) {
 			expanded.add(e.getPath());
 		}
-		
+
 		public void treeCollapsed(TreeExpansionEvent e) {
 			TreePath p = e.getPath();
 			int index = p.getPathCount() - 1;
@@ -502,7 +504,7 @@ public class TaskTable extends JTable {
 				}
 			}
 		}
-		
+
 		/**
 		 * Expands stored treepaths in JTree
 		 * <p>
@@ -510,7 +512,7 @@ public class TaskTable extends JTable {
 		 * still try to expand paths whick do not exist.
 		 * We just assume that this is not causing problems,
 		 * and as a side effect it preserved tree expansion status
-		 * even after project has been changed to some other project 
+		 * even after project has been changed to some other project
 		 * and then back.
 		 * </p>
 		 * <p>
@@ -520,13 +522,11 @@ public class TaskTable extends JTable {
 		 * </p>
 		 */
 		public void expand(JTree tree){
-			Iterator iter = expanded.iterator();
+			Iterator<TreePath> iter = expanded.iterator();
 			while(iter.hasNext()){
 				tree.expandPath( (TreePath) iter.next() );
 			}
 			System.out.println(expanded.size());
 		}
-		
-	} // }}}	
-	
+	}
 }

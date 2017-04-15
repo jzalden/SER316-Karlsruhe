@@ -36,7 +36,6 @@ public class ExportSticker {
 
 	public boolean export(String src) {
 		boolean result = true;
-		String fs = System.getProperty("file.separator");
 
 		String contents = getSticker();
 		try {
@@ -58,10 +57,10 @@ public class ExportSticker {
 	}
 
 	public String getSticker() {
-		Map stickers = EventsManager.getStickers();
+		Map<String, Element> stickers = EventsManager.getStickers();
 		String result = "";
 		String nl = System.getProperty("line.separator");
-		for (Iterator i = stickers.keySet().iterator(); i.hasNext();) {
+		for (Iterator<String> i = stickers.keySet().iterator(); i.hasNext();) {
 			String id = (String) i.next();
 			result += (String) (((Element) stickers.get(id)).getValue()) + nl;
 		}

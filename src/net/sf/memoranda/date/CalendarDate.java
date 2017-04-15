@@ -152,14 +152,16 @@ public class CalendarDate implements Comparable<CalendarDate> {
 	@Override
 	public boolean equals(Object object) {
 		if (object != null) {
-			if (object.getClass().isInstance(CalendarDate.class)) {
+			if (object instanceof CalendarDate) {
 				return this.equals((CalendarDate) object);
-			} else if (object.getClass().isInstance(Calendar.class)) {
+			} else if (object instanceof Calendar) {
 				return this.equals(new CalendarDate((Calendar) object));
-			} else if (object.getClass().isInstance(Date.class)) {
+			} else if (object instanceof Date) {
 				return this.equals(new CalendarDate((Date) object));
 			}
+
 			return super.equals(object);
+
 		} else {
 			return false;
 		}

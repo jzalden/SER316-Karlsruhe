@@ -301,6 +301,10 @@ public class AltHTMLWriter extends AbstractWriter implements Cloneable{
 		}
 
 		AttributeSet attr = elem.getAttributes();
+		if(attr == null) {
+			return;
+		}
+		
 		closeOutUnwantedEmbeddedTags(attr);
 		writeEmbeddedTags(attr);
 

@@ -1046,7 +1046,9 @@ public class HTMLEditor extends JPanel {
 		} else {
 			charattrs = document.getCharacterElement(editor.getCaretPosition()).getAttributes();
 		}
-
+		if(charattrs == null) {
+			return;
+		}
 		if (charattrs.containsAttribute(StyleConstants.Bold, new Boolean(true))) {
 			boldActionB.setBorder(border2);
 			bold = true;

@@ -45,6 +45,7 @@ import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectListener;
 import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
+import net.sf.memoranda.backup.BackupService;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.ui.htmleditor.HTMLEditor;
 import net.sf.memoranda.util.Configuration;
@@ -153,6 +154,14 @@ public class AppFrame extends JFrame {
 			ppExport_actionPerformed(e);
 		}
 	};
+	
+	public Action googleexportNotesAction =
+			new AbstractAction(Local.getString("Export notes to google Drive") + "...") {
+
+		public void actionPerformed(ActionEvent e) {
+			ppExportGoogle_actionPerformed(e);
+		}
+	};
 
 	public Action importNotesAction = new AbstractAction(Local.getString("Import multiple notes")) {
 
@@ -183,6 +192,7 @@ public class AppFrame extends JFrame {
 	JMenuItem jMenuFilePackPrj = new JMenuItem(prjPackAction);
 	JMenuItem jMenuFileUnpackPrj = new JMenuItem(prjUnpackAction);
 	JMenuItem jMenuFileExportPrj = new JMenuItem(exportNotesAction);
+	JMenuItem jMenuGoogleExportPrj = new JMenuItem(googleexportNotesAction);
 	JMenuItem jMenuFileImportPrj = new JMenuItem(importNotesAction);
 	JMenuItem jMenuFileImportNote = new JMenuItem(importOneNoteAction);
 	JMenuItem jMenuFileExportNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.exportAction);
@@ -457,6 +467,7 @@ public class AppFrame extends JFrame {
 		jMenuFile.add(jMenuFileUnpackPrj);
 		jMenuFile.addSeparator();
 		jMenuFile.add(jMenuFileExportPrj);
+		jMenuFile.add(jMenuGoogleExportPrj);
 		jMenuFile.add(jMenuFileExportNote);
 		jMenuFile.add(jMenuFileImportNote);
 		jMenuFile.add(jMenuFileImportPrj);
@@ -975,6 +986,14 @@ public class AppFrame extends JFrame {
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
+		}
+	}
+	
+	protected void ppExportGoogle_actionPerformed(ActionEvent e) {
+		try {
+			BackupService.test();
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}
 

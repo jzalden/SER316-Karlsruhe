@@ -48,13 +48,7 @@ import net.sf.memoranda.TaskList;
 import net.sf.memoranda.backup.BackupService;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.ui.htmleditor.HTMLEditor;
-import net.sf.memoranda.util.Configuration;
-import net.sf.memoranda.util.Context;
-import net.sf.memoranda.util.CurrentStorage;
-import net.sf.memoranda.util.Local;
-import net.sf.memoranda.util.ProjectExporter;
-import net.sf.memoranda.util.ProjectPackager;
-import net.sf.memoranda.util.Util;
+import net.sf.memoranda.util.*;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -121,6 +115,13 @@ public class AppFrame extends JFrame {
 		}
 	};
 
+	public Action exportToCloud = new AbstractAction() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			doExportToCloud();
+		}
+	};
+
 	public Action minimizeAction = new AbstractAction("Close the window") {
 		/**
 		 *
@@ -154,14 +155,6 @@ public class AppFrame extends JFrame {
 			ppExport_actionPerformed(e);
 		}
 	};
-	
-	public Action googleexportNotesAction =
-			new AbstractAction(Local.getString("Export notes to google Drive") + "...") {
-
-		public void actionPerformed(ActionEvent e) {
-			ppExportGoogle_actionPerformed(e);
-		}
-	};
 
 	public Action importNotesAction = new AbstractAction(Local.getString("Import multiple notes")) {
 
@@ -191,8 +184,8 @@ public class AppFrame extends JFrame {
 	JMenuItem jMenuFileNewNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.newAction);
 	JMenuItem jMenuFilePackPrj = new JMenuItem(prjPackAction);
 	JMenuItem jMenuFileUnpackPrj = new JMenuItem(prjUnpackAction);
+	JMenuItem jMenuFileExportPrjCloud = new JMenuItem(exportToCloud);
 	JMenuItem jMenuFileExportPrj = new JMenuItem(exportNotesAction);
-	JMenuItem jMenuGoogleExportPrj = new JMenuItem(googleexportNotesAction);
 	JMenuItem jMenuFileImportPrj = new JMenuItem(importNotesAction);
 	JMenuItem jMenuFileImportNote = new JMenuItem(importOneNoteAction);
 	JMenuItem jMenuFileExportNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.exportAction);
@@ -352,10 +345,11 @@ public class AppFrame extends JFrame {
 		 */
 		jMenuFileNewPrj.setAction(projectsPanel.newProjectAction);
 
-		jMenuFileUnpackPrj.setText(Local.getString("Unpack project") + "...");
+		jMenuFileUnpackPrj.setText("Import project");
 		jMenuFileExportNote.setText(Local.getString("Export current note") + "...");
 		jMenuFileImportNote.setText(Local.getString("Import one note") + "...");
-		jMenuFilePackPrj.setText(Local.getString("Pack project") + "...");
+		jMenuFilePackPrj.setText("Export project");
+		jMenuFileExportPrjCloud.setText("Backup project to cloud");
 		jMenuFileMin.setText(Local.getString("Close the window"));
 		jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, InputEvent.ALT_MASK));
 
@@ -367,7 +361,7 @@ public class AppFrame extends JFrame {
 		jMenuEditRedo.setToolTipText(Local.getString("Redo"));
 		jMenuEditCut.setText(Local.getString("Cut"));
 		jMenuEditCut.setToolTipText(Local.getString("Cut"));
-		jMenuEditCopy.setText((String) Local.getString("Copy"));
+		jMenuEditCopy.setText(Local.getString("Copy"));
 		jMenuEditCopy.setToolTipText(Local.getString("Copy"));
 		jMenuEditPaste.setText(Local.getString("Paste"));
 		jMenuEditPaste.setToolTipText(Local.getString("Paste"));
@@ -465,9 +459,9 @@ public class AppFrame extends JFrame {
 		jMenuFile.addSeparator();
 		jMenuFile.add(jMenuFilePackPrj);
 		jMenuFile.add(jMenuFileUnpackPrj);
+		jMenuFile.add(jMenuFileExportPrjCloud);
 		jMenuFile.addSeparator();
 		jMenuFile.add(jMenuFileExportPrj);
-		jMenuFile.add(jMenuGoogleExportPrj);
 		jMenuFile.add(jMenuFileExportNote);
 		jMenuFile.add(jMenuFileImportNote);
 		jMenuFile.add(jMenuFileImportPrj);
@@ -575,6 +569,7 @@ public class AppFrame extends JFrame {
 		JMenuItem expNote = new JMenuItem();
 		JMenuItem packNote = new JMenuItem();
 		JMenuItem unpcNote = new JMenuItem();
+		JMenuItem cloudNote = new JMenuItem();
 		JMenuItem imOneNote = new JMenuItem();
 		newPrj.setAction(projectsPanel.newProjectAction);
 		popMenu.add(newPrj);
@@ -582,6 +577,8 @@ public class AppFrame extends JFrame {
 		popMenu.add(packNote);
 		unpcNote.setAction(prjUnpackAction);
 		popMenu.add(unpcNote);
+		cloudNote.setAction(exportToCloud);
+		popMenu.add(cloudNote);
 		imOneNote.setAction(importOneNoteAction);
 		popMenu.add(imOneNote);
 		impNote.setAction(importNotesAction);
@@ -838,6 +835,16 @@ public class AppFrame extends JFrame {
 		projectsPanel.prjTablePanel.updateUI();
 	}
 
+	public void doExportToCloud() {
+		File backupZip = ProjectCloudExporter.createZip(CurrentProject.get());
+
+		try {
+			BackupService.test();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+
 	public void showPreferences() {
 		PreferencesDialog dlg = new PreferencesDialog(this);
 		dlg.pack();
@@ -986,14 +993,6 @@ public class AppFrame extends JFrame {
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
-		}
-	}
-	
-	protected void ppExportGoogle_actionPerformed(ActionEvent e) {
-		try {
-			BackupService.test();
-		} catch (Exception e1) {
-			e1.printStackTrace();
 		}
 	}
 

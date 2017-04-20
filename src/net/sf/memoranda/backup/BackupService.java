@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -78,5 +80,23 @@ public class BackupService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void backup(File file) {
+		try {
+			dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR);
+			Credential credential = authorize();
+
+			drive = new Drive.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		Runnable uploadTask = new GoogleDriveUploadTask(drive, file);
+
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+		executorService.execute(uploadTask);
+		executorService.shutdown();
 	}
 }

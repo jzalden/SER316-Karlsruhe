@@ -839,7 +839,7 @@ public class AppFrame extends JFrame {
 		File backupZip = ProjectCloudExporter.createZip(CurrentProject.get());
 
 		try {
-			BackupService.test();
+			BackupService.backup(backupZip);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

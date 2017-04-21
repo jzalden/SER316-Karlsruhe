@@ -559,24 +559,38 @@ public class AppFrame extends JFrame {
 		jMenuGo.add(jMenuGoDayFwd);
 		jMenuGo.add(jMenuGoToday);
 
-		JMenuItem newPrj = new JMenuItem();
-		JMenuItem impNote = new JMenuItem();
-		JMenuItem expNote = new JMenuItem();
-		JMenuItem packNote = new JMenuItem();
-		JMenuItem unpcNote = new JMenuItem();
-		JMenuItem imOneNote = new JMenuItem();
-		newPrj.setAction(projectsPanel.newProjectAction);
-		popMenu.add(newPrj);
-		packNote.setAction(prjPackAction);
-		popMenu.add(packNote);
-		unpcNote.setAction(prjUnpackAction);
-		popMenu.add(unpcNote);
-		imOneNote.setAction(importOneNoteAction);
-		popMenu.add(imOneNote);
-		impNote.setAction(importNotesAction);
-		popMenu.add(impNote);
-		expNote.setAction(exportNotesAction);
-		popMenu.add(expNote);
+
+        JMenuItem newPrj = new JMenuItem();
+        JMenuItem impNote = new JMenuItem();
+        JMenuItem expNote = new JMenuItem();
+        JMenuItem packNote = new JMenuItem();
+        JMenuItem unpcNote = new JMenuItem();
+        JMenuItem imOneNote = new JMenuItem();
+        newPrj.setAction(projectsPanel.newProjectAction);
+        popMenu.add(newPrj);
+        packNote.setAction(prjPackAction);
+        popMenu.add(packNote);
+        unpcNote.setAction(prjUnpackAction);
+        popMenu.add(unpcNote);
+        imOneNote.setAction(importOneNoteAction);
+        popMenu.add(imOneNote);
+        impNote.setAction(importNotesAction);
+        popMenu.add(impNote);
+        expNote.setAction(exportNotesAction);
+        popMenu.add(expNote);
+        AgendaPanel.viewer.addMouseListener(new MouseAdapter() {
+        	public void mousePressed(MouseEvent e){
+        		if(e.isPopupTrigger()){
+        			popMenu.show(e.getComponent(), e.getX(), e.getY());		
+        		}
+        	}
+        	
+        	public void mouseReleased(MouseEvent e){
+        		if(e.isPopupTrigger()){
+        			popMenu.show(e.getComponent(), e.getX(), e.getY());		
+        		}
+        	}
+        });
 
 		splitPane.setBorder(null);
 		workPanel.setBorder(null);
